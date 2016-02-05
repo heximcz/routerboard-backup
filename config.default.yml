@@ -23,7 +23,7 @@ mail:
     email-from: 'from@email.tld'
     email-to: 'to@email.tld'
 
-# Save/Read IP addreses to/from database
+# Database config
 database:
     # supported drivers are: 'mysql', 'mysqli', 'interbase', 'odbc', 'pdo', 'postgre', 'sqlite3', 'sqlsrv'
     # help: https://api.dibiphp.com and https://github.com/dg/dibi/tree/master/examples
@@ -37,5 +37,6 @@ database:
     persistent: 'false'
     dsn:        ''
     # db adapter (default: 'Src\Adapters\RouterBoardDBAdapter')
+    # write your own if you need :-)
     data-adapter: 'Src\Adapters\RouterBoardDBAdapter'
     
