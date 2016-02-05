@@ -1,0 +1,41 @@
+# System settings
+system:
+    # configurations backup directory
+    backupdir: '/home/user/backup/'
+    # where is RSA pub key (if id_rsa and id_rsa.pub files no exist, they will be created auutomaticaly)
+    ssh-dir: '/home/user/.ssh/'
+
+# Admin routerboard account (this login is used only when you add new router)
+routerboard:
+    # admin routerboard user
+    rblogin:  'admin'
+    # admin routerboard password
+    rbpasswd: ''
+    # ssh port - ssh port must be same on all routers
+    ssh-port: '22'
+    # backup account user name - for backup
+    backupuser: 'rbackup'
+
+# Send errors to email
+mail:
+    # 0=false 1=true, if true, script will be send errors to email
+    sendmail: '0'
+    email-from: 'from@email.tld'
+    email-to: 'to@email.tld'
+
+# Save/Read IP addreses to/from database
+database:
+    # supported drivers are: 'mysql', 'mysqli', 'interbase', 'odbc', 'pdo', 'postgre', 'sqlite3', 'sqlsrv'
+    # help: https://api.dibiphp.com and https://github.com/dg/dibi/tree/master/examples
+    driver:    'mysqli'
+    host:      '127.0.0.1'
+    user:      'user'
+    database:  'dbname'
+    password:  'password'
+    charset:   'utf8'
+    port:      '3306'
+    persistent: 'false'
+    dsn:        ''
+    # db adapter (default: 'Src\Adapters\RouterBoardDBAdapter')
+    data-adapter: 'Src\Adapters\RouterBoardDBAdapter'
+    
