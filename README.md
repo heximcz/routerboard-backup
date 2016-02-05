@@ -1,4 +1,4 @@
-# Routerboard Backup
+# Mikrotik Routerboard Backup
 
 ## Overview
 
@@ -14,19 +14,19 @@ php > 5.6.x
 
 ```sh
 $ cd /opt/
-$ git clone https://github.com/heximcz/routerboar-backup.git
-$ cd /opt/routerboar-backup/
+$ git clone https://github.com/heximcz/routerboard-backup.git
+$ cd /opt/routerboard-backup/
 $ git tag -l
 $ git checkout tags/<last tag name of stable version>
 $ cp ./config.default.yml ./config.yml
-$ mkdir -p /var/log/routerboar-backup/
+$ mkdir -p /var/log/routerboard-backup/
 ```
  -  do not forget to configure the config.yml
 
 ## How to update Bind Manager
 
 ```sh
-$ cd /opt/routerboar-backup/
+$ cd /opt/routerboard-backup/
 $ git pull
 $ git tag -l
 $ git checkout tags/<last tag name of stable version>
@@ -41,17 +41,17 @@ $ git describe --tags
 
 print help:
 
-```php ./routerboar-backup.php```
+```php ./routerboard-backup.php```
 
-```php ./routerboar-backup rb:mod -h```
+```php ./routerboard-backup rb:mod -h```
 
-```php ./routerboar-backup rb:backup -h```
+```php ./routerboard-backup rb:backup -h```
 
 ## Using via crontab
 
 add this lines to your /etc/crontab: (create backup one per week)
 
-```0 0  * * 6   root /usr/bin/php /opt/routerboar-backup/routerboar-backup.php rb:backup >> /var/log/routerboar-backup/routerboar-backup.log```
+```0 0  * * 6   root /usr/bin/php /opt/routerboard-backup/routerboard-backup.php rb:backup >> /var/log/routerboard-backup/routerboard-backup.log```
 
 
 License
