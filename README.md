@@ -23,20 +23,6 @@ $ mkdir -p /var/log/routerboard-backup/
 ```
  -  do not forget to configure the config.yml
 
-## How to update Bind Manager
-
-```sh
-$ cd /opt/routerboard-backup/
-$ git pull
-$ git tag -l
-$ git checkout tags/<last tag name of stable version>
- ```
- - How to finding the tag is that checked out? Simply
-
-```sh
-$ git describe --tags
-```
-
 ## Create database
 
 ```sh
@@ -56,6 +42,20 @@ ALTER TABLE `routers`
 ALTER TABLE `routers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
+```
+
+## How to update Bind Manager
+
+```sh
+$ cd /opt/routerboard-backup/
+$ git pull
+$ git tag -l
+$ git checkout tags/<last tag name of stable version>
+ ```
+ - How to finding the tag is that checked out? Simply
+
+```sh
+$ git describe --tags
 ```
 
 ## Example Usage
