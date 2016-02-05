@@ -37,6 +37,27 @@ $ git checkout tags/<last tag name of stable version>
 $ git describe --tags
 ```
 
+## Create database
+
+```sh
+
+CREATE TABLE IF NOT EXISTS `routers` (
+  `id` int(11) NOT NULL,
+  `addr` char(15) COLLATE utf8_bin NOT NULL COMMENT 'IP address',
+  `identity` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'System identity',
+  `created` datetime NOT NULL,
+  `modify` datetime DEFAULT NULL,
+  `lastbackup` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+ALTER TABLE `routers`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `routers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+```
+
 ## Example Usage
 
 print help:

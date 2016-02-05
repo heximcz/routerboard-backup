@@ -27,8 +27,8 @@
 	"description" : "Easy backup tool for Mikrotik routerboard configurations",
 	"authors" : [{
 			"name" : "Lubomir Spacek",
-			"email" : "admin@best-net.cz",
 			"homepage" : "http://best-hosting.cz"
 		}
-	]
+	],
+	"support" : {}
 }
