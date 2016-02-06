@@ -84,7 +84,7 @@ print help:
 
 ## Using via crontab
 
-add these lines to your /etc/crontab: (create backup one per week)
+add this line to your /etc/crontab: (backup of all in database one per week)
 
 ```0 0  * * 6   root /usr/bin/php /opt/routerboard-backup/routerboard-backup.php rb:backup >> /var/log/routerboard-backup/routerboard-backup.log```
 
