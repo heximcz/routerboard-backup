@@ -13,9 +13,9 @@ PHP > 5.6.x
 * Auto generate RSA key if it does not exist.
 * Create a new account for backup on a routerboard with a public key
 * Get routerboard identity and save IP address along with this one to database
-* When backing up the routerboard, delete the old backup  to create new ones . Only the current backup will remain on the routerboard; it will not fill the disk with the old backup. (Na tohle jsi zapomel)
+* When backing up the routerboard, delete the old backup  to create new ones . Only the current backup will remain on the routerboard; it will not fill the disk with the old backup.
 * Create standard .backup and .rsc backup files in the form of a script
-* Your backups are stored on a local disk to the directories; each have in their name an identity and IP address of the backed-up device ( routerboard )
+* Your backups are stored on a local disk to the directories; each have in their name an identity and IP address of the backed-up device.
 * Your backups on the local disk are automatically replaced with the current backup. Only the last five backups remain. You will never have a full disk, even after many years to come.
 * If an error occurs while backing up, an email will be sent automatically 
 
