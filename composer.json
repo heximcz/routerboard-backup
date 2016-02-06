@@ -19,7 +19,6 @@
 				"src/Routerboard/SecureConnector",
 				"src/Routerboard/Validators"
 			],
-			"Src\\Checker\\" : "src/Checker",
 			"Src\\Adapters\\" : "src/Adapters"
 		}
 	},
@@ -29,6 +28,5 @@
 			"name" : "Lubomir Spacek",
 			"homepage" : "http://best-hosting.cz"
 		}
-	],
-	"support" : {}
+	]
 }
