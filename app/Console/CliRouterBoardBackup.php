@@ -6,7 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-//use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\ArrayInput;
 //use Src\RouterBoard\RouterBoardMod;
 //use Src\RouterBoard\SecureTools;
@@ -27,6 +27,19 @@ class CliRouterBoardBackup extends Command {
 		->setName ( 'rb:backup' )
 		->setDescription ( 'Mikrotik RouterBoard backup configurations.' )
 		->addArgument ( 'action', InputArgument::OPTIONAL, 'backup', 'backup' )
+		->addOption ( 'addr', 'i', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'IPv4 address of router.' )
+		->addUsage(
+				'<comment>-> by default backup all routers from backup list.</comment>'
+				)
+		->addUsage(
+				'-i 192.168.1.1 ' .
+				'<comment>-> backup one router.</comment>'
+				)
+		->addUsage(
+				'-i 192.168.1.1 -i 192.168.1.2 ' .
+				'<comment>-> backup more routers.</comment>'
+				)
+				
 		;
 	}
 	
@@ -36,8 +49,14 @@ class CliRouterBoardBackup extends Command {
 		$action = $input->getArgument ( 'action' );
 		switch ($action) {
 			case "backup":
-				$logger->log ( "Action: Backup all routers from backup list." );
-				$rbackup->backupAllRouterBoards();
+				if ( !$input->getOption ( 'addr' ) ) {
+					$logger->log ( "Action: Backup all routers from backup list." );
+					$rbackup->backupAllRouterBoards();
+				}
+				else {
+					$logger->log ( "Action: Backup one or more routers from input." );
+					$rbackup->backupOneRouterBoard( $input->getOption ( 'addr' ) );
+				}
 				break;
 			default:
 				$this->defaultHelp($output);

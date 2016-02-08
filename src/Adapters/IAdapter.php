@@ -3,10 +3,16 @@ namespace Src\Adapters;
 
 interface IAdapter{
 	/**
-	 * Get IP address from db
+	 * Get all IP address and identity from db
 	 * @return array|bool
 	 */
 	public function getIP();
+	
+	/**
+	 * Get one IP address and identity from db
+	 * @return array|bool
+	 */
+	public function getOneIP($addr);
 	
 	/**
 	 * Save new IP to db

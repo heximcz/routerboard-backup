@@ -9,4 +9,10 @@ interface IRouterBoardBackup {
 	 */
 	public function backupAllRouterBoards();
 	
+	/**
+	 * Backup selected IP addresses
+	 * @param array $addr
+	 */
+	public function backupOneRouterBoard(array $addr);
+
 }

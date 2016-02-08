@@ -68,6 +68,15 @@ ALTER TABLE `routers`
 	}
 	
 	/**
+	 * @see \Src\Adapters\IAdapter::getOneIP()
+	 */
+	public function getOneIP($addr) {
+		if ( $result = dibi::query('SELECT [id], [addr], [identity] FROM [routers] WHERE [addr]=%s', $addr) )
+			return $result->fetchAll();
+		return false;
+	}
+	
+	/**
 	 * @see \Src\Adapters\IAdapter::updateIP()
 	 */
 	public function updateIP($oldAddr, $newAddr, $identity) {
