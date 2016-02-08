@@ -6,6 +6,7 @@ use phpseclib\Net\SSH2;
 use phpseclib\Net\SCP;
 use phpseclib\Crypt\RSA;
 use Src\RouterBoard\BackupFilesystem;
+use Exception;
 
 class SSHConnector extends AbstractConnector {
 
@@ -70,10 +71,14 @@ class SSHConnector extends AbstractConnector {
 			$scp = new SCP($ssh);
 			$fs = new BackupFilesystem( $this->config, $this->logger );
 			$db = new $this->config['database']['data-adapter']($this->config, $this->logger);
-			$fs->saveBackupFile( $addr, $scp->get( $filename . '.backup' ), $filename, 'backup', $identity );
-			$fs->saveBackupFile( $addr, $scp->get( $filename . '.rsc' ), $filename, 'rsc', $identity );
-			$db->updateBackupTime($addr);
-			$this->logger->log( "Backup of the router " . $addr . " has been sucessfully." );
+			if ( $fs->saveBackupFile( $addr, $scp->get( $filename . '.backup' ), $filename, 'backup', $identity )
+				&& $fs->saveBackupFile( $addr, $scp->get( $filename . '.rsc' ), $filename, 'rsc', $identity ) ) 
+				{
+				$db->updateBackupTime($addr);
+				$this->logger->log( "Backup of the router " . $addr . " has been sucessfully." );
+				}
+			else
+				$this->logger->log( "Backup of the router " . $addr . " has not been sucessfully.", $this->logger->setError() );
 			$this->sshDisconnect($ssh);
 		}
 		else
@@ -88,7 +93,7 @@ class SSHConnector extends AbstractConnector {
 	 * @return \phpseclib\Net\SSH2|boolean
 	 */
 	protected function sshConnect($addr, $type = false) {
-		set_error_handler( array( $this, "exception_error_handler" ), E_NOTICE );
+		set_error_handler( array( $this, "my_error_handler" ), E_ALL );
 		$ssh = new SSH2( $addr, $this->config['routerboard']['ssh-port'] );
 		// user&password
 		$ssh->setWindowSize(1024,768);
@@ -113,10 +118,22 @@ class SSHConnector extends AbstractConnector {
 	 * My error handler, I do not like this: PHP Notice:  Cannot connect...
 	 * Must be a public!
 	 */
-	public function exception_error_handler($severity, $message) {
-		if (!(error_reporting() & $severity))
+	public function my_error_handler($severity, $message) {
+		if ( !(error_reporting() & $severity) )
 			return;
-		$this->logger->log( $message , $this->logger->setError() );
+		switch ( $severity ) {
+			case E_NOTICE:
+			case E_USER_NOTICE:
+			case E_WARNING:
+			case E_USER_WARNING:
+				$this->logger->log( $message , $this->logger->setError() );
+				break;
+			case E_ERROR:
+			case E_USER_ERROR:
+			default:
+				throw new Exception("aaa");
+				break;
+		}
 	}
 
 }

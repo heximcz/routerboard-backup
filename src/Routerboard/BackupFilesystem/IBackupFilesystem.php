@@ -21,6 +21,7 @@ interface IBackupFilesystem {
 	 * @param string $filename
 	 * @param string $extension of a file
 	 * @param string $identity of the routerboard, may be false
+	 * @return boolean
 	 */
 	public function saveBackupFile($addr, $content, $filename, $extension, $identity=false);
 

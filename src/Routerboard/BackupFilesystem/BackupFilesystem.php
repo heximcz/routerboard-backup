@@ -32,25 +32,26 @@ class BackupFilesystem extends AbstractBackupFilesystem {
 	}
 	
 	/**
-	 *
-	 * {@inheritDoc}
-	 *
 	 * @see \Src\RouterBoard\BackupFilesystem\IBackupFilesystem::saveBackupRB()
 	 */
 	public function saveBackupFile($addr, $content, $filename, $extension, $identity = false) {
 		if ( !$content ) {
-			$this->logger->log( 'Size of the file: ' . $filename . '.' . $extension . ' is zero!', $this->logger->setError() );
+			$this->logger->log( 'Router: ' . $addr . ' Size of the file: ' . $filename . '.' . $extension . ' is zero!', $this->logger->setError() );
+			return false;
 		}
-		$fs = new Filesystem();
-		$backupdir = $this->config['system']['backupdir'] . DIRECTORY_SEPARATOR;
-		if ( $identity )
-			$backupdir .= $identity . '_' . $addr . DIRECTORY_SEPARATOR;
-		else
-			$backupdir .= $addr . DIRECTORY_SEPARATOR;
-		if ( !$fs->exists( $backupdir ) )
-			$fs->mkdir( $backupdir, 0700 );
-		$fs->dumpFile( $backupdir . $filename . '.' . $extension, $content, 0600);
-		$this->rotateBackupFiles($backupdir, $extension);
+		else {
+			$fs = new Filesystem();
+			$backupdir = $this->config['system']['backupdir'] . DIRECTORY_SEPARATOR;
+			if ( $identity )
+				$backupdir .= $identity . '_' . $addr . DIRECTORY_SEPARATOR;
+			else
+				$backupdir .= $addr . DIRECTORY_SEPARATOR;
+			if ( !$fs->exists( $backupdir ) )
+				$fs->mkdir( $backupdir, 0700 );
+			$fs->dumpFile( $backupdir . $filename . '.' . $extension, $content, 0600);
+			$this->rotateBackupFiles($backupdir, $extension);
+			return true;
+		}
 	}
 	
 }
