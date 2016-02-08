@@ -6,7 +6,7 @@ use phpseclib\Net\SSH2;
 use phpseclib\Net\SCP;
 use phpseclib\Crypt\RSA;
 use Src\RouterBoard\BackupFilesystem;
-use Exception;
+use Symfony\Component\Filesystem\Exception\IOException;
 
 class SSHConnector extends AbstractConnector {
 
@@ -131,7 +131,7 @@ class SSHConnector extends AbstractConnector {
 			case E_ERROR:
 			case E_USER_ERROR:
 			default:
-				throw new Exception("aaa");
+				throw new IOException( $message );
 				break;
 		}
 	}
