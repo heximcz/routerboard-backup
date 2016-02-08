@@ -5,7 +5,7 @@ use dibi;
 
 class RouterBoardDBAdapter extends AbstractDataAdapter{
 
-/**
+/*
 --
 -- MySQL default table
 --
@@ -99,7 +99,20 @@ ALTER TABLE `routers`
 			return true;
 		return false;
 	}
-
-
+	
+	/**
+	 * @see \Src\Adapters\IAdapter::updateBackupTime()
+	 */
+	public function updateBackupTime($addr) {
+		if ( $this->checkExistIP($addr) ) {
+			$args = [
+				'lastbackup' => new \DateTime()
+			];
+			if ( dibi::query('UPDATE [routers] SET ', $args, 'WHERE [addr]=%s', $addr) )
+				return true;
+			return false;
+		}
+		return false;
+	}
 }
 

@@ -68,8 +68,10 @@ class SSHConnector extends AbstractConnector {
 			// download and save actual backup file
 			$scp = new SCP($ssh);
 			$fs = new BackupFilesystem( $this->config, $this->logger );
+			$db = new $this->config['database']['data-adapter']($this->config, $this->logger);
 			$fs->saveBackupFile( $addr, $scp->get( $filename . '.backup' ), $filename, 'backup', $identity );
 			$fs->saveBackupFile( $addr, $scp->get( $filename . '.rsc' ), $filename, 'rsc', $identity );
+			$db->updateBackupTime($addr);
 			$this->logger->log( "Backup of the router " . $addr . " has been sucessfully." );
 			$this->sshDisconnect($ssh);
 		}
