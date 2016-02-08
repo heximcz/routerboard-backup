@@ -88,8 +88,22 @@ add this line to your /etc/crontab: (backup of all in database one per week)
 
 ```0 0  * * 6   root /usr/bin/php /opt/routerboard-backup/routerboard-backup.php rb:backup >> /var/log/routerboard-backup/routerboard-backup.log```
 
+## Logrotate script
 
-License
-----
+```nano /etc/logrotate.d/routerboard-backup```
+
+
+```sh
+/var/log/routerboard-backup/*.log
+{
+	rotate 5
+	monthly
+	compress
+	missingok
+	notifempty
+}
+```
+
+## License
 
 MIT
