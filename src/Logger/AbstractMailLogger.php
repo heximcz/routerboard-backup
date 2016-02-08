@@ -22,7 +22,7 @@ abstract class AbstractMailLogger {
 		$mail = new PHPMailer ();
 		$mail->CharSet = "UTF-8";
 		$mail->From = $from;
-		$mail->FromName = 'DNS Resolver: ' . $host;
+		$mail->FromName = $host;
 		$mail->addAddress ( $to );
 		$mail->isHTML ( true );
 		$mail->Subject = 'Error on DNS Resolver -> ' . $host;
