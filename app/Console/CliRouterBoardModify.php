@@ -27,22 +27,21 @@ class CliRouterBoardModify extends Command {
 		->setDescription ( 'Mikrotik RouterBoard add/delete/update.' )
 		->addArgument ( 'action', InputArgument::OPTIONAL, 'addnew | delete | update', 'addnew' )
 		->addOption ( 'addr', 'i', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'IPv4 address of router.' )
-		->addUsage('<comment>Examples:</comment>')
 		->addUsage(
 				'addnew -i 192.168.1.1 ' .
 				'<comment>-> add one router to backup list.</comment>'
 				)
 		->addUsage(
-				'delete -i 192.168.1.1 ' .
-				'<comment>-> delete one router from backup list.</comment>'
+				'addnew -i 192.168.1.1 -i 192.168.1.2 -i 192.168.1.3 -i 192.168.1.4 ' .
+				'<comment>-> multiple add new IP to backup list.</comment>'
 				)
 		->addUsage(
 				'update -i 192.168.1.1 -i 192.168.1.2 ' .
 				'<comment>-> change IP from old to new, the order does not matter (only two IP allowed)</comment>'
 				)
 		->addUsage(
-				'addnew -i 192.168.1.1 -i 192.168.1.2 -i 192.168.1.3 -i 192.168.1.4 ' .
-				'<comment>-> multiple add new IP to backup list.</comment>'
+				'delete -i 192.168.1.1 ' .
+				'<comment>-> delete one router from backup list.</comment>'
 				)
 		->addUsage(
 				'delete -i 192.168.1.1 -i 192.168.1.2 -i 192.168.1.3 -i 192.168.1.4 ' .
