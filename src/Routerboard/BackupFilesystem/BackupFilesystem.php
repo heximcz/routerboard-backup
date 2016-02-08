@@ -38,10 +38,9 @@ class BackupFilesystem extends AbstractBackupFilesystem {
 	 * @see \Src\RouterBoard\BackupFilesystem\IBackupFilesystem::saveBackupRB()
 	 */
 	public function saveBackupFile($addr, $content, $filename, $extension, $identity = false) {
-		if (!$filename)
-			throw new IOException('Filename value is NULL!');
-		if (!$content)
-			throw new IOException('Size of the file: ' . $filename . ' is zero!');
+		if ( !$content ) {
+			$this->logger->log( 'Size of the file: ' . $filename . '.' . $extension . ' is zero!', $this->logger->setError() );
+		}
 		$fs = new Filesystem();
 		$backupdir = $this->config['system']['backupdir'] . DIRECTORY_SEPARATOR;
 		if ( $identity )

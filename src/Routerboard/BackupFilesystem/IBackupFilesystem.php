@@ -21,7 +21,6 @@ interface IBackupFilesystem {
 	 * @param string $filename
 	 * @param string $extension of a file
 	 * @param string $identity of the routerboard, may be false
-	 * @throws IOException - If the file cannot be written to. 
 	 */
 	public function saveBackupFile($addr, $content, $filename, $extension, $identity=false);
 

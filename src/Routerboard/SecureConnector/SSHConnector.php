@@ -66,6 +66,7 @@ class SSHConnector extends AbstractConnector {
 			$ssh->exec( 'system backup save name=' . $filename );
 			$ssh->exec( 'export compact file=' . $filename );
 			// download and save actual backup file
+			// TODO: 1. no interrupt script on zero file, try next ip
 			$scp = new SCP($ssh);
 			$fs = new BackupFilesystem( $this->config, $this->logger );
 			$db = new $this->config['database']['data-adapter']($this->config, $this->logger);
@@ -87,7 +88,7 @@ class SSHConnector extends AbstractConnector {
 	 * @return \phpseclib\Net\SSH2|boolean
 	 */
 	protected function sshConnect($addr, $type = false) {
-		set_error_handler( array( $this, "exception_error_handler" ), E_ALL );
+		set_error_handler( array( $this, "exception_error_handler" ), E_NOTICE );
 		$ssh = new SSH2( $addr, $this->config['routerboard']['ssh-port'] );
 		// user&password
 		$ssh->setWindowSize(1024,768);
@@ -115,7 +116,7 @@ class SSHConnector extends AbstractConnector {
 	public function exception_error_handler($severity, $message) {
 		if (!(error_reporting() & $severity))
 			return;
-			$this->logger->log( $message , $this->logger->setError() );
+		$this->logger->log( $message , $this->logger->setError() );
 	}
 
 }
