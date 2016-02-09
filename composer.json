@@ -1,5 +1,5 @@
 {
-	"name" : "routerboard-backup/routerboard-backup",
+	"name" : "vendor/routerboard-backup",
 	"description" : "Ultimate backup tool for Mikrotik Routerboard",
 	"authors" : [{
 			"name" : "Lubomir Spacek",
@@ -29,5 +29,4 @@
 			"Src\\Adapters\\" : "src/Adapters"
 		}
 	}
-
 }
