@@ -1,5 +1,7 @@
 # Mikrotik Routerboard Backup
 
+[![Latest Stable Version](https://poser.pugx.org/routerboard-backup/routerboard-backup/v/stable)](https://github.com/heximcz/routerboard-backup/releases)
+
 ## Overview
 
 Ultimate backup of your mikrotik routerboards.
