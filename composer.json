@@ -1,6 +1,8 @@
 {
 	"name" : "routerboard-backup/routerboard-backup",
 	"description" : "Ultimate backup tool for Mikrotik Routerboard",
+	"license" : "MIT",
+	"type" : "project",
 	"authors" : [{
 			"name" : "Lubomir Spacek",
 			"homepage" : "http://best-hosting.cz"
