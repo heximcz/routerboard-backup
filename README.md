@@ -59,7 +59,7 @@ ALTER TABLE `routers`
 
 ```
 
-## How to update Bind Manager
+## How to update Routerboard Backup
 
 ```sh
 $ cd /opt/routerboard-backup/
