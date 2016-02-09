@@ -14,7 +14,6 @@ return array(
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Src\\RouterBoard\\' => array($baseDir . '/src/Routerboard', $baseDir . '/src/Routerboard/BackupFilesystem', $baseDir . '/src/Routerboard/SecureConnector', $baseDir . '/src/Routerboard/Validators'),
     'Src\\Logger\\' => array($baseDir . '/src/Logger'),
-    'Src\\Checker\\' => array($baseDir . '/src/Checker'),
     'Src\\Adapters\\' => array($baseDir . '/src/Adapters'),
     'App\\Console\\' => array($baseDir . '/app/Console'),
     'App\\Config\\' => array($baseDir . '/app/Config'),

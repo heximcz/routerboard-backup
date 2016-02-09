@@ -1,4 +1,11 @@
 {
+	"name" : "routerboard-backup/routerboard-backup",
+	"description" : "Ultimate backup tool for Mikrotik Routerboard",
+	"authors" : [{
+			"name" : "Lubomir Spacek",
+			"homepage" : "http://best-hosting.cz"
+		}
+	],
 	"require" : {
 		"symfony/Console" : "^2.8",
 		"symfony/filesystem" : "^2.8",
@@ -21,12 +28,6 @@
 			],
 			"Src\\Adapters\\" : "src/Adapters"
 		}
-	},
-	"name" : "RouterBoard Backup Tools",
-	"description" : "Easy backup tool for Mikrotik routerboard configurations",
-	"authors" : [{
-			"name" : "Lubomir Spacek",
-			"homepage" : "http://best-hosting.cz"
-		}
-	]
+	}
+
 }
