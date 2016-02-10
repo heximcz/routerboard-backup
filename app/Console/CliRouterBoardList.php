@@ -22,7 +22,7 @@ class CliRouterBoardList extends Command {
 	protected function configure() {
 		$this
 		->setName ( 'rb:list' )
-		->setDescription ( 'Mikrotik RouterBoard backup configurations.' )
+		->setDescription ( 'Mikrotik RouterBoard print backup list.' )
 		->addArgument ( 'action', InputArgument::OPTIONAL, 'list', 'list' )
 		->addUsage(
 				'<comment>-> by default print all routers from backup list to stdout.</comment>'
