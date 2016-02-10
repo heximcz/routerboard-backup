@@ -1,6 +1,9 @@
 # Mikrotik Routerboard Backup
 
 [![Latest Stable Version](https://poser.pugx.org/routerboard-backup/routerboard-backup/v/stable)](https://github.com/heximcz/routerboard-backup/releases)
+[![Build Status](https://travis-ci.org/heximcz/routerboard-backup.svg?branch=master)](https://travis-ci.org/heximcz/routerboard-backup)
+[![Latest Unstable Version](https://poser.pugx.org/routerboard-backup/routerboard-backup/v/unstable)](https://github.com/heximcz/routerboard-backup)
+
 
 ## Overview
 
