@@ -4,6 +4,7 @@
 [![Build Status](https://travis-ci.org/heximcz/routerboard-backup.svg?branch=master)](https://travis-ci.org/heximcz/routerboard-backup)
 [![Latest Unstable Version](https://poser.pugx.org/routerboard-backup/routerboard-backup/v/unstable)](https://github.com/heximcz/routerboard-backup)
 [![License](https://poser.pugx.org/routerboard-backup/routerboard-backup/license)](https://github.com/heximcz/routerboard-backup/blob/master/LICENSE.md)
+[![codecov.io](https://codecov.io/github/heximcz/routerboard-backup/coverage.svg?branch=master)](https://codecov.io/github/heximcz/routerboard-backup?branch=master)
 
 ## Overview
 
