@@ -3,20 +3,24 @@ use App\Config\GetYAMLConfig;
 use App\Console\CliRouterBoardModify;
 use App\Console\CliRouterBoardList;
 use App\Console\CliRouterBoardBackup;
+use Src\Logger\OutputLogger;
+use Src\RouterBoard\IPValidator;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\Console\Output\NullOutput;
 use Dibi\Connection;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp() {
-		$this->setUpDatabase ();
+		// nothing to do
 	}
 	
 	public function testConfig() {
 		$myConfig = new GetYAMLConfig ();
 		$config = $myConfig->getConfigData ();
 		$this->assertTrue ( is_array ( $config ) );
+		
 	}
 	
 	public function testExecuteMod() {
@@ -59,6 +63,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 	}
 	
 	public function testRunCommandList() {
+		$this->setUpDatabase ();
 		$application = new Application ();
 		$myConfig = new GetYAMLConfig ();
 		$application->add ( new CliRouterBoardList ( $myConfig->getConfigData () ) );
@@ -70,6 +75,13 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 		) );
 		
 		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
+	}
+	
+	public function testIPAddr() {
+		$cnf = new GetYAMLConfig ();
+		$ip = new IPValidator($cnf->getConfigData(), new OutputLogger( new NullOutput() ) );
+		$this->assertTrue( $ip->ipv4validator('192.168.1.254') );
+		$this->assertFalse( $ip->ipv4validator('192.168.1.256') );
 	}
 	
 	protected function setUpDatabase() {
