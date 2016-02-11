@@ -90,7 +90,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 				'dsn'		 => $config['database']['dsn']
 		);
 		$connection = new Dibi\Connection($options);
-		$connection->nativeQuery("CREATE TABLE IF NOT EXISTS [routers] (
+		$connection->query("CREATE TABLE IF NOT EXISTS [routers] (
   					[id] int(11) NOT NULL,
   					[addr] char(15) COLLATE utf8_bin NOT NULL,
   					[identity] varchar(255) COLLATE utf8_bin DEFAULT NULL,
