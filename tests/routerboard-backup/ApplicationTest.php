@@ -6,7 +6,7 @@ use App\Console\CliRouterBoardList;
 use App\Console\CliRouterBoardBackup;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use dibi;
+use Dibi\Connection;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase {
 
@@ -89,8 +89,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 				'persistent' => $config['database']['persistent'],
 				'dsn'		 => $config['database']['dsn']
 		);
-		dibi::connect($options,'rbdb');
-		dibi::query("CREATE TABLE IF NOT EXISTS [routers] (
+		$connection = new Dibi\Connection($options);
+		$connection->query("CREATE TABLE IF NOT EXISTS [routers] (
   					[id] int(11) NOT NULL,
   					[addr] char(15) COLLATE utf8_bin NOT NULL,
   					[identity] varchar(255) COLLATE utf8_bin DEFAULT NULL,
@@ -99,8 +99,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
   					[lastbackup] datetime DEFAULT NULL
 					) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;"
 				);
-		dibi::query("ALTER TABLE [routers] ADD PRIMARY KEY ([id]);");
-		dibi::query("ALTER TABLE [routers] MODIFY [id] int(11) NOT NULL AUTO_INCREMENT;");
+		$connection->query("ALTER TABLE [routers] ADD PRIMARY KEY ([id]);");
+		$connection->query("ALTER TABLE [routers] MODIFY [id] int(11) NOT NULL AUTO_INCREMENT;");
 	}
 
 }
