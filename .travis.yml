@@ -9,7 +9,12 @@ matrix:
   allow_failures:
     - php: hhvm
 
+services:
+    - mysql
+
 script: phpunit --configuration tests/phpunit.xml
 
 before_script:
     - travis_retry composer self-update
+    - mysql -e 'create database routers;'
+    - cp ./tests/config.travis.yml ./config.yml

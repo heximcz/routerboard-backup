@@ -6,9 +6,14 @@ use App\Console\CliRouterBoardList;
 use App\Console\CliRouterBoardBackup;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
+use dibi;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase {
-	
+
+	public function setUp()
+	{
+		$this->setUpDatabase();
+	}
 
 	public function testConfig() {
 		$myConfig = new GetYAMLConfig();
@@ -54,8 +59,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
     	$this->assertRegExp('/.../', $commandTester->getDisplay());
     
     }
-/*
- * create db first for this test
+
     public function testRunCommandList()
     {
     	$application = new Application();
@@ -70,6 +74,34 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
     
     	$this->assertRegExp('/../', $commandTester->getDisplay());
     }
-*/    
+    
+	protected function setUpDatabase() {
+		$cnf = new GetYAMLConfig();
+		$config = $cnf->getConfigData();
+		$options = array(
+				'driver'	 => $config['database']['driver'],
+				'host'		 => $config['database']['host'],
+				'username'	 => $config['database']['user'],
+				'database'	 => $config['database']['database'],
+				'password'	 => $config['database']['password'],
+				'charset'	 => $config['database']['charset'],
+				'port'		 => $config['database']['port'],
+				'persistent' => $config['database']['persistent'],
+				'dsn'		 => $config['database']['dsn']
+		);
+		dibi::connect($options,'rbdb');
+		dibi::query("CREATE TABLE IF NOT EXISTS [routers] (
+  					[id] int(11) NOT NULL,
+  					[addr] char(15) COLLATE utf8_bin NOT NULL,
+  					[identity] varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  					[created] datetime NOT NULL,
+  					[modify] datetime DEFAULT NULL,
+  					[lastbackup] datetime DEFAULT NULL
+					) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;"
+				);
+		dibi::query("ALTER TABLE [routers] ADD PRIMARY KEY ([id]);");
+		dibi::query("ALTER TABLE [routers] MODIFY [id] int(11) NOT NULL AUTO_INCREMENT;");
+	}
+
 }
 
