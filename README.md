@@ -41,7 +41,7 @@ $ git checkout tags/<last tag name of stable version>
 $ cp ./config.default.yml ./config.yml
 $ mkdir -p /var/log/routerboard-backup/
 ```
- -  do not forget to configure the config.yml
+ -  **do not forget to configure the config.yml**
 
 ## Create database
 
@@ -87,6 +87,8 @@ print help:
 ```php ./routerboard-backup rb:mod -h```
 
 ```php ./routerboard-backup rb:backup -h```
+
+```php ./routerboard-backup rb:list -h```
 
 ## Using via crontab
 
