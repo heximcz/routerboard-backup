@@ -100,6 +100,12 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 					PRIMARY KEY ([id])
 					) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 					");
+		$args = [
+				'addr' => '192.168.1.1',
+				'identity' => 'RB-Test',
+				'created' => new \DateTime()
+		];
+		$connection->query('INSERT INTO [routers]', $args);
 	}
 
 }
