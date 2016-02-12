@@ -19,7 +19,6 @@ before_script:
     - travis_retry composer self-update
     - mysql -e 'create database routers;'
     - cp ./tests/config.travis.yml ./config.yml
-    - mkdir -p /home/user/.ssh/
 
 before_install:
     - pip install --user codecov

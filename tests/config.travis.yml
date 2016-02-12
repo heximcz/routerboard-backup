@@ -1,9 +1,9 @@
 # System settings
 system:
     # configurations backup directory
-    backupdir: '/home/user/backup/'
+    backupdir: '.'
     # where is RSA pub key (if id_rsa and id_rsa.pub files no exist, they will be created auutomaticaly)
-    ssh-dir: '/home/user/.ssh/'
+    ssh-dir: '.'
 
 # Admin routerboard account (this login is used only when you add new router)
 routerboard:
