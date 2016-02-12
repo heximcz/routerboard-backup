@@ -98,7 +98,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 	public function testRunCommandsBackup() {
 		$this->setUpDatabase ();
 		$application = new Application ();
-		$application->add ( new CliRouterBoardModify( $this->config ) );
+		$application->add ( new CliRouterBoardBackup( $this->config ) );
 		$command = $application->find ( 'rb:backup' );
 		$commandTester = new CommandTester ( $command );
 		// backup one
