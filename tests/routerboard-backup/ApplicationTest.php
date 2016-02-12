@@ -63,7 +63,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 		$command = $application->find ( 'rb:list' );
 		$commandTester = new CommandTester ( $command );
 		$commandTester->execute ( array (
-				'command' => $command->getName () 
+				'action' => 'list' 
 		) );
 		
 		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
@@ -75,27 +75,24 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 		$application->add ( new CliRouterBoardModify( $this->config ) );
 		$command = $application->find ( 'rb:mod' );
 		$commandTester = new CommandTester ( $command );
-		// delete
-		$commandTester->execute ( array (
-				'command' => 'delete',
-				'-i'  => ['192.168.1.1']
-		) );
-		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
-		/*
-		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
 		// update
 		$commandTester->execute ( array (
-				'command' => 'update',
-				'--addr'  => ['192.168.1.1','192.168.1.2']
+				'action' => 'update',
+				'-i'  => ['192.168.1.1','192.168.1.2']
 		) );
 		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
 		// addnew
 		$commandTester->execute ( array (
-				'command' => 'addnew',
-				'--addr'  => ['192.168.1.5','192.168.1.6']
+				'action' => 'addnew',
+				'-i'  => ['192.168.1.3']
 		) );
 		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
-*/		
+		// delete
+		$commandTester->execute ( array (
+				'action' => 'delete',
+				'-i'  => ['192.168.1.1']
+		) );
+		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
 	}
 
 	public function testIPAddr() {
