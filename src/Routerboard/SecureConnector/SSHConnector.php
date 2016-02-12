@@ -67,7 +67,6 @@ class SSHConnector extends AbstractConnector {
 			$ssh->exec( 'system backup save name=' . $filename );
 			$ssh->exec( 'export compact file=' . $filename );
 			// download and save actual backup file
-			// TODO: 1. no interrupt script on zero file, try next ip
 			$scp = new SCP($ssh);
 			$fs = new BackupFilesystem( $this->config, $this->logger );
 			$db = new $this->config['database']['data-adapter']($this->config, $this->logger);
