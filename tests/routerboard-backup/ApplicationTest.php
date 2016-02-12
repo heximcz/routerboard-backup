@@ -95,6 +95,24 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
 	}
 
+	public function testRunCommandsBackup() {
+		$this->setUpDatabase ();
+		$application = new Application ();
+		$application->add ( new CliRouterBoardModify( $this->config ) );
+		$command = $application->find ( 'rb:backup' );
+		$commandTester = new CommandTester ( $command );
+		// backup one
+		$commandTester->execute ( array (
+				'action' => 'backup',
+				'-i'  => ['192.168.1.1']
+		) );
+		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
+		// backupall
+		$commandTester->execute ( array (
+				'action' => 'backup',
+		) );
+	}
+	
 	public function testIPAddr() {
 		$ip = new IPValidator( $this->config, new OutputLogger( new NullOutput() ) );
 		$this->assertTrue( $ip->ipv4validator('192.168.1.254') );
