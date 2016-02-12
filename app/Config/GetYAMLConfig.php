@@ -2,7 +2,6 @@
 namespace App\Config;
 
 use Symfony\Component\Yaml\Parser;
-use Symfony\Component\Yaml\Exception\ParseException;
 use Exception;
 
 class GetYAMLConfig {
@@ -23,32 +22,22 @@ class GetYAMLConfig {
 	
 	private function parseConfig( $configPath ) {
 		$yaml = new Parser();
-		try {
-			return $yaml->parse( file_get_contents( $configPath ) );
-		} catch ( ParseException $e ) {
-			printf( "Unable to parse the YAML string from config file: %s \n", $e->getMessage() );
-			die();
-		}		
+		return $yaml->parse( file_get_contents( $configPath ) );
 	}
 	
 	private function createConfig() {
-	    try {
-    		if ( file_exists( $this->defautConfigPath ) ) {
-	       		$defconf = $this->parseConfig( $this->defautConfigPath );
-			    if ( file_exists( $this->customConfigPath ) ) {
-				    $customconf = $this->parseConfig( $this->customConfigPath );
-				    $this->config = array_replace_recursive( $defconf, $customconf );
-			    }
-			    else {
-			        $this->config = $defconf;
-			    }
-    		}
-    		else
-    		    throw new Exception( get_class($this) . ' FATAL ERROR: config.default.yml no exist!');
-    	} catch ( ParseException $e ) {
-			printf( "Unable to create config array: %s \n", $e->getMessage() );
-			die();
-    	}		
+   		if ( file_exists( $this->defautConfigPath ) ) {
+       		$defconf = $this->parseConfig( $this->defautConfigPath );
+		    if ( file_exists( $this->customConfigPath ) ) {
+			    $customconf = $this->parseConfig( $this->customConfigPath );
+			    $this->config = array_replace_recursive( $defconf, $customconf );
+		    }
+		    else {
+		        $this->config = $defconf;
+		    }
+   		}
+   		else
+   		    throw new Exception( get_class($this) . ' FATAL ERROR: config.default.yml no exist!');
 	}
 	
 }
