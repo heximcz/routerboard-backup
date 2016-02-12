@@ -78,8 +78,10 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 		// delete
 		$commandTester->execute ( array (
 				'command' => 'delete',
-				'--addr'  => ['192.168.1.1']
+				'-i'  => ['192.168.1.1']
 		) );
+		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
+		/*
 		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
 		// update
 		$commandTester->execute ( array (
@@ -93,7 +95,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 				'--addr'  => ['192.168.1.5','192.168.1.6']
 		) );
 		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
-		
+*/		
 	}
 
 	public function testIPAddr() {
