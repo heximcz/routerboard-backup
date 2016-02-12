@@ -69,34 +69,33 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
 	}
 
-	public function testRunCommandDelete() {
+	public function testRunCommandsMod() {
 		$this->setUpDatabase ();
 		$application = new Application ();
 		$application->add ( new CliRouterBoardModify( $this->config ) );
 		$command = $application->find ( 'rb:mod' );
 		$commandTester = new CommandTester ( $command );
+		// delete
 		$commandTester->execute ( array (
 				'command' => 'delete',
 				'--addr'    => ['192.168.1.1']
 		) );
-	
 		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
-	}
-
-	public function testRunCommandUpdate() {
-		$this->setUpDatabase ();
-		$application = new Application ();
-		$application->add ( new CliRouterBoardModify( $this->config ) );
-		$command = $application->find ( 'rb:mod' );
-		$commandTester = new CommandTester ( $command );
+		// update
 		$commandTester->execute ( array (
 				'command' => 'update',
 				'--addr'    => ['192.168.1.1','192.168.1.2']
 		) );
-	
 		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
+		// addnew
+		$commandTester->execute ( array (
+				'command' => 'addnew',
+				'--addr'    => ['192.168.1.5','192.168.1.6']
+		) );
+		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
+		
 	}
-	
+
 	public function testIPAddr() {
 		$ip = new IPValidator( $this->config, new OutputLogger( new NullOutput() ) );
 		$this->assertTrue( $ip->ipv4validator('192.168.1.254') );
