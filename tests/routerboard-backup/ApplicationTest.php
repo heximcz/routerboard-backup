@@ -12,22 +12,20 @@ use Dibi\Connection;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase {
 
+	protected $config;
+	
 	public function setUp() {
-		// nothing to do
+		$myConfig = new GetYAMLConfig ();
+		$this->config = $myConfig->getConfigData ();
 	}
 	
 	public function testConfig() {
-		$myConfig = new GetYAMLConfig ();
-		$config = $myConfig->getConfigData ();
-		$this->assertTrue ( is_array ( $config ) );
-		
+		$this->assertTrue ( is_array ( $this->config ) );
 	}
 	
 	public function testExecuteMod() {
 		$application = new Application ();
-		$myConfig = new GetYAMLConfig ();
-		$application->add ( new CliRouterBoardModify ( $myConfig->getConfigData () ) );
-		
+		$application->add ( new CliRouterBoardModify ( $this->config ) );
 		$command = $application->find ( 'rb:mod' );
 		$commandTester = new CommandTester ( $command );
 		$commandTester->execute ( array (
@@ -38,9 +36,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 	
 	public function testExecuteBackup() {
 		$application = new Application ();
-		$myConfig = new GetYAMLConfig ();
-		$application->add ( new CliRouterBoardBackup ( $myConfig->getConfigData () ) );
-		
+		$application->add ( new CliRouterBoardBackup ( $this->config ) );
 		$command = $application->find ( 'rb:backup' );
 		$commandTester = new CommandTester ( $command );
 		$commandTester->execute ( array (
@@ -51,9 +47,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 	
 	public function testExecuteList() {
 		$application = new Application ();
-		$myConfig = new GetYAMLConfig ();
-		$application->add ( new CliRouterBoardList ( $myConfig->getConfigData () ) );
-		
+		$application->add ( new CliRouterBoardList ( $this->config ) );
 		$command = $application->find ( 'rb:list' );
 		$commandTester = new CommandTester ( $command );
 		$commandTester->execute ( array (
@@ -65,9 +59,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 	public function testRunCommandList() {
 		$this->setUpDatabase ();
 		$application = new Application ();
-		$myConfig = new GetYAMLConfig ();
-		$application->add ( new CliRouterBoardList ( $myConfig->getConfigData () ) );
-		
+		$application->add ( new CliRouterBoardList ( $this->config ) );
 		$command = $application->find ( 'rb:list' );
 		$commandTester = new CommandTester ( $command );
 		$commandTester->execute ( array (
@@ -76,27 +68,52 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 		
 		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
 	}
+
+	public function testRunCommandDelete() {
+		$this->setUpDatabase ();
+		$application = new Application ();
+		$application->add ( new CliRouterBoardModify( $this->config ) );
+		$command = $application->find ( 'rb:mod' );
+		$commandTester = new CommandTester ( $command );
+		$commandTester->execute ( array (
+				'command' => 'delete',
+				'--addr'    => ['192.168.1.1']
+		) );
+	
+		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
+	}
+
+	public function testRunCommandUpdate() {
+		$this->setUpDatabase ();
+		$application = new Application ();
+		$application->add ( new CliRouterBoardModify( $this->config ) );
+		$command = $application->find ( 'rb:mod' );
+		$commandTester = new CommandTester ( $command );
+		$commandTester->execute ( array (
+				'command' => 'update',
+				'--addr'    => ['192.168.1.1','192.168.1.2']
+		) );
+	
+		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
+	}
 	
 	public function testIPAddr() {
-		$cnf = new GetYAMLConfig ();
-		$ip = new IPValidator($cnf->getConfigData(), new OutputLogger( new NullOutput() ) );
+		$ip = new IPValidator( $this->config, new OutputLogger( new NullOutput() ) );
 		$this->assertTrue( $ip->ipv4validator('192.168.1.254') );
 		$this->assertFalse( $ip->ipv4validator('192.168.1.256') );
 	}
 	
 	protected function setUpDatabase() {
-		$cnf = new GetYAMLConfig ();
-		$config = $cnf->getConfigData ();
 		$options = array (
-				'driver' => $config ['database'] ['driver'],
-				'host' => $config ['database'] ['host'],
-				'username' => $config ['database'] ['user'],
-				'database' => $config ['database'] ['database'],
-				'password' => $config ['database'] ['password'],
-				'charset' => $config ['database'] ['charset'],
-				'port' => $config ['database'] ['port'],
-				'persistent' => $config ['database'] ['persistent'],
-				'dsn' => $config ['database'] ['dsn'] 
+				'driver' => $this->config ['database'] ['driver'],
+				'host' => $this->config ['database'] ['host'],
+				'username' => $this->config ['database'] ['user'],
+				'database' => $this->config ['database'] ['database'],
+				'password' => $this->config ['database'] ['password'],
+				'charset' => $this->config ['database'] ['charset'],
+				'port' => $this->config ['database'] ['port'],
+				'persistent' => $this->config ['database'] ['persistent'],
+				'dsn' => $this->config ['database'] ['dsn'] 
 		);
 		$connection = new Connection ( $options );
 		$connection->query ( "CREATE TABLE IF NOT EXISTS [routers] (
