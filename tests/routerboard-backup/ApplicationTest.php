@@ -78,19 +78,19 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 		// delete
 		$commandTester->execute ( array (
 				'command' => 'delete',
-				'--addr'    => ['192.168.1.1']
+				'--addr'  => ['192.168.1.1']
 		) );
 		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
 		// update
 		$commandTester->execute ( array (
 				'command' => 'update',
-				'--addr'    => ['192.168.1.1','192.168.1.2']
+				'--addr'  => ['192.168.1.1','192.168.1.2']
 		) );
 		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
 		// addnew
 		$commandTester->execute ( array (
 				'command' => 'addnew',
-				'--addr'    => ['192.168.1.5','192.168.1.6']
+				'--addr'  => ['192.168.1.5','192.168.1.6']
 		) );
 		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
 		
