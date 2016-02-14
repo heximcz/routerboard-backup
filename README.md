@@ -113,6 +113,10 @@ add this line to your /etc/crontab: (backup of all in database one per week)
 }
 ```
 
+##Video: How to
+
+[![Routerboard Backup Video How To](http://img.youtube.com/vi/-bOup-f3Eeo/0.jpg)](https://www.youtube.com/watch?v=-bOup-f3Eeo)
+
 ##Product microsite
 
 [https://routerboard-backup.best-hosting.cz/](https://routerboard-backup.best-hosting.cz/)
