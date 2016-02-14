@@ -111,6 +111,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 		$commandTester->execute ( array (
 				'action' => 'backup',
 		) );
+		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
+		
 	}
 	
 	public function testIPAddr() {
