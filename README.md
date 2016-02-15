@@ -95,6 +95,8 @@ print help:
 
 add this line to your /etc/crontab: (backup of all in database one per week)
 
+```nano /etc/crontab```
+
 ```0 0  * * 6   root /usr/bin/php /opt/routerboard-backup/routerboard-backup.php rb:backup >> /var/log/routerboard-backup/routerboard-backup.log```
 
 ## Logrotate script
