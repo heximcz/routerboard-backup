@@ -100,7 +100,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 		// backup one
 		$commandTester->execute ( array (
 				'action' => 'backup',
-				'-i'  => ['192.168.1.1']
+				'-i'  => ['192.168.1.7']
 		) );
 		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
 		// backupall
