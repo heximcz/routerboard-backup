@@ -16,7 +16,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 	protected static $db;
 	
 	public function testConfig() {
-		$this->assertTrue ( is_array ( self::$config ) );
+		$config = new GetYAMLConfig ();
+		$this->assertTrue ( is_array ( $config->getConfigData () ) );
 	}
 	
 	public function testExecuteMod() {
@@ -53,7 +54,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 	}
 	
 	public function testRunCommandList() {
-//		$this->setUpDatabase ();
 		$application = new Application ();
 		$application->add ( new CliRouterBoardList ( self::$config ) );
 		$command = $application->find ( 'rb:list' );
@@ -66,7 +66,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testRunCommandsMod() {
-//		$this->setUpDatabase ();
 		$application = new Application ();
 		$application->add ( new CliRouterBoardModify( self::$config ) );
 		$command = $application->find ( 'rb:mod' );
@@ -92,7 +91,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testRunCommandsBackup() {
-//		$this->setUpDatabase ();
 		$application = new Application ();
 		$application->add ( new CliRouterBoardBackup( self::$config ) );
 		$command = $application->find ( 'rb:backup' );
