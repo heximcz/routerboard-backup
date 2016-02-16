@@ -26,7 +26,7 @@ class ModTest extends RBCaseTest {
 		// update
 		$commandTester->execute ( array (
 				'action' => 'update',
-				'-i'  => ['192.168.1.5','192.168.1.20']
+				'-i'  => ['192.168.1.5','192.168.1.222']
 		) );
 		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
 	}
