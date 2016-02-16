@@ -13,12 +13,18 @@ services:
     - mysql
 
 script: 
-    - phpunit --configuration tests/phpunit.xml --coverage-clover=coverage.xml
+    - phpunit --configuration tests/phpunit.xml --coverage-text --coverage-clover=coverage.xml
 
 before_script:
     - travis_retry composer self-update
+    - travis_retry composer require codeclimate/php-test-reporter --dev
+    - travis_retry composer install
     - mysql -e 'create database routers;'
     - cp ./tests/config.travis.yml ./config.yml
+
+after_script:
+    - CODECLIMATE_REPO_TOKEN="7bf23171d2ee8d1c8d5685751247e50c473098c627783acf6ce6b462ff434ebd" ./vendor/bin/test-reporter --stdout > codeclimate.json
+    - "curl -X POST -d @codeclimate.json -H 'Content-Type: application/json' -H 'User-Agent: Code Climate (PHP Test Reporter v0.1.1)' https://codeclimate.com/test_reports"
 
 before_install:
     - pip install --user codecov
