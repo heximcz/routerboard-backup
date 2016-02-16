@@ -18,9 +18,11 @@ class SecureTools extends AbstractConnector {
 	 */
 	public function checkRSA() {
 		$this->fs = new Filesystem();
-		// exist ssh directory ?
-		if (! $this->fs->exists( $this->config ['system'] ['ssh-dir'] ))
-			throw new Exception( get_class ( $this ) . "SSH directory: " . $this->config ['system'] ['ssh-dir'] . " does not exist!" );
+		// does exist ssh directory ?
+		if (! $this->fs->exists( $this->config ['system'] ['ssh-dir'] )) {
+			$this->fs->mkdir( $this->config ['system'] ['ssh-dir'], 0700 );
+			$this->logger->log( "The SSH directory: " . $this->config ['system'] ['ssh-dir'] . " has been created !", $this->logger->setNotice() );
+		}
 		if (! $this->fs->exists( $this->config ['system'] ['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub' )) {
 			$this->logger->log( "The SSH-RSA public key does not exist. Creating new.", $this->logger->setNotice() );
 			$this->createRSA();
