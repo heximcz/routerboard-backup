@@ -9,6 +9,8 @@ class LoggerTest extends RBCaseTest {
 	public function testLoggerError() {
 		$logger = new OutputLogger( new NullOutput() );
 		$this->assertEmpty( $logger->log( "Test", $logger->setError() ) );
+		if ( $logger->isMail() )
+			$this->assertFalse( $logger->send( 'noexist@email.com', 'noexist@email.com' ) );
 	}
 	
 	public function testLoggerInfo() {
