@@ -13,12 +13,11 @@ class RouterBoardList extends AbstractRouterBoard {
 		$db = new RouterBoardDBAdapter( $this->config, $this->logger );
 		if ( $result = $db->getIP() ) {
 			foreach ($result as $data) {
-				echo ($data['identity'] . ' - ' . $data['addr'] . PHP_EOL);
+				$this->logger->log( $data['identity'] . ' - ' . $data['addr'], $this->logger->setNotice() );
 			}
+			return;
 		}
-		else {
-			$this->logger->log('Get IP addresses from the database failed! Print is not available. Try later.', $this->logger->setError() );
-		}
+		$this->logger->log('Get IP addresses from the database failed! Print is not available. Try later.', $this->logger->setError() );
 	}
 
 
