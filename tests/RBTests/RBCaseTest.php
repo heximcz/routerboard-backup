@@ -37,7 +37,7 @@ abstract class RBCaseTest extends \PHPUnit_Framework_TestCase {
 					PRIMARY KEY ([id])
 					) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 					" );
-		$db = new RouterBoardDBAdapter(self::$config, new OutputLogger( new NullOutput() ));
+		$db = new RouterBoardDBAdapter(self::$config, new OutputLogger( new NullOutput() ) );
 		for ($i=1; $i<11; $i++) {
 			$db->addIP('192.168.1.' . $i, 'RB-Test' . $i);
 		}
