@@ -10,23 +10,23 @@ class RouterBoardMod extends AbstractRouterBoard implements IRouterBoardMod {
 	/**
 	 * @see \Src\RouterBoard\IRouterBoard::addNewIP()
 	 */
-	public function addNewIP(array $ip) {
+	public function addNewIP(array $addr) {
 		$validator = new IPValidator($this->config, $this->logger);
-		$db = new $this->config['database']['data-adapter']($this->config, $this->logger);
+		$dbconnect = new $this->config['database']['data-adapter']($this->config, $this->logger);
 		$user = new SSHConnector($this->config, $this->logger);
 
-		foreach ($ip as $addr) {
+		foreach ($addr as $ipaddr) {
 			// is ip addr valid ?
-			if ( $validator->ipv4validator($addr) ) {
-				if ( !$db->checkExistIP($addr) ) {
+			if ( $validator->ipv4validator($ipaddr) ) {
+				if ( !$dbconnect->checkExistIP($ipaddr) ) {
 				// create backup user and on success add ip to backup list in db
-					if ( $identity = $user->createBackupAccount($addr) ) {
-						if ( $db->addIP($addr, $identity) )
-							$this->logger->log( "The router: '" . $identity . "'@'" . $addr . "' has been successfully added to database." );
+					if ( $identity = $user->createBackupAccount($ipaddr) ) {
+						if ( $dbconnect->addIP($ipaddr, $identity) )
+							$this->logger->log( "The router: '" . $identity . "'@'" . $ipaddr . "' has been successfully added to database." );
 					}
 				}
 				else 
-					$this->logger->log( "The IP address " . $addr . " already exists in the database!", $this->logger->setError() );
+					$this->logger->log( "The IP address " . $ipaddr . " already exists in the database!", $this->logger->setError() );
 			}
 		}
 	}
@@ -34,15 +34,15 @@ class RouterBoardMod extends AbstractRouterBoard implements IRouterBoardMod {
 	/**
 	 * @see \Src\RouterBoard\IRouterBoard::deleteIP()
 	 */
-	public function deleteIP(array $ip) {
+	public function deleteIP(array $addr) {
 		$validator = new IPValidator($this->config, $this->logger);
-		$db = new $this->config['database']['data-adapter']($this->config, $this->logger);
-		foreach ($ip as $addr) {
-			if ( $validator->ipv4validator($addr) ) {
-				if ( $db->deleteIP($addr) ) 
-					$this->logger->log( "The IP '" .$addr . "' has been deleted successfully.");
+		$dbconnect = new $this->config['database']['data-adapter']($this->config, $this->logger);
+		foreach ($addr as $ipaddr) {
+			if ( $validator->ipv4validator($ipaddr) ) {
+				if ( $dbconnect->deleteIP($ipaddr) ) 
+					$this->logger->log( "The IP '" .$ipaddr . "' has been deleted successfully.");
 				else
-					$this->logger->log( "The delete of the IP '" .$addr . "' from database fails.", $this->logger->setError() );
+					$this->logger->log( "The delete of the IP '" .$ipaddr . "' from database fails.", $this->logger->setError() );
 			}
 				
 		}
@@ -52,43 +52,44 @@ class RouterBoardMod extends AbstractRouterBoard implements IRouterBoardMod {
 	/**
 	 * @see \Src\RouterBoard\IRouterBoard::updateIP()
 	 */
-	public function updateIP(array $ip) {
-		if ( count($ip) != 2 ) {
+	public function updateIP(array $addr) {
+		if ( count($addr) != 2 ) {
 			$this->logger->log( "The delete is not possible. Enter only two IP addresses: -i ip -i ip",$this->logger->setError() );
 			return;
 		}
 		$validator = new IPValidator($this->config, $this->logger);
-		$db = new $this->config['database']['data-adapter']($this->config, $this->logger);
-		foreach ($ip as $addr) {
+		$dbconnect = new $this->config['database']['data-adapter']($this->config, $this->logger);
+		foreach ($addr as $addr) {
 			if ( !$validator->ipv4validator($addr) )
 				return;
 		}
-		$ip0 = $db->checkExistIP($ip[0]);
-		$ip1 = $db->checkExistIP($ip[1]);
+		$ip0 = $dbconnect->checkExistIP($addr[0]);
+		$ip1 = $dbconnect->checkExistIP($addr[1]);
 		if ( $ip0 && $ip1 ) {
 			$this->logger->log("Both IP addresses already exist in database!",$this->logger->setError() );
+			return;
 		}
-		elseif ( !$ip0 && !$ip1 )
+		if ( !$ip0 && !$ip1 )
 		{
 			$this->logger->log("Neither of the two IP address exist in the database!",$this->logger->setError() );
+			return;
+		}
+		
+		$ssh = new SSHConnector($this->config, $this->logger);
+		if ($ip0) {
+			if ( $identity = $ssh->createBackupAccount($addr[1]) ) {
+				if ( $dbconnect->updateIP( $addr[0], $addr[1], $identity ))
+					$this->logger->log("The update has been successful." );
+				else
+					$this->logger->log("The update IP '" . $addr[0] . "' database error.", $this->logger->setError() );
+			}
 		}
 		else {
-			$user = new SSHConnector($this->config, $this->logger);
-			if ($ip0) {
-				if ( $identity = $user->createBackupAccount($ip[1]) ) {
-					if ( $db->updateIP( $ip[0], $ip[1], $identity ))
-						$this->logger->log("The update has been successful." );
-					else
-						$this->logger->log("The update IP '" . $ip[0] . "' database error.", $this->logger->setError() );
-				}
-			}
-			else {
-				if ( $identity = $user->createBackupAccount($ip[0]) ) {
-					if ( $db->updateIP( $ip[1], $ip[0], $identity ))
-						$this->logger->log("The update has been successful." );
-					else
-						$this->logger->log("The update IP '" . $ip[1] . "' database error.", $this->logger->setError() );
-				}
+			if ( $identity = $ssh->createBackupAccount($addr[0]) ) {
+				if ( $dbconnect->updateIP( $addr[1], $addr[0], $identity ))
+					$this->logger->log("The update has been successful." );
+				else
+					$this->logger->log("The update IP '" . $addr[1] . "' database error.", $this->logger->setError() );
 			}
 		}
 	}
