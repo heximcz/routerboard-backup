@@ -25,4 +25,7 @@ before_install:
 
 after_success:
     - codecov
-  
+
+addons:
+    code_climate:
+        repo_token: Yw6Y6M9pz7BYosmRu21W
