@@ -13,7 +13,7 @@ services:
     - mysql
 
 script: 
-    - phpunit --configuration tests/phpunit.xml --coverage-text --coverage-clover=coverage.xml
+    - phpunit --configuration tests/phpunit.xml --coverage-clover build/logs/clover.xml
 
 before_script:
     - travis_retry composer self-update
