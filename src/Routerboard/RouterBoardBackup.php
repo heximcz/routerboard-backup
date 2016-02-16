@@ -16,10 +16,9 @@ class RouterBoardBackup extends AbstractRouterBoard implements IRouterBoardBacku
 			foreach ($result as $data) {
 				$rb->getBackupFile($data['addr'], $data['identity']);
 			}
+			return;
 		}
-		else {
-			$this->logger->log('Get IP addresses from the database failed! Backup is not available. Try later.', $this->logger->setError() );
-		}
+		$this->logger->log('Get IP addresses from the database failed! Backup is not available. Try later.', $this->logger->setError() );
 		$this->sendMail();
 	}
 	
@@ -33,10 +32,9 @@ class RouterBoardBackup extends AbstractRouterBoard implements IRouterBoardBacku
 			if ( $db->checkExistIP($ip) ) {
 				$data = $db->getOneIP($ip);
 				$rb->getBackupFile( $data[0]['addr'], $data[0]['identity'] );
+				continue;
 			}
-			else {
-				$this->logger->log('IP addresses: ' . $ip . ' does not exist in the database! Add this IP address first.', $this->logger->setError() );
-			}
+			$this->logger->log('IP addresses: ' . $ip . ' does not exist in the database! Add this IP address first.', $this->logger->setError() );
 		}
 		$this->sendMail();
 	}
