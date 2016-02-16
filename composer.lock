@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6644373d4b4b597dd99168daca35003a",
-    "content-hash": "9758dfbd27eb406c3a2b57c6202b0507",
+    "hash": "0aec5d807eeec2b74fb89733b478e2b9",
+    "content-hash": "a7555203c3acbaf8d19ceca711068ba3",
     "packages": [
         {
             "name": "dibi/dibi",
@@ -494,7 +494,9 @@
     "packages-dev": null,
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "codeclimate/php-test-reporter": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
