@@ -17,8 +17,7 @@ script:
 
 before_script:
     - travis_retry composer self-update
-    - travis_retry composer require codeclimate/php-test-reporter --dev
-    - travis_retry composer install
+    - travis_retry composer update --dev
     - mysql -e 'create database routers;'
     - cp ./tests/config.travis.yml ./config.yml
 
