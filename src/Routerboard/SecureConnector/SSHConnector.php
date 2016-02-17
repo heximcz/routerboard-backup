@@ -25,19 +25,17 @@ class SSHConnector extends AbstractConnector {
 				$this->logger->log( "The SSH-RSA file copy to the :'" . $addr . "' router fails!", $this->logger->setError() );
 				return false;
 			}
-			else {
-				$ssh->exec( 'user add name=' . $bcpuser . ' group=full' );
-				sleep(1);
-				$ssh->exec( 'user ssh-keys import user=' . $bcpuser . ' public-key-file=' . $keyname );
-				sleep(1);
-				if ( $ssh->exec( 'user comment ' . $bcpuser . ' comment="Backup User"' )) {
-					$this->logger->log( "Creating of the backup account '" . $bcpuser . "' fails!", $this->logger->setError() );
-					return false;
-				}
-				sleep(1);
-				$identity = $ssh->exec( 'system identity print' );
-				$identity = trim( str_replace('name:', '', trim($identity)) );
+			$ssh->exec( 'user add name=' . $bcpuser . ' group=full' );
+			sleep(1);
+			$ssh->exec( 'user ssh-keys import user=' . $bcpuser . ' public-key-file=' . $keyname );
+			sleep(1);
+			if ( $ssh->exec( 'user comment ' . $bcpuser . ' comment="Backup User"' )) {
+				$this->logger->log( "Creating of the backup account '" . $bcpuser . "' fails!", $this->logger->setError() );
+				return false;
 			}
+			sleep(1);
+			$identity = $ssh->exec( 'system identity print' );
+			$identity = trim( str_replace('name:', '', trim($identity)) );
 			$this->logger->log( "The backup account '" . $bcpuser . "' at '" . $identity . "'@'" . $addr . "' has been created successfully!");
 			$this->sshDisconnect($ssh);
 			return $identity;
@@ -70,18 +68,20 @@ class SSHConnector extends AbstractConnector {
 			$scp = new SCP($ssh);
 			$fs = new BackupFilesystem( $this->config, $this->logger );
 			$db = new $this->config['database']['data-adapter']($this->config, $this->logger);
-			if ( $fs->saveBackupFile( $addr, $scp->get( $filename . '.backup' ), $filename, 'backup', $identity )
-				&& $fs->saveBackupFile( $addr, $scp->get( $filename . '.rsc' ), $filename, 'rsc', $identity ) ) 
+			$folder = $this->config['system']['backupdir'];
+			if ( $fs->saveBackupFile( $addr, $scp->get( $filename . '.backup' ), $folder, $filename, 'backup', $identity )
+				&& $fs->saveBackupFile( $addr, $scp->get( $filename . '.rsc' ), $folder, $filename, 'rsc', $identity ) ) 
 				{
 				$db->updateBackupTime($addr);
 				$this->logger->log( "Backup of the router " . $addr . " has been sucessfully." );
+				$this->sshDisconnect($ssh);
+				return;
 				}
-			else
-				$this->logger->log( "Backup of the router " . $addr . " has not been sucessfully.", $this->logger->setError() );
+			$this->logger->log( "Backup of the router " . $addr . " has not been sucessfully.", $this->logger->setError() );
 			$this->sshDisconnect($ssh);
+			return;
 		}
-		else
-			$this->logger->log( $msg . 'fails!', $this->logger->setError() );
+		$this->logger->log( $msg . 'fails!', $this->logger->setError() );
 	}
 	
 	/**
@@ -99,7 +99,7 @@ class SSHConnector extends AbstractConnector {
 		if ( !$type && $ssh->login( $this->config['routerboard']['rblogin'], $this->config['routerboard']['rbpasswd'] ))
 			return $ssh;
 		// user&rsakey
-		elseif ( $type ) {
+		if ( $type ) {
 			$key = new RSA();
 			$key->loadKey( file_get_contents( $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa' ) );
 			if ( $ssh->login( $this->config['routerboard']['backupuser'], $key ))

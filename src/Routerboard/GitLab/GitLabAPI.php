@@ -16,11 +16,19 @@ class GitLabAPI extends AbstractGitLabAPI {
 		$this->gitlab->authenticate( $this->config['gitlab']['token'], $this->config['gitlab']['auth-method'] );
 	}
 	
+	/**
+	 * Check if project with name ['gitlab']['project-name'] does exist in repo.
+	 * @return boolean
+	 */
 	public function checkProjectName() {
 		$project = new Projects( $this->gitlab );
 		return $this->arraySearch( $this->config['gitlab']['project-name'], $project->accessible(), 'name');
 	}
 	
+	/**
+	 * Create new project with ['gitlab']['project-name'] name.
+	 * @return boolean
+	 */
 	public function createProject() {
 		$project = new Project();
 		$project->create($this->gitlab, $this->config['gitlab']['project-name'], array(
