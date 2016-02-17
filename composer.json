@@ -26,6 +26,7 @@
 			"Src\\RouterBoard\\" : [
 				"src/Routerboard",
 				"src/Routerboard/BackupFilesystem",
+				"src/Routerboard/GitLab",
 				"src/Routerboard/SecureConnector",
 				"src/Routerboard/Validators"
 			],

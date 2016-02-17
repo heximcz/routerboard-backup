@@ -5,6 +5,19 @@ system:
     # where is RSA pub key (if id_rsa and id_rsa.pub files no exist, they will be created auutomaticaly)
     ssh-dir: '/home/user/.ssh/'
 
+# Save backups to GitLab
+gitlab:
+    # gitlab api url - like this: http|https://git.your-domain.com/api/v3/
+    url: ''
+    # gitlab username
+    username: ''
+    # gitlab project name
+    project-name: 'rbackup'
+    # authentication method - 'http_token' | 'oauth_token'
+    auth-method: 'http_token'
+    # token key - keep it secret!
+    token: ''
+    
 # Admin routerboard account (this login is used only when you add new router)
 routerboard:
     # admin routerboard user
