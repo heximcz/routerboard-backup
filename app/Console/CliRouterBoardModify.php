@@ -24,7 +24,7 @@ class CliRouterBoardModify extends Command {
 	protected function configure() {
 		$this
 		->setName ( 'rb:mod' )
-		->setDescription ( 'Mikrotik RouterBoard add/delete/update.' )
+		->setDescription ( 'Mikrotik RouterBoard add/delete/update IP addresses.' )
 		->addArgument ( 'action', InputArgument::OPTIONAL, 'addnew | delete | update', 'addnew' )
 		->addOption ( 'addr', 'i', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'IPv4 address of router.' )
 		->addUsage(

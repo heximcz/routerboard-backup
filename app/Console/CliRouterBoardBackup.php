@@ -23,7 +23,7 @@ class CliRouterBoardBackup extends Command {
 	protected function configure() {
 		$this
 		->setName ( 'rb:backup' )
-		->setDescription ( 'Mikrotik RouterBoard backup configurations.' )
+		->setDescription ( 'Mikrotik RouterBoard backup configurations to local folder.' )
 		->addArgument ( 'action', InputArgument::OPTIONAL, 'backup', 'backup' )
 		->addOption ( 'addr', 'i', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'IPv4 address of router.' )
 		->addUsage(
