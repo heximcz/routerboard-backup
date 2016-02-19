@@ -4,7 +4,6 @@ namespace Src\RouterBoard;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Filesystem\Exception\IOException;
 
 class BackupFilesystem extends AbstractBackupFilesystem {
 	

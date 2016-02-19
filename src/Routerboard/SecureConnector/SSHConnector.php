@@ -51,14 +51,14 @@ class SSHConnector extends AbstractConnector {
 	 * 
 	 * @param string $addr IP address
 	 * @param string $identity of the routerboard
+	 * @return boolean
 	 */
-	public function getBackupFile($addr, $identity) {
+	public function getBackupFile($addr, $filename, $folder, $identity) {
 		// backup user as file prefix
 		$user = $this->config['routerboard']['backupuser'];
 		$msg = 'Connect to the: ' . $user . "@" . $addr . ":" .  $this->config['routerboard']['ssh-port'] . ' has been ';
 		if ( $ssh = $this->sshConnect($addr, true) ) {
 			$this->logger->log( $msg . 'successfully.' );
-			$filename = $user . '-' . date( "Ydmhis", time () ) ;
 			// remove old backup files
 			$ssh->exec( 'file remove [/file find where name~"' . $user . '-"]' );
 			// create new backups
@@ -66,22 +66,19 @@ class SSHConnector extends AbstractConnector {
 			$ssh->exec( 'export compact file=' . $filename );
 			// download and save actual backup file
 			$scp = new SCP($ssh);
-			$fs = new BackupFilesystem( $this->config, $this->logger );
-			$db = new $this->config['database']['data-adapter']($this->config, $this->logger);
-			$folder = $this->config['system']['backupdir'];
-			if ( $fs->saveBackupFile( $addr, $scp->get( $filename . '.backup' ), $folder, $filename, 'backup', $identity )
-				&& $fs->saveBackupFile( $addr, $scp->get( $filename . '.rsc' ), $folder, $filename, 'rsc', $identity ) ) 
+			$bfs = new BackupFilesystem( $this->config, $this->logger );
+			//$folder = $this->config['system']['backupdir'];
+			if ( $bfs->saveBackupFile( $addr, $scp->get( $filename . '.backup' ), $folder, $filename, 'backup', $identity )
+				&& $bfs->saveBackupFile( $addr, $scp->get( $filename . '.rsc' ), $folder, $filename, 'rsc', $identity ) ) 
 				{
-				$db->updateBackupTime($addr);
-				$this->logger->log( "Backup of the router " . $addr . " has been sucessfully." );
 				$this->sshDisconnect($ssh);
-				return;
+				return true;
 				}
-			$this->logger->log( "Backup of the router " . $addr . " has not been sucessfully.", $this->logger->setError() );
 			$this->sshDisconnect($ssh);
-			return;
+			return false;
 		}
 		$this->logger->log( $msg . 'fails!', $this->logger->setError() );
+		return false;
 	}
 	
 	/**
