@@ -54,7 +54,6 @@ class SSHConnector extends AbstractConnector {
 	 * @return boolean
 	 */
 	public function getBackupFile($addr, $filename, $folder, $identity) {
-		// backup user as file prefix
 		$user = $this->config['routerboard']['backupuser'];
 		$msg = 'Connect to the: ' . $user . "@" . $addr . ":" .  $this->config['routerboard']['ssh-port'] . ' has been ';
 		if ( $ssh = $this->sshConnect($addr, true) ) {
@@ -64,12 +63,11 @@ class SSHConnector extends AbstractConnector {
 			// create new backups
 			$ssh->exec( 'system backup save name=' . $filename );
 			$ssh->exec( 'export compact file=' . $filename );
-			// download and save actual backup file
+			// download and save new backup files
 			$scp = new SCP($ssh);
 			$bfs = new BackupFilesystem( $this->config, $this->logger );
-			//$folder = $this->config['system']['backupdir'];
-			if ( $bfs->saveBackupFile( $addr, $scp->get( $filename . '.backup' ), $folder, $filename, 'backup', $identity )
-				&& $bfs->saveBackupFile( $addr, $scp->get( $filename . '.rsc' ), $folder, $filename, 'rsc', $identity ) ) 
+			if ( $bfs->saveBackupFile( $addr, $scp->get( $filename . '.backup' ), $folder, $filename, 'backup', $identity ) &&
+				 $bfs->saveBackupFile( $addr, $scp->get( $filename . '.rsc' ), $folder, $filename, 'rsc', $identity ) ) 
 				{
 				$this->sshDisconnect($ssh);
 				return true;
