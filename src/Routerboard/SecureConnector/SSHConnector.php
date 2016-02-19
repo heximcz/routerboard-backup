@@ -50,6 +50,8 @@ class SSHConnector extends AbstractConnector {
 	 * Save files to the desination
 	 * 
 	 * @param string $addr IP address
+	 * @param string $filename
+	 * @param string $folder
 	 * @param string $identity of the routerboard
 	 * @return boolean
 	 */
