@@ -49,15 +49,15 @@ class GitLabAPI extends AbstractGitLabAPI {
 	
 	/**
 	 * Send file to repository
-	 * @param string $file_path
+	 * @param string $filePath
 	 * @param string $content
 	 * @param string $branch
 	 * @param string $message
 	 * @throws Gitlab\Exception\RuntimeException;
 	 */
-	public function sendFile($file_path, $content, $branch, $message) {
+	public function sendFile($filePath, $content, $branch, $message) {
 		$project = new Project( $this->getProjectID(), $this->client );
-		$project->updateFile( $file_path, $content, $branch, $message );
+		$project->updateFile( $filePath, $content, $branch, $message );
 	}
 	
 	private function projectAccessibleSearch($name, $array, $value) {
