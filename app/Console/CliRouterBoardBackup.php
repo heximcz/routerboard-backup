@@ -50,11 +50,10 @@ class CliRouterBoardBackup extends Command {
 				if ( !$input->getOption ( 'addr' ) ) {
 					$logger->log ( "Action: Backup all routers from backup list." );
 					$rbackup->backupAllRouterBoards();
+					break;
 				}
-				else {
-					$logger->log ( "Action: Backup one or more routers from input." );
-					$rbackup->backupOneRouterBoard( $input->getOption ( 'addr' ) );
-				}
+				$logger->log ( "Action: Backup one or more routers from input." );
+				$rbackup->backupOneRouterBoard( $input->getOption ( 'addr' ) );
 				break;
 			default:
 				$this->defaultHelp($output);
