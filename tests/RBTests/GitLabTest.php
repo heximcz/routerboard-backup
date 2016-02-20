@@ -6,7 +6,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 use App\Console\CliRouterBoardGitLab;
 
 class GitLabTest extends RBCaseTest {
-
+/*
 	public function testExecuteGitLabBackup() {
 		$application = new Application ();
 		$application->add ( new CliRouterBoardGitLab ( self::$config ) );
@@ -17,7 +17,7 @@ class GitLabTest extends RBCaseTest {
 		) );
 		$this->assertRegExp ( '/.../', $commandTester->getDisplay () );
 	}
-/*
+
 	public function testRunCommandsGitLabBackupOne() {
 		$application = new Application ();
 		$application->add ( new CliRouterBoardGitLab( self::$config ) );
