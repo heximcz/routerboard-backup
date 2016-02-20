@@ -29,8 +29,9 @@ PHP > 5.6.x
 * If an error occurs while backing up, an email will be sent automatically .
 
 ## Recommended
-* For this backup system we recommend version **RouterOS 6.32.3**, because new versions have some problems with file transfer via SCP.
-* **Fixed in RouterOS 6.35rc5**
+* ~~For this backup system we recommend version **RouterOS 6.32.3**, because new versions have some problems with file transfer via SCP.~~
+* **~~Fixed in RouterOS 6.35rc5~~**
+* **RouterOS 6.34.2 is now fixed too.**
 
 ## How to install
 
