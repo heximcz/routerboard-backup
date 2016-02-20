@@ -17,7 +17,7 @@ class GitLabTest extends RBCaseTest {
 		) );
 		$this->assertRegExp ( '/.../', $commandTester->getDisplay () );
 	}
-
+/*
 	public function testRunCommandsGitLabBackupOne() {
 		$application = new Application ();
 		$application->add ( new CliRouterBoardGitLab( self::$config ) );
@@ -43,5 +43,5 @@ class GitLabTest extends RBCaseTest {
 		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
 	
 	}
-	
+*/	
 }
