@@ -14,4 +14,9 @@ ratings:
 exclude_paths:
   - tests/**/*
   - vendor/**/*
-
+  - "config.default.yml"
+  - "composer.json"
+  - "composer.lock"
+  - "README.md"
+  - "LICENSE.md"
+  
