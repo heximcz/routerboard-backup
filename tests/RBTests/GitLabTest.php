@@ -13,8 +13,7 @@ class GitLabTest extends RBCaseTest {
 		$command = $application->find ( 'rb:gitlab' );
 		$commandTester = new CommandTester ( $command );
 		$commandTester->execute ( array (
-				'action' => 'backup',
-				'-h'  => ''
+				'--help' => true
 		) );
 		$this->assertRegExp ( '/.../', $commandTester->getDisplay () );
 	}
