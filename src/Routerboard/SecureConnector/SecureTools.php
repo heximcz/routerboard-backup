@@ -10,6 +10,11 @@ class SecureTools extends AbstractConnector {
 
 	private $fsys;
 
+	public function __construct($config, $logger) {
+		parent::__construct($config, $logger);
+		$this->fsys = new Filesystem();
+	}
+	
 	/**
 	 * Check if ssh-rsa keys exist. If not, will be created
 	 * 
@@ -17,7 +22,6 @@ class SecureTools extends AbstractConnector {
 	 * @throws if keys no been generated
 	 */
 	public function checkRSA() {
-		$this->fsys = new Filesystem();
 		// does exist ssh directory ?
 		if (! $this->fsys->exists( $this->config ['system'] ['ssh-dir'] )) {
 			$this->fsys->mkdir( $this->config ['system'] ['ssh-dir'], 0700 );
