@@ -17,7 +17,7 @@ class SecureTools extends AbstractConnector {
 	 * @throws if keys no been generated
 	 */
 	public function checkRSA() {
-		$this->fs = new Filesystem();
+		$this->fsys = new Filesystem();
 		// does exist ssh directory ?
 		if (! $this->fsys->exists( $this->config ['system'] ['ssh-dir'] )) {
 			$this->fsys->mkdir( $this->config ['system'] ['ssh-dir'], 0700 );
