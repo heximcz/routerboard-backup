@@ -13,12 +13,12 @@ class SSHConnector extends AbstractConnector {
 	/**
 	 * Create backup user over ssh
 	 * @param ip $addr
-	 * @return mixed (flase or identity of router)
+	 * @return mixed (false or identity of the router)
 	 */
 	public function createBackupAccount($addr) {
 		$bcpuser = $this->config['routerboard']['backupuser'];
 		$keyname = 'id_rsa-backup-user.pub';
-		if ( $ssh = $this->sshConnect($addr) ) {
+		if ( $ssh = $this->sshConnect($addr, false) ) {
 			$scp = new SCP($ssh);
 			if ( !$scp->put($keyname, 
 					$this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub', SCP::SOURCE_LOCAL_FILE) ) {
@@ -84,9 +84,9 @@ class SSHConnector extends AbstractConnector {
 	/**
 	 * SSH connect via user&passwd or user&rsakey
 	 *
-	 * @param ip $addr
-	 * @param $type - connect via user&rsakey(true), user&password(false)
-	 * @return \phpseclib\Net\SSH2|boolean
+	 * @param string ip $addr
+	 * @param bool $type - connect via user&rsakey(true), user&password(false)
+	 * @return mixed object | false
 	 */
 	protected function sshConnect($addr, $type) {
 		set_error_handler( array( $this, "myErrorHandler" ), E_ALL );
