@@ -54,13 +54,17 @@ class SecureTools extends AbstractConnector {
 			// backup existing RSA files for sure.
 			$this->backupExistRSA ( 'routerboard-backup' );
 			$this->logger->log( "The SSH-RSA public key has been created. Never delete those files! (id_rsa,id_rsa.pub)", $this->logger->setNotice() );
-		} else {
-			throw new Exception( get_class($this) ." can not create the ssh-rsa public key file!" );
+			return;
 		}
+		throw new Exception( get_class($this) ." can not create the ssh-rsa public key file!" );
 	}
 	
-	private function backupExistRSA($suffix = false) {
-		if (! $suffix)
+	/**
+	 * Create backup of the RSA files
+	 * @param string $suffix (if empty, suffix is timestamp)
+	 */
+	private function backupExistRSA($suffix) {
+		if ( empty($suffix) )
 			$suffix = date( "Ydmhis", time () );
 		if ($this->fs->exists( $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub' )) {
 			$this->fs->copy ( 
