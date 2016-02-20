@@ -42,7 +42,7 @@ class CliRouterBoardGitLab extends Command {
 	
 	protected function execute( InputInterface $input, OutputInterface $output ) {
 		$logger = new OutputLogger ( $output );
-		$gitlab  = new RouterBoardGitLab( $this->config, $logger );
+		$gitlab = new RouterBoardGitLab( $this->config, $logger );
 		$action = $input->getArgument ( 'action' );
 		switch ($action) {
 			case "backup":
@@ -55,18 +55,9 @@ class CliRouterBoardGitLab extends Command {
 				$gitlab->backupOneRouterBoard( $input->getOption ( 'addr' ) );
 				break;
 			default:
-				$this->defaultHelp($output);
+				$command = $this->getApplication()->get('help');
+				$command->run(new ArrayInput(['command_name' => $this->getName()]), $output);
 				break;
 		}
 	}
-
-	/**
-	 * Print help to default otput
-	 * @param $output
-	 */
-	private function defaultHelp($output) {
-		$command = $this->getApplication()->get('help');
-		$command->run(new ArrayInput(['command_name' => $this->getName()]), $output);
-	}
-
 }
