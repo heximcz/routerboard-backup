@@ -3,26 +3,35 @@
 namespace Src\RouterBoard;
 
 use Gitlab\Client;
-use Gitlab\Model\Project;
 use Gitlab\Api\Projects;
+use Gitlab\Model\Project;
 
 class GitLabAPI extends AbstractGitLabAPI {
 	
-	protected $gitlab;
+	private $client;
+	private $idproject;
 	
 	public function __construct($config, $logger) {
 		parent::__construct($config, $logger);
-		$this->gitlab = new Client( $this->config['gitlab']['url'] );
-		$this->gitlab->authenticate( $this->config['gitlab']['token'], $this->config['gitlab']['auth-method'] );
+		$this->client = new Client( $this->config['gitlab']['url'] );
+		$this->client->authenticate( $this->config['gitlab']['token'], $this->config['gitlab']['auth-method'] );
 	}
 	
 	/**
-	 * Check if project with name ['gitlab']['project-name'] does exist in repo.
+	 * Check if project with name ['gitlab']['project-name'] does exist in repository.
 	 * @return boolean
 	 */
 	public function checkProjectName() {
-		$project = new Projects( $this->gitlab );
-		return $this->arraySearch( $this->config['gitlab']['project-name'], $project->accessible(), 'name');
+		$project = new Projects( $this->client );
+		return $this->projectAccessibleSearch( $this->config['gitlab']['project-name'], $project->accessible(), 'name');
+	}
+	
+	/**
+	 * Project ID in GitLab
+	 * @return integer
+	 */
+	public function getProjectID() {
+		return $this->idproject;
 	}
 	
 	/**
@@ -31,23 +40,34 @@ class GitLabAPI extends AbstractGitLabAPI {
 	 */
 	public function createProject() {
 		$project = new Project();
-		$project->create($this->gitlab, $this->config['gitlab']['project-name'], array(
+		$project->create($this->client, $this->config['gitlab']['project-name'], array(
 				'description' => 'Mikrotik RouterOS backup files.',
 				'issues_enabled' => false
 		));
 		return $this->checkProjectName();
 	}
 	
-	private function arraySearch($name, $array, $value) {
+	/**
+	 * Send file to repository
+	 * @param string $file_path
+	 * @param string $content
+	 * @param string $branch
+	 * @param string $message
+	 * @throws Gitlab\Exception\RuntimeException;
+	 */
+	public function sendFile($file_path, $content, $branch, $message) {
+		$project = new Project( $this->getProjectID(), $this->client );
+		$project->updateFile( $file_path, $content, $branch, $message );
+	}
+	
+	private function projectAccessibleSearch($name, $array, $value) {
 		foreach ($array as $key) {
 			if ($key[$value] === $name) {
+				$this->idproject = $key['id'];
 				return true;
 			}
 		}
 		return false;
 	}
-	
 
-
-	
 }
