@@ -47,11 +47,11 @@ class CliRouterBoardGitLab extends Command {
 		switch ($action) {
 			case "backup":
 				if ( !$input->getOption ( 'addr' ) ) {
-					$logger->log ( "Action: Backup all routers from backup list." );
+					$logger->log ( "Action: Backup all routers from backup list to GitLab." );
 					$gitlab->backupAllRouterBoards();
 				}
 				else {
-					$logger->log ( "Action: Backup one or more routers from input." );
+					$logger->log ( "Action: Backup one or more routers from input to GitLab." );
 					$gitlab->backupOneRouterBoard( $input->getOption ( 'addr' ) );
 				}
 				break;
