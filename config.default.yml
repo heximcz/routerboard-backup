@@ -11,9 +11,9 @@ gitlab:
     url: ''
     # gitlab username
     username: ''
-    # gitlab project name
+    # gitlab project name !! do not use any your existing project name, project will be created automatically !!
     project-name: 'rbackup'
-    # authentication method - 'http_token' | 'oauth_token'
+    # authentication method
     auth-method: 'http_token'
     # token key - keep it secret!
     token: ''
