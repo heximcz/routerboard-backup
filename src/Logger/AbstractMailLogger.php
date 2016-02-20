@@ -17,13 +17,13 @@ abstract class AbstractMailLogger {
 		return ( $this->mailBody ? true : false );
 	}
 
-	public function send($from, $to) {
+	public function send($emailFrom, $emailTo) {
 		$host = trim ( gethostname () );
 		$mail = new PHPMailer ();
 		$mail->CharSet = "UTF-8";
-		$mail->From = $from;
+		$mail->From = $emailFrom;
 		$mail->FromName = $host;
-		$mail->addAddress ( $to );
+		$mail->addAddress ( $emailTo );
 		$mail->isHTML ( true );
 		$mail->Subject = 'Error on DNS Resolver -> ' . $host;
 		$mail->Body = str_replace ( "\n", '<br />', $this->mailBody );
