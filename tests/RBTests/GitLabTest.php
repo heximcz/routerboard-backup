@@ -6,6 +6,13 @@ use Symfony\Component\Console\Tester\CommandTester;
 use App\Console\CliRouterBoardGitLab;
 
 class GitLabTest extends RBCaseTest {
+	
+	public function testEmpty()
+	{
+		$stack = array();
+		$this->assertEmpty($stack);
+
+	}
 /*
 	public function testExecuteGitLabBackup() {
 		$application = new Application ();
