@@ -88,8 +88,8 @@ class SSHConnector extends AbstractConnector {
 	 * @param $type - connect via user&rsakey(true), user&password(false)
 	 * @return \phpseclib\Net\SSH2|boolean
 	 */
-	protected function sshConnect($addr, $type = false) {
-		set_error_handler( array( $this, "my_error_handler" ), E_ALL );
+	protected function sshConnect($addr, $type) {
+		set_error_handler( array( $this, "myErrorHandler" ), E_ALL );
 		$ssh = new SSH2( $addr, $this->config['routerboard']['ssh-port'] );
 		// user&password
 		$ssh->setWindowSize(1024,768);
@@ -114,7 +114,7 @@ class SSHConnector extends AbstractConnector {
 	 * My error handler, I do not like this: PHP Notice:  Cannot connect...
 	 * Must be a public!
 	 */
-	public function my_error_handler($severity, $message) {
+	public function myErrorHandler($severity, $message) {
 		if ( !(error_reporting() & $severity) )
 			return;
 		switch ( $severity ) {
