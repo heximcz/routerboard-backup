@@ -34,7 +34,7 @@ after_success:
 addons:
     code_climate:
         repo_token: 7bf23171d2ee8d1c8d5685751247e50c473098c627783acf6ce6b462ff434ebd
-        
+
 branches:
   only:
     - master

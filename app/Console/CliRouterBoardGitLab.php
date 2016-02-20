@@ -9,9 +9,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\ArrayInput;
 use Src\Logger\OutputLogger;
-use Src\RouterBoard\RouterBoardBackup;
+use Src\RouterBoard\RouterBoardGitLab;
 
-class CliRouterBoardBackup extends Command {
+class CliRouterBoardGitLab extends Command {
 
 	private $config;
 
@@ -22,38 +22,37 @@ class CliRouterBoardBackup extends Command {
 	
 	protected function configure() {
 		$this
-		->setName ( 'rb:backup' )
-		->setDescription ( 'Mikrotik RouterBoard backup configurations to local folder.' )
+		->setName ( 'rb:gitlab' )
+		->setDescription ( 'Mikrotik RouterBoard backup configurations to GitLab project.' )
 		->addArgument ( 'action', InputArgument::OPTIONAL, 'backup', 'backup' )
 		->addOption ( 'addr', 'i', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'IPv4 address of router.' )
 		->addUsage(
-				'<comment>-> by default backup all routers from backup list.</comment>'
+				'<comment>-> by default backup all routers from backup list to GitLab.</comment>'
 				)
 		->addUsage(
 				'-i 192.168.1.1 ' .
-				'<comment>-> backup one router.</comment>'
+				'<comment>-> backup one router to GitLab.</comment>'
 				)
 		->addUsage(
 				'-i 192.168.1.1 -i 192.168.1.2 ' .
-				'<comment>-> backup more routers.</comment>'
+				'<comment>-> backup more routers to GitLab.</comment>'
 				)
-				
 		;
 	}
 	
 	protected function execute( InputInterface $input, OutputInterface $output ) {
 		$logger = new OutputLogger ( $output );
-		$rbackup  = new RouterBoardBackup( $this->config, $logger );
+		$gitlab  = new RouterBoardGitLab( $this->config, $logger );
 		$action = $input->getArgument ( 'action' );
 		switch ($action) {
 			case "backup":
 				if ( !$input->getOption ( 'addr' ) ) {
 					$logger->log ( "Action: Backup all routers from backup list." );
-					$rbackup->backupAllRouterBoards();
+					$gitlab->backupAllRouterBoards();
 				}
 				else {
 					$logger->log ( "Action: Backup one or more routers from input." );
-					$rbackup->backupOneRouterBoard( $input->getOption ( 'addr' ) );
+					$gitlab->backupOneRouterBoard( $input->getOption ( 'addr' ) );
 				}
 				break;
 			default:

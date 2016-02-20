@@ -42,7 +42,7 @@ ALTER TABLE `routers`
 	}
 	
 	/**
-	 * @see \Src\Adapters\IAdapter::setData()
+	 * @see \Src\Adapters\IAdapter::addIP()
 	 */
 	public function addIP($addr,$identity) {
 		$args = [
@@ -59,7 +59,7 @@ ALTER TABLE `routers`
 	}
 
 	/**
-	 * @see \Src\Adapters\IAdapter::getData()
+	 * @see \Src\Adapters\IAdapter::getIP()
 	 */
 	public function getIP() {
 		if ( $result = dibi::query('SELECT [id], [addr], [identity] FROM [routers]') )

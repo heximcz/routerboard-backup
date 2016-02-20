@@ -6,15 +6,25 @@ use Src\RouterBoard\SSHConnector;
 
 class RouterBoardBackup extends AbstractRouterBoard implements IRouterBoardBackup {
 	
+	private $dbconnect;
+	private $ssh;
+	private $filename;
+	
+	public function __construct($config, $logger) {
+		parent::__construct($config, $logger);
+		$this->dbconnect = new $this->config['database']['data-adapter']($this->config, $this->logger);
+		$this->ssh = new SSHConnector($this->config, $this->logger);
+		$this->filename = $this->config['routerboard']['backupuser'] . '-' . date( "Ydmhis", time () );
+		
+	}
+	
 	/**
 	 * @see \Src\RouterBoard\IRouterBoardBackup::backupAllRouterBoards()
 	 */
 	public function backupAllRouterBoards() {
-		$dbconnect = new $this->config['database']['data-adapter']($this->config, $this->logger);
-		if ( $result = $dbconnect->getIP() ) {
-			$ssh = new SSHConnector($this->config, $this->logger);
+		if ( $result = $this->dbconnect->getIP() ) {
 			foreach ($result as $data) {
-				$ssh->getBackupFile($data['addr'], $data['identity']);
+				$this->goBackup( $data['addr'], $data['identity'] );
 			}
 			return;
 		}
@@ -26,12 +36,10 @@ class RouterBoardBackup extends AbstractRouterBoard implements IRouterBoardBacku
 	 * @see \Src\RouterBoard\IRouterBoardBackup::backupOneRouterBoard()
 	 */
 	public function backupOneRouterBoard(array $addr) {
-		$dbconnect = new $this->config['database']['data-adapter']($this->config, $this->logger);
-		$ssh = new SSHConnector($this->config, $this->logger);
 		foreach ($addr as $ip) {
-			if ( $dbconnect->checkExistIP($ip) ) {
-				$data = $dbconnect->getOneIP($ip);
-				$ssh->getBackupFile( $data[0]['addr'], $data[0]['identity'] );
+			if ( $this->dbconnect->checkExistIP($ip) ) {
+				$data = $this->dbconnect->getOneIP($ip);
+				$this->goBackup( $data[0]['addr'], $data[0]['identity'] );
 				continue;
 			}
 			$this->logger->log('IP addresses: ' . $ip . ' does not exist in the database! Add this IP address first.', $this->logger->setError() );
@@ -39,6 +47,16 @@ class RouterBoardBackup extends AbstractRouterBoard implements IRouterBoardBacku
 		$this->sendMail();
 	}
 
+	private function goBackup($addr, $identity) {
+		if ( $this->ssh->getBackupFile( $addr, $this->filename, $this->config['system']['backupdir'], $identity ) ) {
+			$this->logger->log( "Backup of the router " . $addr . " has been sucessfully." );
+			$this->dbconnect->updateBackupTime( $addr );
+			return;
+		}
+		$this->logger->log( "Backup of the router " . $addr . " has not been sucessfully.", $this->logger->setError() );
+		return;
+	}
+	
 	/**
 	 * Send email with error if any
 	 */
