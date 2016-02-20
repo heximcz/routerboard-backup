@@ -8,7 +8,7 @@ use Exception;
 
 class SecureTools extends AbstractConnector {
 
-	private $fs;
+	private $fsys;
 
 	/**
 	 * Check if ssh-rsa keys exist. If not, will be created
@@ -19,11 +19,11 @@ class SecureTools extends AbstractConnector {
 	public function checkRSA() {
 		$this->fs = new Filesystem();
 		// does exist ssh directory ?
-		if (! $this->fs->exists( $this->config ['system'] ['ssh-dir'] )) {
-			$this->fs->mkdir( $this->config ['system'] ['ssh-dir'], 0700 );
+		if (! $this->fsys->exists( $this->config ['system'] ['ssh-dir'] )) {
+			$this->fsys->mkdir( $this->config ['system'] ['ssh-dir'], 0700 );
 			$this->logger->log( "The SSH directory: " . $this->config ['system'] ['ssh-dir'] . " has been created !", $this->logger->setNotice() );
 		}
-		if (! $this->fs->exists( $this->config ['system'] ['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub' )) {
+		if (! $this->fsys->exists( $this->config ['system'] ['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub' )) {
 			$this->logger->log( "The SSH-RSA public key does not exist. Creating new.", $this->logger->setNotice() );
 			$this->createRSA();
 		} else
@@ -39,18 +39,18 @@ class SecureTools extends AbstractConnector {
 			// be safe
 			$this->backupExistRSA ();
 			// create id_rsa.pub (public key)
-			$this->fs->dumpFile ( 
+			$this->fsys->dumpFile ( 
 					$this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub', 
 					$key['publickey'] 
 					);
 			// create id_rsa (private key)
-			$this->fs->dumpFile ( 
+			$this->fsys->dumpFile ( 
 					$this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa', 
 					$key['privatekey'] 
 					);
 			// set permissions -rw-------
-			$this->fs->chmod( $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa', 0600 );
-			$this->fs->chmod( $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub', 0600 );	
+			$this->fsys->chmod( $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa', 0600 );
+			$this->fsys->chmod( $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub', 0600 );	
 			// backup existing RSA files for sure.
 			$this->backupExistRSA ( 'routerboard-backup' );
 			$this->logger->log( "The SSH-RSA public key has been created. Never delete those files! (id_rsa,id_rsa.pub)", $this->logger->setNotice() );
@@ -66,19 +66,19 @@ class SecureTools extends AbstractConnector {
 	private function backupExistRSA($suffix) {
 		if ( empty($suffix) )
 			$suffix = date( "Ydmhis", time () );
-		if ($this->fs->exists( $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub' )) {
-			$this->fs->copy ( 
+		if ($this->fsys->exists( $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub' )) {
+			$this->fsys->copy ( 
 					$this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub', 
 					$this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub.' . $suffix . '.bak' 
 					);
-					$this->fs->chmod( $this->config ['system'] ['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub.' . $suffix . '.bak', 0600 );
+					$this->fsys->chmod( $this->config ['system'] ['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub.' . $suffix . '.bak', 0600 );
 		}
-		if ($this->fs->exists ( $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa' )) {
-			$this->fs->copy ( 
+		if ($this->fsys->exists ( $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa' )) {
+			$this->fsys->copy ( 
 					$this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa',
 					$this->config['system']['ssh-dir'].DIRECTORY_SEPARATOR.'id_rsa.'.$suffix.'.bak' 
 					);
-					$this->fs->chmod( $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.' . $suffix . '.bak', 0600 );
+					$this->fsys->chmod( $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.' . $suffix . '.bak', 0600 );
 		}
 	}
 
