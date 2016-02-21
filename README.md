@@ -7,6 +7,10 @@
 [![codecov.io](https://codecov.io/github/heximcz/routerboard-backup/coverage.svg?branch=master)](https://codecov.io/github/heximcz/routerboard-backup?branch=master)
 [![Code Climate](https://codeclimate.com/github/heximcz/routerboard-backup/badges/gpa.svg)](https://codeclimate.com/github/heximcz/routerboard-backup)
 
+## Changelog
+
+Read [changelog](https://github.com/heximcz/routerboard-backup/blob/master/CHANGELOG.md) for news.
+
 ## Overview
 
 Ultimate backup of your mikrotik routerboard configurations.
