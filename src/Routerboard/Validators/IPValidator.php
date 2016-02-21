@@ -10,6 +10,7 @@ class IPValidator extends AbstractRouterBoard {
 	 * @return boolean
 	 */
 	public function ipv4validator($addr) {
+		$addr = gethostbyname( $addr );
 		if (filter_var ( $addr, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) === false) {
 			$this->logger->log ( "IPv4 address is not valid: '" . $addr . "', sorry.", $this->logger->setError() );
 			return false;

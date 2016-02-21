@@ -54,7 +54,7 @@ $ mkdir -p /var/log/routerboard-backup/
 
 CREATE TABLE IF NOT EXISTS `routers` (
   `id` int(11) NOT NULL,
-  `addr` char(15) COLLATE utf8_bin NOT NULL COMMENT 'IP address',
+  `addr` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'IP address',
   `identity` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'System identity',
   `created` datetime NOT NULL,
   `modify` datetime DEFAULT NULL,
