@@ -5,7 +5,7 @@
 	"type" : "project",
 	"authors" : [{
 			"name" : "Lubomir Spacek",
-			"homepage" : "http://best-hosting.cz"
+			"homepage" : "https://routerboard-backup.best-hosting.cz/"
 		}
 	],
 	"require" : {
