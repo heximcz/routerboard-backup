@@ -56,7 +56,7 @@ class GitLabAPI extends AbstractGitLabAPI {
 				$project->accessible(), 
 				'name', 
 				'id', 
-				$this->getProjectID()
+				$this->idproject
 				);
 	}
 
