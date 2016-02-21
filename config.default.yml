@@ -7,15 +7,18 @@ system:
 
 # Save backups to GitLab
 gitlab:
-    # gitlab api url - like this: http|https://git.your-domain.com/api/v3/
+    # gitlab api url - like this: http://git.your-domain.com/api/v3/ (required)
     url: ''
-    # gitlab username
+    # gitlab username (required)
     username: ''
-    # gitlab project name !! do not use any your existing project name, project will be created automatically !!
+    # gitlab project name (required)
     project-name: 'rbackup'
-    # authentication method
+    # group name (optional) - ! user must have enabled premission for create a group 
+    # leave empty if you do not use a group
+    group-name: ''
+    # authentication method - 'http_token'
     auth-method: 'http_token'
-    # token key - keep it secret!
+    # token key - Keep it secret! (required)
     token: ''
     
 # Admin routerboard account (this login is used only when you add new router)

@@ -18,6 +18,9 @@ class RouterBoardGitLab extends AbstractRouterBoard  implements IRouterBoardBack
 	public function __construct($config, $logger) {
 		parent::__construct($config, $logger);
 		$this->gitlab = new GitLabAPI( $this->config, $this->logger );
+		if ( !empty( $this->config['gitlab']['group-name'] ) ) {
+			$this->checkExistGroup( $this->config['gitlab']['group-name'] );
+		}
 		$this->checkExistProject( $this->config['gitlab']['project-name'] );
 		$this->dbconnect = new $this->config['database']['data-adapter']($this->config, $this->logger);
 		$this->ssh = new SSHConnector($this->config, $this->logger);
@@ -108,6 +111,24 @@ class RouterBoardGitLab extends AbstractRouterBoard  implements IRouterBoardBack
 		}
 	}
 
+	/**
+	 * Check if group with $name does exist in repository, if not try create it
+	 *
+	 * @param string $name
+	 * @throws Exception
+	 */
+	protected function checkExistGroup($name) {
+		if ( !$this->gitlab->checkGroupName() ) {
+			$this->logger->log( "Group '" . $name . "' does not exist in repo. Creating new ...", $this->logger->setNotice() );
+			if ( $this->gitlab->createGroup() ) {
+				$this->logger->log( "Group '" . $this->config['gitlab']['group-name'] . "' has been created successfully.", $this->logger->setNotice() );
+				return;
+			}
+			throw new Exception("Can not create new group in GitLab!");
+		}
+	}
+	
+	
 	/**
 	 * Send email with error if any
 	 */
