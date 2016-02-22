@@ -38,10 +38,10 @@ class GitLabAPI extends AbstractGitLabAPI {
 	}
 
 	/**
-	 * Group ID in GitLab
-	 * @return integer
+	 * get GitLab Client object
+ 	 * @return object \Gitlab\Client 
 	 */
-	protected function gitLabClient() {
+	protected function getGitLabClient() {
 		return $this->client;
 	}
 
@@ -75,7 +75,7 @@ class GitLabAPI extends AbstractGitLabAPI {
 	}
 
 	/**
-	 * Create new project with ['gitlab']['project-name'] name.
+	 * Create new project from ['gitlab']['project-name']
 	 * @return boolean
 	 */
 	public function createProject() {
@@ -96,7 +96,7 @@ class GitLabAPI extends AbstractGitLabAPI {
 	}
 
 	/**
-	 * Create new group with ['gitlab']['project-name'] name.
+	 * Create new group from ['gitlab']['group-name']
 	 * @return boolean
 	 */
 	public function createGroup() {
@@ -122,6 +122,15 @@ class GitLabAPI extends AbstractGitLabAPI {
 		$project->updateFile( $filePath, $content, $branch, $message );
 	}
 
+	/**
+	 * Find specific value in array and save value to &$destination var
+	 * @param string $name - find what
+	 * @param array $array - data
+	 * @param string $value - find in key
+	 * @param string $get - get another value from same level
+	 * @param reference to the existing variable $destination
+	 * @return boolean
+	 */
 	private function arraySearchValues($name, $array, $value, $get, &$destination) {
 		foreach ($array as $key) {
 			if ($key[$value] === $name) {
