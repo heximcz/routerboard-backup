@@ -51,9 +51,6 @@ class GitLabAPI extends AbstractGitLabAPI {
 	 */
 	public function checkProjectName() {
 		$project = new Projects( $this->client );
-		//$this->logger->log("Project acessible");
-		//print_r($project->accessible());
-		//exit; //path_with_namespace [path_with_namespace] => xx-maintainers2/rb2
 		if ( $this->idgroup ) {
 			return $this->arraySearchValues ( 
 					$this->config['gitlab']['group-name']."/".$this->config['gitlab']['project-name'], 
@@ -131,8 +128,6 @@ class GitLabAPI extends AbstractGitLabAPI {
 	 */
 	public function sendFile($filePath, $content, $branch, $message) {
 		$project = new Project( $this->getProjectID(), $this->client );
-		//print_r( $project->show() );
-		//exit;
 		$project->updateFile( $filePath, $content, $branch, $message );
 	}
 
