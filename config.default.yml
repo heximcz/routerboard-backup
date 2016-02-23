@@ -20,6 +20,8 @@ gitlab:
     auth-method: 'http_token'
     # token key - Keep it secret! (required)
     token: ''
+    # GitLab debug = 1 default = 0
+    debug: 0
     
 # Admin routerboard account (this login is used only when you add new router)
 routerboard:

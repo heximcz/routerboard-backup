@@ -141,6 +141,10 @@ class GitLabAPI extends AbstractGitLabAPI {
 	 * @return boolean
 	 */
 	private function arraySearchValues($name, $array, $value, $get, &$destination) {
+		if ( $this->config['gitlab']['debug'] == 1 ) {
+			$this->logger->log("Array ". $name, $this->logger->setDebug());
+			print_r($array);
+		}
 		foreach ($array as $key) {
 			if ($key[$value] === $name) {
 				$destination = $key[$get];
