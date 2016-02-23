@@ -12,6 +12,9 @@ gitlab:
     username: ''
     # gitlab project name
     project-name: 'rbackup'
+    # group name (optional) - ! user must have enabled premission for create a group 
+    # leave empty if you do not use a group
+    group-name: ''
     # authentication method - 'http_token' | 'oauth_token'
     auth-method: 'http_token'
     # token key - Keep it secret!
