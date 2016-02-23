@@ -25,7 +25,7 @@ class GitLabAPI extends AbstractGitLabAPI {
 	 * Project ID in GitLab
 	 * @return integer
 	 */
-	protected function getProjectID() {
+	public function getProjectID() {
 		return $this->idproject;
 	}
 
@@ -33,7 +33,7 @@ class GitLabAPI extends AbstractGitLabAPI {
 	 * Group ID in GitLab
 	 * @return integer
 	 */
-	protected function getGroupID() {
+	public function getGroupID() {
 		return $this->idgroup;
 	}
 
