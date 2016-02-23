@@ -51,10 +51,11 @@ class GitLabAPI extends AbstractGitLabAPI {
 	 */
 	public function checkProjectName() {
 		$project = new Projects( $this->client );
+		$arrProjects = $project->search( $this->config['gitlab']['project-name'], 1, 1000, 'path');
 		if ( $this->idgroup ) {
 			return $this->arraySearchValues ( 
 					$this->config['gitlab']['group-name']."/".$this->config['gitlab']['project-name'], 
-					$project->accessible(), 
+					$arrProjects, 
 					'path_with_namespace', 
 					'id', 
 					$this->idproject
@@ -62,7 +63,7 @@ class GitLabAPI extends AbstractGitLabAPI {
 		}
 		return $this->arraySearchValues ( 
 				$this->config['gitlab']['username']."/".$this->config['gitlab']['project-name'], 
-				$project->accessible(), 
+				$arrProjects, 
 				'path_with_namespace', 
 				'id', 
 				$this->idproject
