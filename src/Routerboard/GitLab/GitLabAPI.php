@@ -61,9 +61,9 @@ class GitLabAPI extends AbstractGitLabAPI {
 					);
 		}
 		return $this->arraySearchValues ( 
-				$this->config['gitlab']['project-name'], 
+				$this->config['gitlab']['username']."/".$this->config['gitlab']['project-name'], 
 				$project->accessible(), 
-				'path', 
+				'path_with_namespace', 
 				'id', 
 				$this->idproject
 				);
