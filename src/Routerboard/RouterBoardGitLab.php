@@ -22,6 +22,10 @@ class RouterBoardGitLab extends AbstractRouterBoard  implements IRouterBoardBack
 			$this->checkExistGroup( $this->config['gitlab']['group-name'] );
 		}
 		$this->checkExistProject( $this->config['gitlab']['project-name'] );
+		if ( $this->config['gitlab']['debug'] == 1 ) {
+			$this->logger->log("Project ID ". $this->gitlab->getProjectID(), $this->logger->setDebug());
+			$this->logger->log("Group ID ". $this->gitlab->getGroupID(), $this->logger->setDebug());
+		}
 		$this->dbconnect = new $this->config['database']['data-adapter']($this->config, $this->logger);
 		$this->ssh = new SSHConnector($this->config, $this->logger);
 		$this->rootdir = $this->config['routerboard']['backupuser'];
