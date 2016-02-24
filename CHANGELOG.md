@@ -3,7 +3,7 @@
 ##[0.8.3](https://github.com/heximcz/routerboard-backup/releases/tag/0.8.3)
 - fixed better search in the large number of projects. A big thank you to [pcdog](https://github.com/heximcz/routerboard-backup/issues/2) for help.
 - fixed check project id without group
-- added 'debug' parameter in GitLab section of config filer
+- added 'debug' parameter in GitLab section of the config file
  
 
 ##[0.8.2](https://github.com/heximcz/routerboard-backup/releases/tag/0.8.2)
