@@ -6,7 +6,7 @@ use phpseclib\Crypt\RSA;
 use Symfony\Component\Filesystem\Filesystem;
 use Exception;
 
-class SecureTools extends AbstractConnector {
+class SecureTools extends AbstractRouterBoard {
 
 	private $fsys;
 

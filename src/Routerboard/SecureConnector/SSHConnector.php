@@ -8,7 +8,7 @@ use phpseclib\Crypt\RSA;
 use Src\RouterBoard\BackupFilesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
 
-class SSHConnector extends AbstractConnector {
+class SSHConnector extends AbstractRouterBoard {
 
 	/**
 	 * Create backup user over ssh

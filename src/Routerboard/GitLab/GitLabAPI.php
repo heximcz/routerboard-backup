@@ -7,7 +7,7 @@ use Gitlab\Api\Projects;
 use Gitlab\Api\Groups;
 use Gitlab\Model\Project;
 
-class GitLabAPI extends AbstractGitLabAPI {
+class GitLabAPI extends AbstractRouterBoard {
 	
 	private $client;
 	private $idproject;

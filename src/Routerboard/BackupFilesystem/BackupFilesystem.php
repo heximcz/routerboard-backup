@@ -5,7 +5,7 @@ namespace Src\RouterBoard;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
-class BackupFilesystem extends AbstractBackupFilesystem {
+class BackupFilesystem extends AbstractRouterBoard implements IBackupFilesystem {
 	
 	/**
 	 * @see \Src\RouterBoard\BackupFilesystem\IBackupFilesystem::fileRotate()
