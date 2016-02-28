@@ -124,239 +124,6 @@
         "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
     },
     {
-        "name": "symfony/console",
-        "version": "v2.8.2",
-        "version_normalized": "2.8.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/console.git",
-            "reference": "d0239fb42f98dd02e7d342f793c5d2cdee0c478d"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/symfony/console/zipball/d0239fb42f98dd02e7d342f793c5d2cdee0c478d",
-            "reference": "d0239fb42f98dd02e7d342f793c5d2cdee0c478d",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.9",
-            "symfony/polyfill-mbstring": "~1.0"
-        },
-        "require-dev": {
-            "psr/log": "~1.0",
-            "symfony/event-dispatcher": "~2.1|~3.0.0",
-            "symfony/process": "~2.1|~3.0.0"
-        },
-        "suggest": {
-            "psr/log": "For using the console logger",
-            "symfony/event-dispatcher": "",
-            "symfony/process": ""
-        },
-        "time": "2016-01-14 08:33:16",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.8-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Symfony\\Component\\Console\\": ""
-            },
-            "exclude-from-classmap": [
-                "/Tests/"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "https://symfony.com/contributors"
-            }
-        ],
-        "description": "Symfony Console Component",
-        "homepage": "https://symfony.com"
-    },
-    {
-        "name": "symfony/yaml",
-        "version": "v2.8.2",
-        "version_normalized": "2.8.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/yaml.git",
-            "reference": "34c8a4b51e751e7ea869b8262f883d008a2b81b8"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/symfony/yaml/zipball/34c8a4b51e751e7ea869b8262f883d008a2b81b8",
-            "reference": "34c8a4b51e751e7ea869b8262f883d008a2b81b8",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.9"
-        },
-        "time": "2016-01-13 10:28:07",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.8-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Symfony\\Component\\Yaml\\": ""
-            },
-            "exclude-from-classmap": [
-                "/Tests/"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "https://symfony.com/contributors"
-            }
-        ],
-        "description": "Symfony Yaml Component",
-        "homepage": "https://symfony.com"
-    },
-    {
-        "name": "symfony/filesystem",
-        "version": "v2.8.2",
-        "version_normalized": "2.8.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/filesystem.git",
-            "reference": "637b64d0ee10f44ae98dbad651b1ecdf35a11e8c"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/symfony/filesystem/zipball/637b64d0ee10f44ae98dbad651b1ecdf35a11e8c",
-            "reference": "637b64d0ee10f44ae98dbad651b1ecdf35a11e8c",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.9"
-        },
-        "time": "2016-01-13 10:28:07",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.8-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Symfony\\Component\\Filesystem\\": ""
-            },
-            "exclude-from-classmap": [
-                "/Tests/"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "https://symfony.com/contributors"
-            }
-        ],
-        "description": "Symfony Filesystem Component",
-        "homepage": "https://symfony.com"
-    },
-    {
-        "name": "dibi/dibi",
-        "version": "v3.0.2",
-        "version_normalized": "3.0.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/dg/dibi.git",
-            "reference": "8948cc293cdd4d54e018866059c980cc198d77a8"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/dg/dibi/zipball/8948cc293cdd4d54e018866059c980cc198d77a8",
-            "reference": "8948cc293cdd4d54e018866059c980cc198d77a8",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.4.4"
-        },
-        "replace": {
-            "dg/dibi": "self.version"
-        },
-        "require-dev": {
-            "nette/tester": "~1.3",
-            "tracy/tracy": "~2.2"
-        },
-        "time": "2016-01-29 14:46:23",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "3.0-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "src/"
-            ],
-            "files": [
-                "src/loader.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "BSD-3-Clause",
-            "GPL-2.0",
-            "GPL-3.0"
-        ],
-        "authors": [
-            {
-                "name": "David Grudl",
-                "homepage": "https://davidgrudl.com"
-            }
-        ],
-        "description": "Dibi is Database Abstraction Library for PHP",
-        "homepage": "https://dibiphp.com",
-        "keywords": [
-            "access",
-            "database",
-            "dbal",
-            "mssql",
-            "mysql",
-            "odbc",
-            "oracle",
-            "pdo",
-            "postgresql",
-            "sqlite",
-            "sqlsrv"
-        ]
-    },
-    {
         "name": "phpseclib/phpseclib",
         "version": "2.0.1",
         "version_normalized": "2.0.1.0",
@@ -446,57 +213,6 @@
             "x.509",
             "x509"
         ]
-    },
-    {
-        "name": "symfony/finder",
-        "version": "v2.8.2",
-        "version_normalized": "2.8.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/finder.git",
-            "reference": "c90fabdd97e431ee19b6383999cf35334dff27da"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/symfony/finder/zipball/c90fabdd97e431ee19b6383999cf35334dff27da",
-            "reference": "c90fabdd97e431ee19b6383999cf35334dff27da",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.9"
-        },
-        "time": "2016-01-14 08:26:52",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.8-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Symfony\\Component\\Finder\\": ""
-            },
-            "exclude-from-classmap": [
-                "/Tests/"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "https://symfony.com/contributors"
-            }
-        ],
-        "description": "Symfony Finder Component",
-        "homepage": "https://symfony.com"
     },
     {
         "name": "kriswallsmith/buzz",
@@ -604,5 +320,289 @@
             "api",
             "gitlab"
         ]
+    },
+    {
+        "name": "symfony/console",
+        "version": "v2.8.3",
+        "version_normalized": "2.8.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/console.git",
+            "reference": "56cc5caf051189720b8de974e4746090aaa10d44"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/console/zipball/56cc5caf051189720b8de974e4746090aaa10d44",
+            "reference": "56cc5caf051189720b8de974e4746090aaa10d44",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.9",
+            "symfony/polyfill-mbstring": "~1.0"
+        },
+        "require-dev": {
+            "psr/log": "~1.0",
+            "symfony/event-dispatcher": "~2.1|~3.0.0",
+            "symfony/process": "~2.1|~3.0.0"
+        },
+        "suggest": {
+            "psr/log": "For using the console logger",
+            "symfony/event-dispatcher": "",
+            "symfony/process": ""
+        },
+        "time": "2016-02-28 16:20:50",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.8-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\Console\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Console Component",
+        "homepage": "https://symfony.com"
+    },
+    {
+        "name": "symfony/filesystem",
+        "version": "v2.8.3",
+        "version_normalized": "2.8.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/filesystem.git",
+            "reference": "65cb36b6539b1d446527d60457248f30d045464d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/filesystem/zipball/65cb36b6539b1d446527d60457248f30d045464d",
+            "reference": "65cb36b6539b1d446527d60457248f30d045464d",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.9"
+        },
+        "time": "2016-02-22 15:02:30",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.8-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\Filesystem\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Filesystem Component",
+        "homepage": "https://symfony.com"
+    },
+    {
+        "name": "symfony/yaml",
+        "version": "v2.8.3",
+        "version_normalized": "2.8.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/yaml.git",
+            "reference": "2a4ee40acb880c56f29fb1b8886e7ffe94f3b995"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/yaml/zipball/2a4ee40acb880c56f29fb1b8886e7ffe94f3b995",
+            "reference": "2a4ee40acb880c56f29fb1b8886e7ffe94f3b995",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.9"
+        },
+        "time": "2016-02-23 07:41:20",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.8-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\Yaml\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Yaml Component",
+        "homepage": "https://symfony.com"
+    },
+    {
+        "name": "dibi/dibi",
+        "version": "v3.0.3",
+        "version_normalized": "3.0.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/dg/dibi.git",
+            "reference": "352a683ec18d026b8010ac842c6fcb960b7e0c33"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/dg/dibi/zipball/352a683ec18d026b8010ac842c6fcb960b7e0c33",
+            "reference": "352a683ec18d026b8010ac842c6fcb960b7e0c33",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.4"
+        },
+        "replace": {
+            "dg/dibi": "self.version"
+        },
+        "require-dev": {
+            "nette/tester": "~1.3",
+            "tracy/tracy": "~2.2"
+        },
+        "time": "2016-02-21 01:07:19",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/"
+            ],
+            "files": [
+                "src/loader.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause",
+            "GPL-2.0",
+            "GPL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "David Grudl",
+                "homepage": "https://davidgrudl.com"
+            }
+        ],
+        "description": "Dibi is Database Abstraction Library for PHP",
+        "homepage": "https://dibiphp.com",
+        "keywords": [
+            "access",
+            "database",
+            "dbal",
+            "mssql",
+            "mysql",
+            "odbc",
+            "oracle",
+            "pdo",
+            "postgresql",
+            "sqlite",
+            "sqlsrv"
+        ]
+    },
+    {
+        "name": "symfony/finder",
+        "version": "v2.8.3",
+        "version_normalized": "2.8.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/finder.git",
+            "reference": "877bb4b16ea573cc8c024e9590888fcf7eb7e0f7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/finder/zipball/877bb4b16ea573cc8c024e9590888fcf7eb7e0f7",
+            "reference": "877bb4b16ea573cc8c024e9590888fcf7eb7e0f7",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.9"
+        },
+        "time": "2016-02-22 16:12:45",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.8-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\Finder\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Finder Component",
+        "homepage": "https://symfony.com"
     }
 ]

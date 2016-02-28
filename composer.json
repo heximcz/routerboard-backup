@@ -28,7 +28,8 @@
 				"src/Routerboard/BackupFilesystem",
 				"src/Routerboard/GitLab",
 				"src/Routerboard/SecureConnector",
-				"src/Routerboard/Validators"
+				"src/Routerboard/Validators",
+				"src/Routerboard/InputParser"
 			],
 			"Src\\Adapters\\" : "src/Adapters"
 		}

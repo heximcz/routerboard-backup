@@ -12,7 +12,7 @@ return array(
     'Symfony\\Component\\Finder\\' => array($vendorDir . '/symfony/finder'),
     'Symfony\\Component\\Filesystem\\' => array($vendorDir . '/symfony/filesystem'),
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
-    'Src\\RouterBoard\\' => array($baseDir . '/src/Routerboard', $baseDir . '/src/Routerboard/BackupFilesystem', $baseDir . '/src/Routerboard/GitLab', $baseDir . '/src/Routerboard/SecureConnector', $baseDir . '/src/Routerboard/Validators'),
+    'Src\\RouterBoard\\' => array($baseDir . '/src/Routerboard', $baseDir . '/src/Routerboard/BackupFilesystem', $baseDir . '/src/Routerboard/GitLab', $baseDir . '/src/Routerboard/SecureConnector', $baseDir . '/src/Routerboard/Validators', $baseDir . '/src/Routerboard/InputParser'),
     'Src\\Logger\\' => array($baseDir . '/src/Logger'),
     'Src\\Adapters\\' => array($baseDir . '/src/Adapters'),
     'App\\Console\\' => array($baseDir . '/app/Console'),
