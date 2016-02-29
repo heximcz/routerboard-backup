@@ -5,18 +5,23 @@ namespace Src\RouterBoard;
 class IPValidator extends AbstractRouterBoard {
 
 	/**
-	 * Check if string is valid IPv4 address
+	 * Check if string is valid IPv4 address or domain
 	 * @param string $addr
 	 * @return boolean
 	 */
 	public function ipv4validator($addr) {
-		if ( $this->ifDomainName($addr))
-			$addr = gethostbyname( $addr );
-		if ( filter_var ( $addr, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) === false ) {
-			$this->logger->log ( "IPv4 address (domain) '" . $addr . "' is not valid or not exist!", $this->logger->setError() );
+
+		if ( $this->ifDomainName($addr) ) {
+			if ( $this->checkIPAddress( gethostbyname($addr) ) )
+				return true;
+			$this->logger->log ( "Domain: '" . $addr . "' not exist!", $this->logger->setError() );
 			return false;
 		}
-		return true;
+
+		if ( $this->checkIPAddress( $addr ) )
+			return true;
+		$this->logger->log ( "Input string: '" . $addr . "' is not valid IP address!", $this->logger->setError() );
+		return false;
 	}
 	
 	/**
@@ -24,12 +29,16 @@ class IPValidator extends AbstractRouterBoard {
 	 * @param string $domain
 	 * @return boolean
 	 */
-	public function ifDomainName($domain) {
+	protected function ifDomainName($domain) {
 		$validHostnameRegex = "/^[a-zA-Z0-9.\-]{2,256}\.[a-z]{2,6}$/";
-		if ( preg_match($validHostnameRegex, $domain) ) {
+		if ( preg_match( $validHostnameRegex, $domain ) ) {
 			return true;
 		}
 		return false;
 	}
 
+	private function checkIPAddress($addr) {
+		return filter_var ( $addr, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 );
+	}
+	
 }
