@@ -2,7 +2,6 @@
 
 namespace Src\RouterBoard;
 
-//use Src\RouterBoard\IPValidator;
 use Src\RouterBoard\SSHConnector;
 use Src\RouterBoard\InputParser;
 use Exception;
