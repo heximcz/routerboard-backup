@@ -33,8 +33,8 @@ class CliRouterBoardModify extends Command {
 				'<comment>-> add one router to backup list.</comment>'
 				)
 		->addUsage(
-				'addnew -i 192.168.1.1 -i 192.168.1.2 -i 192.168.1.3 -i 192.168.1.4 ' .
-				'<comment>-> multiple add new IP to backup list.</comment>'
+				'addnew -i 192.168.1.1:2134 -i 192.168.1.2 -i 192.168.1.3 -i 192.168.1.4:1999 ' .
+				'<comment>-> multiple add new IP to backup list with override default port from config file.</comment>'
 				)
 		->addUsage(
 				'update -i 192.168.1.1 -i 192.168.1.2 ' .

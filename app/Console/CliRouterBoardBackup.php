@@ -35,8 +35,8 @@ class CliRouterBoardBackup extends Command {
 				'<comment>-> backup one router.</comment>'
 				)
 		->addUsage(
-				'-i 192.168.1.1 -i 192.168.1.2 ' .
-				'<comment>-> backup more routers.</comment>'
+				'-i 192.168.1.1 -i 192.168.1.2:2345 ' .
+				'<comment>-> backup more routers with override default port from config file.</comment>'
 				)
 				
 		;
