@@ -14,8 +14,10 @@ class InputParserTest extends RBCaseTest {
 				2 => '192.168.1.1:2575'
 		);
 		$inputParser = new InputParser( self::$config, new OutputLogger( new NullOutput() ), $input );
-		$this->assertArrayHasKey( 'addr', $inputParser->getAddr() );
-		$this->assertArrayHasKey( 'port', $inputParser->getAddr() );
+		foreach ( $inputParser->getAddr() as $key ) {
+			$this->assertArrayHasKey( 'addr', $key );
+			$this->assertArrayHasKey( 'port', $key );
+		}
 	}
 
 	public function testInputParserError() {
