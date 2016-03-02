@@ -4,31 +4,34 @@ namespace Src\Adapters;
 interface IAdapter{
 	/**
 	 * Get all IP address and identity from db
-	 * @return array|bool
+	 * @return mixed (array, false)
 	 */
 	public function getIP();
 	
 	/**
 	 * Get one IP address and identity from db
-	 * @return array|bool
+	 * @return mixed (array, false)
 	 */
 	public function getOneIP($addr);
 	
 	/**
 	 * Save new IP to db
-	 * @param array of IP address
+	 * @param string $addr
+	 * @param integer $port
+	 * @param string $identity
 	 * @return boolean
 	 */
-	public function addIP($addr,$identity);
+	public function addIP($addr,$port,$identity);
 	
 	/**
 	 * Update IP in db
 	 * @param string $oldIP
 	 * @param string $newIP
-	 * @param string RouterBoard Identity
+	 * @param integer $newPort
+	 * @param string $identity
 	 * @return boolean
 	 */
-	public function updateIP($oldAddr,$newAddr,$identity);
+	public function updateIP($oldAddr,$newAddr,$newPort,$identity);
 	
 	/**
 	 * Delete IP from db

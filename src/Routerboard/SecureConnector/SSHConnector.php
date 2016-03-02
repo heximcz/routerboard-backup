@@ -15,10 +15,10 @@ class SSHConnector extends AbstractRouterBoard {
 	 * @param ip $addr
 	 * @return mixed (false or identity of the router)
 	 */
-	public function createBackupAccount($addr) {
+	public function createBackupAccount($addr, $port) {
 		$bcpuser = $this->config['routerboard']['backupuser'];
 		$keyname = 'id_rsa-backup-user.pub';
-		if ( $ssh = $this->sshConnect($addr, false) ) {
+		if ( $ssh = $this->sshConnect($addr, $port, false) ) {
 			$scp = new SCP($ssh);
 			if ( !$scp->put($keyname, 
 					$this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub', SCP::SOURCE_LOCAL_FILE) ) {
@@ -55,10 +55,10 @@ class SSHConnector extends AbstractRouterBoard {
 	 * @param string $identity of the routerboard
 	 * @return boolean
 	 */
-	public function getBackupFile($addr, $filename, $folder, $identity) {
+	public function getBackupFile($addr, $port, $filename, $folder, $identity) {
 		$user = $this->config['routerboard']['backupuser'];
-		$msg = 'Connect to the: ' . $user . "@" . $addr . ":" .  $this->config['routerboard']['ssh-port'] . ' has been ';
-		if ( $ssh = $this->sshConnect($addr, true) ) {
+		$msg = 'Connect to the: ' . $user . "@" . $addr . ":" .  $port . ' has been ';
+		if ( $ssh = $this->sshConnect($addr, $port, true) ) {
 			$this->logger->log( $msg . 'successfully.' );
 			// remove old backup files
 			$ssh->exec( 'file remove [/file find where name~"' . $user . '-"]' );
@@ -88,9 +88,9 @@ class SSHConnector extends AbstractRouterBoard {
 	 * @param bool $type - connect via user&rsakey(true), user&password(false)
 	 * @return mixed object | false
 	 */
-	protected function sshConnect($addr, $type) {
+	protected function sshConnect($addr, $port, $type) {
 		set_error_handler( array( $this, "myErrorHandler" ), E_ALL );
-		$ssh = new SSH2( $addr, $this->config['routerboard']['ssh-port'] );
+		$ssh = new SSH2( $addr, $port );
 		// user&password
 		$ssh->setWindowSize(1024,768);
 		if ( !$type && $ssh->login( $this->config['routerboard']['rblogin'], $this->config['routerboard']['rbpasswd'] ))

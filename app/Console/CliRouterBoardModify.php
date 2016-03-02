@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\ArrayInput;
 use Src\RouterBoard\RouterBoardMod;
 use Src\RouterBoard\SecureTools;
+use Src\RouterBoard\InputParser;
 use Src\Logger\OutputLogger;
 
 class CliRouterBoardModify extends Command {
@@ -58,21 +59,22 @@ class CliRouterBoardModify extends Command {
 		}
 		$logger = new OutputLogger ( $output );
 		$rbmod  = new RouterBoardMod( $this->config, $logger );
+		$iparse = new InputParser( $this->config, $logger, $input->getOption( 'addr' ) );
 		$action = $input->getArgument ( 'action' );
 		switch ($action) {
 			case "addnew":
 				$logger->log ( "Action: Add a new router/s to backup list." );
 				$rsa = new SecureTools( $this->config, $logger );
 				$rsa->checkRSA();
-				$rbmod->addNewIP( $input->getOption ( 'addr' ) );
+				$rbmod->addNewIP( $iparse );
 				break;
 			case "delete":
 				$logger->log ( "Action: Delete a router/s from backup list." );
-				$rbmod->deleteIP( $input->getOption ( 'addr' ) );
+				$rbmod->deleteIP( $iparse );
 				break;
 			case "update":
 				$logger->log ( "Action: Update a router ip address in backup list." );
-				$rbmod->updateIP( $input->getOption ( 'addr' ) );
+				$rbmod->updateIP( $iparse );
 				break;
 			default:
 				$this->defaultHelp($output);
