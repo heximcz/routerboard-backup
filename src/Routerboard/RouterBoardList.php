@@ -11,7 +11,7 @@ class RouterBoardList extends AbstractRouterBoard {
 		$dbconnect = new $this->config['database']['data-adapter']($this->config, $this->logger);
 		if ( $result = $dbconnect->getIP() ) {
 			foreach ($result as $data) {
-				$this->logger->log( $data['identity'] . ' - ' . $data['addr'], $this->logger->setNotice() );
+				$this->logger->log( $data['identity'] . ' - ' . $data['addr'] . ':' . $data['port'], $this->logger->setNotice() );
 			}
 			return;
 		}
