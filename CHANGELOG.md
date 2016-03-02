@@ -1,5 +1,11 @@
 # Change Log
 
+##[0.9.0](https://github.com/heximcz/routerboard-backup/releases/tag/0.9.0)
+- NEW: support for override default SSH port from config.yml
+- fixed some comments of methods
+- fixed some camelCase variables
+- IMPORTANT: added new column in database for SSH port ('port' smallint(5) UNSIGNED DEFAULT NULL)
+
 ##[0.8.3](https://github.com/heximcz/routerboard-backup/releases/tag/0.8.3)
 - fixed better search in the large number of projects. A big thank you to [pcdog](https://github.com/heximcz/routerboard-backup/issues/2) for help.
 - fixed check project id without group
