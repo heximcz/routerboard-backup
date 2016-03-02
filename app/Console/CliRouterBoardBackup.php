@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\ArrayInput;
 use Src\Logger\OutputLogger;
 use Src\RouterBoard\RouterBoardBackup;
+use Src\RouterBoard\InputParser;
 
 class CliRouterBoardBackup extends Command {
 
@@ -44,6 +45,7 @@ class CliRouterBoardBackup extends Command {
 	protected function execute( InputInterface $input, OutputInterface $output ) {
 		$logger = new OutputLogger ( $output );
 		$rbackup  = new RouterBoardBackup( $this->config, $logger );
+		$iparse = new InputParser( $this->config, $logger, $input->getOption( 'addr' ) );
 		$action = $input->getArgument ( 'action' );
 		switch ($action) {
 			case "backup":
@@ -53,7 +55,7 @@ class CliRouterBoardBackup extends Command {
 					break;
 				}
 				$logger->log ( "Action: Backup one or more routers from input." );
-				$rbackup->backupOneRouterBoard( $input->getOption ( 'addr' ) );
+				$rbackup->backupOneRouterBoard( $iparse );
 				break;
 			default:
 				$this->defaultHelp($output);

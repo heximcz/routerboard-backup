@@ -2,6 +2,8 @@
 
 namespace Src\RouterBoard;
 
+use Src\RouterBoard\InputParser;
+
 interface IRouterBoardBackup {
 	
 	/**
@@ -13,6 +15,6 @@ interface IRouterBoardBackup {
 	 * Backup selected IP addresses
 	 * @param array $addr
 	 */
-	public function backupOneRouterBoard(array $addr);
+	public function backupOneRouterBoard(InputParser $input);
 
 }

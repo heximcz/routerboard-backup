@@ -3,6 +3,8 @@
 namespace Src\RouterBoard;
 
 use Src\RouterBoard\SSHConnector;
+use Src\RouterBoard\InputParser;
+use Exception;
 
 class RouterBoardBackup extends AbstractRouterBoard implements IRouterBoardBackup {
 	
@@ -24,7 +26,7 @@ class RouterBoardBackup extends AbstractRouterBoard implements IRouterBoardBacku
 	public function backupAllRouterBoards() {
 		if ( $result = $this->dbconnect->getIP() ) {
 			foreach ($result as $data) {
-				$this->goBackup( $data['addr'], $data['identity'] );
+				$this->goBackup( $data['addr'], $data['port'], $data['identity'] );
 			}
 			return;
 		}
@@ -35,20 +37,23 @@ class RouterBoardBackup extends AbstractRouterBoard implements IRouterBoardBacku
 	/**
 	 * @see \Src\RouterBoard\IRouterBoardBackup::backupOneRouterBoard()
 	 */
-	public function backupOneRouterBoard(array $addr) {
-		foreach ($addr as $ip) {
-			if ( $this->dbconnect->checkExistIP($ip) ) {
-				$data = $this->dbconnect->getOneIP($ip);
-				$this->goBackup( $data[0]['addr'], $data[0]['identity'] );
+	public function backupOneRouterBoard(InputParser $input) {
+		if ( !$inputArray = $input->getAddr() )
+			throw new Exception("Input array is empty!");
+		
+		foreach ($inputArray as $ipAddr) {
+			if ( $this->dbconnect->checkExistIP( $ipAddr['addr'] ) ) {
+				$data = $this->dbconnect->getOneIP( $ipAddr['addr'] );
+				$this->goBackup( $data[0]['addr'], $data[0]['port'], $data[0]['identity'] );
 				continue;
 			}
-			$this->logger->log('IP addresses: ' . $ip . ' does not exist in the database! Add this IP address first.', $this->logger->setError() );
+			$this->logger->log('IP addresses: ' . $ipAddr['addr'] . ' does not exist in the database! Add this IP address first.', $this->logger->setError() );
 		}
 		$this->sendMail();
 	}
 
-	private function goBackup($addr, $identity) {
-		if ( $this->ssh->getBackupFile( $addr, $this->filename, $this->config['system']['backupdir'], $identity ) ) {
+	private function goBackup($addr, $port, $identity) {
+		if ( $this->ssh->getBackupFile( $addr, $port, $this->filename, $this->config['system']['backupdir'], $identity ) ) {
 			$this->logger->log( "Backup of the router " . $addr . " has been sucessfully." );
 			$this->dbconnect->updateBackupTime( $addr );
 			return;
