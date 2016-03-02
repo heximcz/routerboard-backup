@@ -25,7 +25,7 @@ class InputParserTest extends RBCaseTest {
 		$input = array(
 				0 => '10.17.254.300',
 				1 => '10.10.10.300',
-				2 => '192.168.1.300:2575'
+				2 => '192.168.1.1:90750'
 		);
 		$inputParser = new InputParser( self::$config, new OutputLogger( new NullOutput() ), $input );
 		$this->assertFalse( $inputParser->getAddr() );
