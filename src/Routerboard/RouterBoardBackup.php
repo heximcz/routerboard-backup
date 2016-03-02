@@ -26,7 +26,11 @@ class RouterBoardBackup extends AbstractRouterBoard implements IRouterBoardBacku
 	public function backupAllRouterBoards() {
 		if ( $result = $this->dbconnect->getIP() ) {
 			foreach ($result as $data) {
-				$this->goBackup( $data['addr'], $data['port'], $data['identity'] );
+				if ( !is_null($data['port']) ) {
+					$this->goBackup( $data['addr'], $data['port'], $data['identity'] );
+					continue;
+				}
+				$this->goBackup( $data['addr'], $this->config['routerboard']['ssh-port'], $data['identity'] );
 			}
 			return;
 		}
