@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Src\Logger\OutputLogger;
 use Src\RouterBoard\RouterBoardGitLab;
+use Src\RouterBoard\InputParser;
 
 class CliRouterBoardGitLab extends Command {
 
@@ -52,7 +53,7 @@ class CliRouterBoardGitLab extends Command {
 					break;
 				}
 				$logger->log ( "Action: Backup one or more routers from input to GitLab." );
-				$gitlab->backupOneRouterBoard( $input->getOption ( 'addr' ) );
+				$gitlab->backupOneRouterBoard( new InputParser( $this->config, $logger, $input->getOption( 'addr' ) ) );
 				break;
 			default:
 				$command = $this->getApplication()->get('help');

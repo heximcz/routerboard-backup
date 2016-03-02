@@ -4,6 +4,7 @@ namespace Src\RouterBoard;
 
 use Src\RouterBoard\GitLabAPI;
 use Src\RouterBoard\SSHConnector;
+use Src\RouterBoard\InputParser;
 use Exception;
 
 class RouterBoardGitLab extends AbstractRouterBoard  implements IRouterBoardBackup {
@@ -40,7 +41,7 @@ class RouterBoardGitLab extends AbstractRouterBoard  implements IRouterBoardBack
 		if ( $result = $this->dbconnect->getIP() ) {
 			foreach ($result as $data) {
 				// get backup file from routerboard
-				if ( $this->ssh->getBackupFile($data['addr'], $this->rootdir, $this->folder, $data['identity']) ) {
+				if ( $this->ssh->getBackupFile($data['addr'], $data['port'], $this->rootdir, $this->folder, $data['identity']) ) {
 					// push both to the repository
 					$this->doGitLabPush( $data['addr'], $data['identity'], 'backup', 'base64');
 					$this->doGitLabPush( $data['addr'], $data['identity'], 'rsc', 'text');
@@ -58,11 +59,14 @@ class RouterBoardGitLab extends AbstractRouterBoard  implements IRouterBoardBack
 	/**
 	 * @see \Src\RouterBoard\IRouterBoardBackup::backupOneRouterBoard()
 	 */
-	public function backupOneRouterBoard(array $addr) {
-		foreach ($addr as $ip) {
-			if ( $this->dbconnect->checkExistIP($ip) ) {
-				$data = $this->dbconnect->getOneIP($ip);
-				if ( $this->ssh->getBackupFile($data[0]['addr'], $this->rootdir, $this->folder, $data[0]['identity']) ) {
+	public function backupOneRouterBoard(InputParser $input) {
+		if ( !$inputArray = $input->getAddr() )
+			throw new Exception("Input array is empty!");
+		
+		foreach ($inputArray as $ipAddr) {
+			if ( $this->dbconnect->checkExistIP($ipAddr['addr']) ) {
+				$data = $this->dbconnect->getOneIP($ipAddr['addr']);
+				if ( $this->ssh->getBackupFile($data[0]['addr'], $data[0]['port'], $this->rootdir, $this->folder, $data[0]['identity']) ) {
 					// push both to the repository
 					$this->doGitLabPush( $data[0]['addr'], $data[0]['identity'], 'backup', 'base64');
 					$this->doGitLabPush( $data[0]['addr'], $data[0]['identity'], 'rsc', 'text');
@@ -71,7 +75,7 @@ class RouterBoardGitLab extends AbstractRouterBoard  implements IRouterBoardBack
 					continue;
 				}
 			}
-			$this->logger->log('IP addresses: ' . $ip . ' does not exist in the database! Add this IP address first.', $this->logger->setError() );
+			$this->logger->log('IP addresses: ' . $ipAddr['addr'] . ' does not exist in the database! Add this IP address first.', $this->logger->setError() );
 		}
 		$this->sendMail();
 	}
