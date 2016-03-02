@@ -30,7 +30,8 @@ abstract class RBCaseTest extends \PHPUnit_Framework_TestCase {
 		self::$db->query ( "CREATE TABLE IF NOT EXISTS [routers] (
   					[id] int(11) NOT NULL AUTO_INCREMENT,
   					[addr] char(15) COLLATE utf8_bin NOT NULL,
-  					[identity] varchar(255) COLLATE utf8_bin DEFAULT NULL,
+					[port] smallint(5) UNSIGNED DEFAULT NULL,
+					[identity] varchar(255) COLLATE utf8_bin DEFAULT NULL,
   					[created] datetime NOT NULL,
   					[modify] datetime DEFAULT NULL,
   					[lastbackup] datetime DEFAULT NULL,
