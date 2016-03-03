@@ -31,7 +31,7 @@ PHP > 5.6.x
 * Create standard .backup and .rsc backup files in the form of a script.
 * Your backups are stored on a local disk to the directories; each have in their name an identity and IP address of the backed-up device.
 * Your backups on the local disk are automatically replaced with the current backup. Only the last five backups remain. You will never have a full disk, even after many years to come.
-* If an error occurs while backing up, an email will be sent automatically .
+* If an error occurs while backing up, an email will be sent automatically.
 
 ## Recommended
 * ~~For this backup system we recommend version **RouterOS 6.32.3**, because new versions have some problems with file transfer via SCP.~~
@@ -143,4 +143,4 @@ add this line to your /etc/crontab: (backup of all in database one per week to G
 
 ## License
 
-MIT
+[MIT](https://github.com/heximcz/routerboard-backup/blob/master/LICENSE.md)
