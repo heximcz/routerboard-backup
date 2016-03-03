@@ -6,6 +6,7 @@ use Gitlab\Client;
 use Gitlab\Api\Projects;
 use Gitlab\Api\Groups;
 use Gitlab\Model\Project;
+use Exception;
 
 class GitLabAPI extends AbstractRouterBoard {
 	
@@ -50,6 +51,7 @@ class GitLabAPI extends AbstractRouterBoard {
 	 * @return boolean
 	 */
 	public function checkProjectName() {
+		$this->checkUserName( $this->config['gitlab']['username'] );
 		$project = new Projects( $this->client );
 		$arrProjects = $project->search( $this->config['gitlab']['project-name'], 1, 1000, 'path');
 		if ( $this->idgroup ) {
@@ -153,6 +155,20 @@ class GitLabAPI extends AbstractRouterBoard {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Check if username is email 
+	 * @param string $userName
+	 * @return bool true if not, else
+	 * @throws Exception
+	 */
+	private function checkUserName($userName) {
+		if ( !filter_var($userName, FILTER_VALIDATE_EMAIL) === false ) {
+  			throw new Exception("Email in gitlab/username is not allowed! Set your real username.");
+  			return false;
+		}
+		return true;
 	}
 
 }

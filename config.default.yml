@@ -9,7 +9,7 @@ system:
 gitlab:
     # gitlab api url - like this: http://git.your-domain.com/api/v3/ (required)
     url: ''
-    # gitlab username (required)
+    # gitlab username (required) - email as username is not allowed
     username: ''
     # gitlab project name (required)
     project-name: 'rbackup'
