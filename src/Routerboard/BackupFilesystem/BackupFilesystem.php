@@ -4,6 +4,7 @@ namespace Src\RouterBoard;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
+use Exception;
 
 class BackupFilesystem extends AbstractRouterBoard implements IBackupFilesystem {
 	
@@ -12,7 +13,7 @@ class BackupFilesystem extends AbstractRouterBoard implements IBackupFilesystem 
 	 */
 	public function rotateBackupFiles($directory, $extension, $rotate) {
 		if ( $rotate < 5 )
-			throw new \Exception("Parameter 'backup-rotate' is too small. Minimum is 5.");
+			throw new Exception("Value of the 'backup-rotate' is too low. Minimum is 5.");
 		$finder = new Finder();
 		$finder
 			->depth('0')
