@@ -1,15 +1,15 @@
 # Change Log
 
-##0.9.3-dev
+##[0.9.3](https://github.com/heximcz/routerboard-backup/releases/tag/0.9.3)
 - fixed [#3](https://github.com/heximcz/routerboard-backup/issues/3) Email in gitlab/username is not allowed
-- NEW: the number of backups rotation was moved into the config file
+- **NEW:** the number of backups rotation has been moved into the config file (update your config.yml if you need change this value, default is still 5)
 
 
 ##[0.9.2](https://github.com/heximcz/routerboard-backup/releases/tag/0.9.2)
 - fixed when SSH port is NULL in database, use default port from config file
 
 ##0.9.0
-- **NEW** support for override default SSH port from config.yml (-i 192.168.1.1:2345)
+- **NEW:** support for override default SSH port from config.yml (-i 192.168.1.1:2345)
 - update Symfony to 2.8.3
 - update DIBI to 3.0.3
 - fixed some comments of methods
