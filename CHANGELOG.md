@@ -1,9 +1,9 @@
 # Change Log
 
-##[0.9.1](https://github.com/heximcz/routerboard-backup/releases/tag/0.9.1)
-- fixed SSH port is NULL in database, use default port from config file
+##[0.9.2](https://github.com/heximcz/routerboard-backup/releases/tag/0.9.2)
+- fixed when SSH port is NULL in database, use default port from config file
 
-##[0.9.0](https://github.com/heximcz/routerboard-backup/releases/tag/0.9.0)
+##0.9.0
 - **NEW** support for override default SSH port from config.yml (-i 192.168.1.1:2345)
 - update Symfony to 2.8.3
 - update DIBI to 3.0.3
