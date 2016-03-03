@@ -3,7 +3,6 @@
 namespace Src\Adapters;
 
 use Src\Logger\OutputLogger;
-use Src\Logger\ILogger;
 
 abstract class AbstractDataAdapter implements IAdapter{
 	protected $config = array();
