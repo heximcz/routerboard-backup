@@ -10,7 +10,9 @@ class BackupFilesystem extends AbstractRouterBoard implements IBackupFilesystem 
 	/**
 	 * @see \Src\RouterBoard\BackupFilesystem\IBackupFilesystem::fileRotate()
 	 */
-	public function rotateBackupFiles($directory, $extension, $rotate = 5) {
+	public function rotateBackupFiles($directory, $extension, $rotate) {
+		if ( $rotate < 5 )
+			throw new \Exception("Parameter 'backup-rotate' is too small. Minimum is 5.");
 		$finder = new Finder();
 		$finder
 			->depth('0')
@@ -47,7 +49,7 @@ class BackupFilesystem extends AbstractRouterBoard implements IBackupFilesystem 
 		if ( !$bfs->exists( $backupdir ) )
 			$bfs->mkdir( $backupdir, 0700 );
 		$bfs->dumpFile( $backupdir . $filename . '.' . $extension, $content, 0600);
-		$this->rotateBackupFiles($backupdir, $extension);
+		$this->rotateBackupFiles($backupdir, $extension, $this->config['system']['backup-rotate']);
 		return true;
 	}
 	

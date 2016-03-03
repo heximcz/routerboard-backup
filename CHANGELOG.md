@@ -2,6 +2,7 @@
 
 ##0.9.3-dev
 - fixed [#3](https://github.com/heximcz/routerboard-backup/issues/3) Email in gitlab/username is not allowed
+- NEW: the number of backups rotation was moved into the config file
 
 
 ##[0.9.2](https://github.com/heximcz/routerboard-backup/releases/tag/0.9.2)
