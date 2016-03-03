@@ -22,7 +22,8 @@ PHP > 5.6.x
 
 ## Features
 
-* **NEW: Backup to GitLab repository.**
+* **Support for override default SSH port in the config file.** (from v0.9.0)
+* **Backup to GitLab repository.** (from v0.8.0)
 * Auto generate RSA key if it does not exist.
 * Create a new account for backup on a routerboard with a public key.
 * Get routerboard identity and save IP address along with this one to database.

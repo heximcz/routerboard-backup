@@ -1,5 +1,9 @@
 # Change Log
 
+##0.9.3-dev
+- fixed [#3](https://github.com/heximcz/routerboard-backup/issues/3) Email in gitlab/username is not allowed
+
+
 ##[0.9.2](https://github.com/heximcz/routerboard-backup/releases/tag/0.9.2)
 - fixed when SSH port is NULL in database, use default port from config file
 
