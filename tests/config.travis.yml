@@ -4,7 +4,10 @@ system:
     backupdir: '.'
     # where is RSA pub key (if id_rsa and id_rsa.pub files no exist, they will be created auutomaticaly)
     ssh-dir: '.'
+    # backup rotation (how much backup files will be stored for one device in the backupdir, min = 5)
+    backup-rotate: 5
 
+# Save backups to GitLab
 gitlab:
     # gitlab api url - like this: http://git.your-domain.com/api/v3/
     url: ''
@@ -19,6 +22,8 @@ gitlab:
     auth-method: 'http_token'
     # token key - Keep it secret!
     token: ''
+    # debug = 1, default = 0 
+    debug: 0
 
 # Admin routerboard account (this login is used only when you add new router)
 routerboard:
