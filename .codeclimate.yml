@@ -19,4 +19,5 @@ exclude_paths:
   - "composer.lock"
   - "README.md"
   - "LICENSE.md"
+  - "CHANGELOG.md"
   
