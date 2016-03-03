@@ -41,6 +41,8 @@ class RouterBoardGitLab extends AbstractRouterBoard  implements IRouterBoardBack
 		if ( $result = $this->dbconnect->getIP() ) {
 			foreach ($result as $data) {
 				// get backup file from routerboard
+				if ( is_null( $data['port'] ) )
+					$data['port'] = $this->config['routerboard']['ssh-port'];
 				if ( $this->ssh->getBackupFile($data['addr'], $data['port'], $this->rootdir, $this->folder, $data['identity']) ) {
 					// push both to the repository
 					$this->doGitLabPush( $data['addr'], $data['identity'], 'backup', 'base64');
@@ -66,6 +68,8 @@ class RouterBoardGitLab extends AbstractRouterBoard  implements IRouterBoardBack
 		foreach ($inputArray as $ipAddr) {
 			if ( $this->dbconnect->checkExistIP($ipAddr['addr']) ) {
 				$data = $this->dbconnect->getOneIP($ipAddr['addr']);
+				if ( is_null( $data[0]['port'] ) )
+					$data[0]['port'] = $this->config['routerboard']['ssh-port'];
 				if ( $this->ssh->getBackupFile($data[0]['addr'], $data[0]['port'], $this->rootdir, $this->folder, $data[0]['identity']) ) {
 					// push both to the repository
 					$this->doGitLabPush( $data[0]['addr'], $data[0]['identity'], 'backup', 'base64');
