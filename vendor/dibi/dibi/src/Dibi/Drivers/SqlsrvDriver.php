@@ -72,7 +72,7 @@ class SqlsrvDriver implements Dibi\Driver, Dibi\ResultDriver
 			$this->connection = $config['resource'];
 
 		} else {
-			$options = & $config['options'];
+			$options = $config['options'];
 
 			// Default values
 			if (!isset($options['CharacterSet'])) {
@@ -141,7 +141,7 @@ class SqlsrvDriver implements Dibi\Driver, Dibi\ResultDriver
 	 */
 	public function getInsertId($sequence)
 	{
-		$res = sqlsrv_query($this->connection, 'SELECT @@IDENTITY');
+		$res = sqlsrv_query($this->connection, 'SELECT SCOPE_IDENTITY()');
 		if (is_resource($res)) {
 			$row = sqlsrv_fetch_array($res, SQLSRV_FETCH_NUMERIC);
 			return $row[0];
