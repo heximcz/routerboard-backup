@@ -67,7 +67,7 @@ class SecureTools extends AbstractRouterBoard {
 	 * Create backup of the RSA files
 	 * @param string $suffix (if empty, suffix is timestamp)
 	 */
-	private function backupExistRSA($suffix) {
+	private function backupExistRSA($suffix='') {
 		if ( empty($suffix) )
 			$suffix = date( "Ydmhis", time () );
 		if ($this->fsys->exists( $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub' )) {
