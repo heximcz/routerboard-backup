@@ -1,96 +1,5 @@
 [
     {
-        "name": "phpseclib/phpseclib",
-        "version": "2.0.1",
-        "version_normalized": "2.0.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/phpseclib/phpseclib.git",
-            "reference": "ba6fb78f727cd09f2a649113b95468019e490585"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/ba6fb78f727cd09f2a649113b95468019e490585",
-            "reference": "ba6fb78f727cd09f2a649113b95468019e490585",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.3"
-        },
-        "require-dev": {
-            "phing/phing": "~2.7",
-            "phpunit/phpunit": "~4.0",
-            "sami/sami": "~2.0",
-            "squizlabs/php_codesniffer": "~2.0"
-        },
-        "suggest": {
-            "ext-gmp": "Install the GMP (GNU Multiple Precision) extension in order to speed up arbitrary precision integer arithmetic operations.",
-            "ext-libsodium": "SSH2/SFTP can make use of some algorithms provided by the libsodium-php extension.",
-            "ext-mcrypt": "Install the Mcrypt extension in order to speed up a few other cryptographic operations.",
-            "ext-openssl": "Install the OpenSSL extension in order to speed up a wide variety of cryptographic operations."
-        },
-        "time": "2016-01-18 17:07:21",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "phpseclib\\": "phpseclib/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Jim Wigginton",
-                "email": "terrafrost@php.net",
-                "role": "Lead Developer"
-            },
-            {
-                "name": "Patrick Monnerat",
-                "email": "pm@datasphere.ch",
-                "role": "Developer"
-            },
-            {
-                "name": "Andreas Fischer",
-                "email": "bantu@phpbb.com",
-                "role": "Developer"
-            },
-            {
-                "name": "Hans-Jürgen Petrich",
-                "email": "petrich@tronic-media.com",
-                "role": "Developer"
-            },
-            {
-                "name": "Graham Campbell",
-                "email": "graham@alt-three.com",
-                "role": "Developer"
-            }
-        ],
-        "description": "PHP Secure Communications Library - Pure-PHP implementations of RSA, AES, SSH2, SFTP, X.509 etc.",
-        "homepage": "http://phpseclib.sourceforge.net",
-        "keywords": [
-            "BigInteger",
-            "aes",
-            "asn.1",
-            "asn1",
-            "blowfish",
-            "crypto",
-            "cryptography",
-            "encryption",
-            "rsa",
-            "security",
-            "sftp",
-            "signature",
-            "signing",
-            "ssh",
-            "twofish",
-            "x.509",
-            "x509"
-        ]
-    },
-    {
         "name": "kriswallsmith/buzz",
         "version": "v0.15",
         "version_normalized": "0.15.0.0",
@@ -198,68 +107,6 @@
         ]
     },
     {
-        "name": "phpmailer/phpmailer",
-        "version": "v5.2.15",
-        "version_normalized": "5.2.15.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/PHPMailer/PHPMailer.git",
-            "reference": "d0186171b28af4f06ac2ad8a84a8f3d6cbc3ba6c"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/d0186171b28af4f06ac2ad8a84a8f3d6cbc3ba6c",
-            "reference": "d0186171b28af4f06ac2ad8a84a8f3d6cbc3ba6c",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.0.0"
-        },
-        "require-dev": {
-            "phpdocumentor/phpdocumentor": "*",
-            "phpunit/phpunit": "4.7.*"
-        },
-        "suggest": {
-            "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
-        },
-        "time": "2016-05-10 18:39:36",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "class.phpmailer.php",
-                "class.phpmaileroauth.php",
-                "class.phpmaileroauthgoogle.php",
-                "class.smtp.php",
-                "class.pop3.php",
-                "extras/EasyPeasyICS.php",
-                "extras/ntlm_sasl_client.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "LGPL-2.1"
-        ],
-        "authors": [
-            {
-                "name": "Jim Jagielski",
-                "email": "jimjag@gmail.com"
-            },
-            {
-                "name": "Marcus Bointon",
-                "email": "phpmailer@synchromedia.co.uk"
-            },
-            {
-                "name": "Andy Prevost",
-                "email": "codeworxtech@users.sourceforge.net"
-            },
-            {
-                "name": "Brent R. Matzelle"
-            }
-        ],
-        "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
-    },
-    {
         "name": "dibi/dibi",
         "version": "v3.0.4",
         "version_normalized": "3.0.4.0",
@@ -329,57 +176,6 @@
         ]
     },
     {
-        "name": "symfony/finder",
-        "version": "v2.8.6",
-        "version_normalized": "2.8.6.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/finder.git",
-            "reference": "ca24cf2cd4e3826f571e0067e535758e73807aa1"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/symfony/finder/zipball/ca24cf2cd4e3826f571e0067e535758e73807aa1",
-            "reference": "ca24cf2cd4e3826f571e0067e535758e73807aa1",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.9"
-        },
-        "time": "2016-03-10 10:53:53",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.8-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Symfony\\Component\\Finder\\": ""
-            },
-            "exclude-from-classmap": [
-                "/Tests/"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "https://symfony.com/contributors"
-            }
-        ],
-        "description": "Symfony Finder Component",
-        "homepage": "https://symfony.com"
-    },
-    {
         "name": "symfony/polyfill-mbstring",
         "version": "v1.2.0",
         "version_normalized": "1.2.0.0",
@@ -441,24 +237,231 @@
         ]
     },
     {
-        "name": "symfony/yaml",
-        "version": "v2.8.6",
-        "version_normalized": "2.8.6.0",
+        "name": "phpmailer/phpmailer",
+        "version": "v5.2.16",
+        "version_normalized": "5.2.16.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/symfony/yaml.git",
-            "reference": "e4fbcc65f90909c999ac3b4dfa699ee6563a9940"
+            "url": "https://github.com/PHPMailer/PHPMailer.git",
+            "reference": "1d85f9ef3ecfc42bbc4f3c70d5e37ca9a65f629a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/yaml/zipball/e4fbcc65f90909c999ac3b4dfa699ee6563a9940",
-            "reference": "e4fbcc65f90909c999ac3b4dfa699ee6563a9940",
+            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/1d85f9ef3ecfc42bbc4f3c70d5e37ca9a65f629a",
+            "reference": "1d85f9ef3ecfc42bbc4f3c70d5e37ca9a65f629a",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.0.0"
+        },
+        "require-dev": {
+            "phpdocumentor/phpdocumentor": "*",
+            "phpunit/phpunit": "4.7.*"
+        },
+        "suggest": {
+            "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
+        },
+        "time": "2016-06-06 09:09:37",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "class.phpmailer.php",
+                "class.phpmaileroauth.php",
+                "class.phpmaileroauthgoogle.php",
+                "class.smtp.php",
+                "class.pop3.php",
+                "extras/EasyPeasyICS.php",
+                "extras/ntlm_sasl_client.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-2.1"
+        ],
+        "authors": [
+            {
+                "name": "Jim Jagielski",
+                "email": "jimjag@gmail.com"
+            },
+            {
+                "name": "Marcus Bointon",
+                "email": "phpmailer@synchromedia.co.uk"
+            },
+            {
+                "name": "Andy Prevost",
+                "email": "codeworxtech@users.sourceforge.net"
+            },
+            {
+                "name": "Brent R. Matzelle"
+            }
+        ],
+        "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
+    },
+    {
+        "name": "phpseclib/phpseclib",
+        "version": "2.0.2",
+        "version_normalized": "2.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/phpseclib/phpseclib.git",
+            "reference": "3d265f7c079f5b37d33475f996d7a383c5fc8aeb"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/3d265f7c079f5b37d33475f996d7a383c5fc8aeb",
+            "reference": "3d265f7c079f5b37d33475f996d7a383c5fc8aeb",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "require-dev": {
+            "phing/phing": "~2.7",
+            "phpunit/phpunit": "~4.0",
+            "sami/sami": "~2.0",
+            "squizlabs/php_codesniffer": "~2.0"
+        },
+        "suggest": {
+            "ext-gmp": "Install the GMP (GNU Multiple Precision) extension in order to speed up arbitrary precision integer arithmetic operations.",
+            "ext-libsodium": "SSH2/SFTP can make use of some algorithms provided by the libsodium-php extension.",
+            "ext-mcrypt": "Install the Mcrypt extension in order to speed up a few other cryptographic operations.",
+            "ext-openssl": "Install the OpenSSL extension in order to speed up a wide variety of cryptographic operations."
+        },
+        "time": "2016-05-13 01:15:21",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "phpseclib/bootstrap.php"
+            ],
+            "psr-4": {
+                "phpseclib\\": "phpseclib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jim Wigginton",
+                "email": "terrafrost@php.net",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Patrick Monnerat",
+                "email": "pm@datasphere.ch",
+                "role": "Developer"
+            },
+            {
+                "name": "Andreas Fischer",
+                "email": "bantu@phpbb.com",
+                "role": "Developer"
+            },
+            {
+                "name": "Hans-Jürgen Petrich",
+                "email": "petrich@tronic-media.com",
+                "role": "Developer"
+            },
+            {
+                "name": "Graham Campbell",
+                "email": "graham@alt-three.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "PHP Secure Communications Library - Pure-PHP implementations of RSA, AES, SSH2, SFTP, X.509 etc.",
+        "homepage": "http://phpseclib.sourceforge.net",
+        "keywords": [
+            "BigInteger",
+            "aes",
+            "asn.1",
+            "asn1",
+            "blowfish",
+            "crypto",
+            "cryptography",
+            "encryption",
+            "rsa",
+            "security",
+            "sftp",
+            "signature",
+            "signing",
+            "ssh",
+            "twofish",
+            "x.509",
+            "x509"
+        ]
+    },
+    {
+        "name": "symfony/finder",
+        "version": "v2.8.7",
+        "version_normalized": "2.8.7.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/finder.git",
+            "reference": "3ec095fab1800222732ca522a95dce8fa124007b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/finder/zipball/3ec095fab1800222732ca522a95dce8fa124007b",
+            "reference": "3ec095fab1800222732ca522a95dce8fa124007b",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.9"
         },
-        "time": "2016-03-29 19:00:15",
+        "time": "2016-06-06 11:11:27",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.8-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\Finder\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Finder Component",
+        "homepage": "https://symfony.com"
+    },
+    {
+        "name": "symfony/yaml",
+        "version": "v2.8.7",
+        "version_normalized": "2.8.7.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/yaml.git",
+            "reference": "815fabf3f48c7d1df345a69d1ad1a88f59757b34"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/yaml/zipball/815fabf3f48c7d1df345a69d1ad1a88f59757b34",
+            "reference": "815fabf3f48c7d1df345a69d1ad1a88f59757b34",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.9"
+        },
+        "time": "2016-06-06 11:11:27",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -493,17 +496,17 @@
     },
     {
         "name": "symfony/console",
-        "version": "v2.8.6",
-        "version_normalized": "2.8.6.0",
+        "version": "v2.8.7",
+        "version_normalized": "2.8.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/console.git",
-            "reference": "48221d3de4dc22d2cd57c97e8b9361821da86609"
+            "reference": "5ac8bc9aa77bb2edf06af3a1bb6bc1020d23acd3"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/console/zipball/48221d3de4dc22d2cd57c97e8b9361821da86609",
-            "reference": "48221d3de4dc22d2cd57c97e8b9361821da86609",
+            "url": "https://api.github.com/repos/symfony/console/zipball/5ac8bc9aa77bb2edf06af3a1bb6bc1020d23acd3",
+            "reference": "5ac8bc9aa77bb2edf06af3a1bb6bc1020d23acd3",
             "shasum": ""
         },
         "require": {
@@ -520,7 +523,7 @@
             "symfony/event-dispatcher": "",
             "symfony/process": ""
         },
-        "time": "2016-04-26 12:00:47",
+        "time": "2016-06-06 15:06:25",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -555,8 +558,8 @@
     },
     {
         "name": "symfony/filesystem",
-        "version": "v2.8.6",
-        "version_normalized": "2.8.6.0",
+        "version": "v2.8.7",
+        "version_normalized": "2.8.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/filesystem.git",

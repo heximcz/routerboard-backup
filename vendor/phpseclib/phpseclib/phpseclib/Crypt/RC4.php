@@ -44,8 +44,6 @@
 
 namespace phpseclib\Crypt;
 
-use phpseclib\Crypt\Base;
-
 /**
  * Pure-PHP implementation of RC4.
  *
@@ -202,7 +200,7 @@ class RC4 extends Base
         if ($length < 8) {
             $this->key_length = 1;
         } elseif ($length > 2048) {
-            $this->key_length = 248;
+            $this->key_length = 256;
         } else {
             $this->key_length = $length >> 3;
         }
