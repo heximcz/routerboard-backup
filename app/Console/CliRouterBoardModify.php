@@ -13,82 +13,86 @@ use Src\RouterBoard\SecureTools;
 use Src\RouterBoard\InputParser;
 use Src\Logger\OutputLogger;
 
-class CliRouterBoardModify extends Command {
+class CliRouterBoardModify extends Command
+{
 
-	private $config;
+    private $config;
 
-	public function __construct(array $config) {
-		parent::__construct ();
-		$this->config = $config;
-	}
-	
-	protected function configure() {
-		$this
-		->setName ( 'rb:mod' )
-		->setDescription ( 'Mikrotik RouterBoard add/delete/update IP addresses.' )
-		->addArgument ( 'action', InputArgument::OPTIONAL, 'addnew | delete | update', 'addnew' )
-		->addOption ( 'addr', 'i', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'IPv4 address of router.' )
-		->addUsage(
-				'addnew -i 192.168.1.1 ' .
-				'<comment>-> add one router to backup list.</comment>'
-				)
-		->addUsage(
-				'addnew -i 192.168.1.1:2134 -i 192.168.1.2 -i 192.168.1.3 -i 192.168.1.4:1999 ' .
-				'<comment>-> multiple add new IP to backup list with override default port from config file.</comment>'
-				)
-		->addUsage(
-				'update -i 192.168.1.1 -i 192.168.1.2 ' .
-				'<comment>-> change IP from old to new, the order does not matter (only two IP allowed)</comment>'
-				)
-		->addUsage(
-				'delete -i 192.168.1.1 ' .
-				'<comment>-> delete one router from backup list.</comment>'
-				)
-		->addUsage(
-				'delete -i 192.168.1.1 -i 192.168.1.2 -i 192.168.1.3 -i 192.168.1.4 ' .
-				'<comment>-> multiple delete IP from backup list.</comment>'
-				)
-		;
-	}
-	
-	protected function execute( InputInterface $input, OutputInterface $output ) {
-		// Check IP address input option.
-		if ( !$input->getOption ( 'addr' ) ) {
-			$this->defaultHelp($output);
-    		return;
-		}
-		$logger = new OutputLogger ( $output );
-		$rbmod  = new RouterBoardMod( $this->config, $logger );
-		$iparse = new InputParser( $this->config, $logger, $input->getOption( 'addr' ) );
-		$action = $input->getArgument ( 'action' );
-		switch ($action) {
-			case "addnew":
-				$logger->log ( "Action: Add a new router/s to backup list." );
-				$rsa = new SecureTools( $this->config, $logger );
-				$rsa->checkRSA();
-				$rbmod->addNewIP( $iparse );
-				break;
-			case "delete":
-				$logger->log ( "Action: Delete a router/s from backup list." );
-				$rbmod->deleteIP( $iparse );
-				break;
-			case "update":
-				$logger->log ( "Action: Update a router ip address in backup list." );
-				$rbmod->updateIP( $iparse );
-				break;
-			default:
-				$this->defaultHelp($output);
-				break;
-		}
-	}
+    public function __construct(array $config)
+    {
+        parent::__construct();
+        $this->config = $config;
+    }
 
-	/**
-	 * Print help to default otput
-	 * @param $output
-	 */
-	private function defaultHelp($output) {
-		$command = $this->getApplication()->get('help');
-		$command->run(new ArrayInput(['command_name' => $this->getName()]), $output);
-	}
+    protected function configure()
+    {
+        $this
+            ->setName('rb:mod')
+            ->setDescription('Mikrotik RouterBoard add/delete/update IP addresses.')
+            ->addArgument('action', InputArgument::OPTIONAL, 'addnew | delete | update', 'addnew')
+            ->addOption('addr', 'i', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'IPv4 address of router.')
+            ->addUsage(
+                'addnew -i 192.168.1.1 ' .
+                '<comment>-> add one router to backup list.</comment>'
+            )
+            ->addUsage(
+                'addnew -i 192.168.1.1:2134 -i 192.168.1.2 -i 192.168.1.3 -i 192.168.1.4:1999 ' .
+                '<comment>-> multiple add new IP to backup list with override default port from config file.</comment>'
+            )
+            ->addUsage(
+                'update -i 192.168.1.1 -i 192.168.1.2 ' .
+                '<comment>-> change IP from old to new, the order does not matter (only two IP allowed)</comment>'
+            )
+            ->addUsage(
+                'delete -i 192.168.1.1 ' .
+                '<comment>-> delete one router from backup list.</comment>'
+            )
+            ->addUsage(
+                'delete -i 192.168.1.1 -i 192.168.1.2 -i 192.168.1.3 -i 192.168.1.4 ' .
+                '<comment>-> multiple delete IP from backup list.</comment>'
+            );
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        // Check IP address input option.
+        if (!$input->getOption('addr')) {
+            $this->defaultHelp($output);
+            return;
+        }
+        $logger = new OutputLogger ($output);
+        $rbmod = new RouterBoardMod($this->config, $logger);
+        $iparse = new InputParser($this->config, $logger, $input->getOption('addr'));
+        $action = $input->getArgument('action');
+        switch ($action) {
+            case "addnew":
+                $logger->log("Action: Add a new router/s to backup list.");
+                $rsa = new SecureTools($this->config, $logger);
+                $rsa->checkRSA();
+                $rbmod->addNewIP($iparse);
+                break;
+            case "delete":
+                $logger->log("Action: Delete a router/s from backup list.");
+                $rbmod->deleteIP($iparse);
+                break;
+            case "update":
+                $logger->log("Action: Update a router ip address in backup list.");
+                $rbmod->updateIP($iparse);
+                break;
+            default:
+                $this->defaultHelp($output);
+                break;
+        }
+    }
+
+    /**
+     * Print help to default otput
+     * @param $output
+     */
+    private function defaultHelp($output)
+    {
+        $command = $this->getApplication()->get('help');
+        $command->run(new ArrayInput(['command_name' => $this->getName()]), $output);
+    }
 
 }
