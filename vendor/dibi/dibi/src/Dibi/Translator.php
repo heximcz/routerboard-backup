@@ -225,7 +225,7 @@ final class Translator
 				case 'n':  // key, key, ... identifier names
 					foreach ($value as $k => $v) {
 						if (is_string($k)) {
-							$vx[] = $this->identifiers->$k . (empty($v) ? '' : ' AS ' . $this->identifiers->$v);
+							$vx[] = $this->identifiers->$k . (empty($v) ? '' : ' AS ' . $this->driver->escapeIdentifier($v));
 						} else {
 							$pair = explode('%', $v, 2); // split into identifier & modifier
 							$vx[] = $this->identifiers->{$pair[0]};
@@ -380,8 +380,11 @@ final class Translator
 					}
 
 				case 'by':
-				case 'n':  // identifier name
+				case 'n':  // composed identifier name
 					return $this->identifiers->$value;
+
+				case 'N':  // identifier name
+					return $this->driver->escapeIdentifier($value);
 
 				case 'ex':
 				case 'sql': // preserve as dibi-SQL  (TODO: leave only %ex)

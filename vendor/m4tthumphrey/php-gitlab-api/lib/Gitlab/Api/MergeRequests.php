@@ -17,11 +17,12 @@ class MergeRequests extends AbstractApi
      * @param int $per_page
      * @param string $order_by
      * @param string $sort
+     * @param string $object
      * @return mixed
      */
-    public function getList($project_id, $state = self::STATE_ALL, $page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
+    public function getList($project_id, $state = self::STATE_ALL, $page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT, $object = 'merge_requests')
     {
-        return $this->get($this->getProjectPath($project_id, 'merge_requests'), array(
+        return $this->get($this->getProjectPath($project_id, $object), array(
             'page' => $page,
             'per_page' => $per_page,
             'state' => $state,
@@ -147,6 +148,16 @@ class MergeRequests extends AbstractApi
      * @param int $mr_id
      * @return mixed
      */
+    public function showNotes($project_id, $mr_id, $page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = 'desc')
+    {
+        return $this->getList($project_id, null, $page, $per_page, $order_by, $sort, 'merge_requests/'.$this->encodePath($mr_id).'/notes');
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $mr_id
+     * @return mixed
+     */
     public function showComments($project_id, $mr_id)
     {
         return $this->get($this->getProjectPath($project_id, 'merge_request/'.$this->encodePath($mr_id).'/comments'));
@@ -173,5 +184,25 @@ class MergeRequests extends AbstractApi
     public function changes($project_id, $mr_id)
     {
         return $this->get($this->getProjectPath($project_id, 'merge_request/'.$this->encodePath($mr_id).'/changes'));
+    }
+
+    /**
+     * @param $project_id
+     * @param $mr_iid
+     * @return mixed
+     */
+    public function getByIid($project_id, $mr_iid)
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_requests'), array('iid' => $mr_iid));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $mr_id
+     * @return mixed
+     */
+    public function commits($project_id, $mr_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_request/'.$this->encodePath($mr_id).'/commits'));
     }
 }

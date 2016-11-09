@@ -142,6 +142,40 @@ class ProjectsTest extends ApiTestCase
             'issues_enabled' => true
         )));
     }
+    
+    /**
+     * @test
+     */
+    public function shouldArchiveProject()
+    {
+        $expectedArray = array('id' => 1, 'archived' => true);
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/archive')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->archive(1));
+    }
+    
+    /**
+     * @test
+     */
+    public function shouldUnarchiveProject()
+    {
+        $expectedArray = array('id' => 1, 'archived' => false);
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/unarchive')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->unarchive(1));
+    }
 
     /**
      * @test
@@ -177,6 +211,99 @@ class ProjectsTest extends ApiTestCase
         ;
 
         $this->assertEquals($expectedBool, $api->remove(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetBuilds()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'status' => 'success'),
+            array('id' => 2, 'status' => 'failed')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/builds')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->builds(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetBuildsWithScope()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'status' => 'success'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/builds', array('scope' => 'success'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->builds(1, 'success'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetBuildsWithMultipleScopes()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'status' => 'success'),
+            array('id' => 1, 'status' => 'failed'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/builds', array('scope' => array('success', 'failed')))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->builds(1, array('success', 'failed')));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetBuild()
+    {
+        $expectedArray = array('id' => 2);
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/builds/2')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->build(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetTrace()
+    {
+        $expectedString = 'runner trace of a specific build';
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/builds/2/trace')
+            ->will($this->returnValue($expectedString))
+        ;
+
+        $this->assertEquals($expectedString, $api->trace(1, 2));
     }
 
     /**
@@ -482,6 +609,40 @@ class ProjectsTest extends ApiTestCase
     /**
      * @test
      */
+    public function shoudEnableKey()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/keys/3/enable')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->enableKey(1, 3));
+    }
+
+    /**
+     * @test
+     */
+    public function shoudDisableKey()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/keys/3/disable')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->disableKey(1, 3));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetEvents()
     {
         $expectedArray = array(
@@ -662,6 +823,106 @@ class ProjectsTest extends ApiTestCase
         ;
 
         $this->assertEquals($expectedBool, $api->removeService(1, 'hipchat'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetVariables()
+    {
+        $expectedArray = array(
+            array('key' => 'ftp_username', 'value' => 'ftp'),
+            array('key' => 'ftp_password', 'value' => 'somepassword')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/variables')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->variables(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetVariable()
+    {
+        $expectedArray = array('key' => 'ftp_username', 'value' => 'ftp');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/variables/ftp_username')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->variable(1, 'ftp_username'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddVariable()
+    {
+        $expectedKey   = 'ftp_port';
+        $expectedValue = '21';
+
+        $expectedArray = array(
+            'key'   => $expectedKey,
+            'value' => $expectedValue,
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/variables', $expectedArray)
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addVariable(1, $expectedKey, $expectedValue));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateVariable()
+    {
+        $expectedKey   = 'ftp_port';
+        $expectedValue = '22';
+
+        $expectedArray = array(
+            'key'   => 'ftp_port',
+            'value' => '22',
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/variables/'.$expectedKey, array('value' => $expectedValue))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->updateVariable(1, $expectedKey, $expectedValue));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveVariable()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/variables/ftp_password')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->removeVariable(1, 'ftp_password'));
     }
 
     protected function getMultipleProjectsRequestMock($path, $expectedArray = array(), $page = 1, $per_page = 20, $order_by = 'created_at', $sort = 'asc')

@@ -12,6 +12,7 @@ use Gitlab\Client;
  * @property-read string $parent_type
  * @property-read Issue|MergeRequest $parent
  * @property-read string $attachment
+ * @property-read bool $system
  */
 class Note extends AbstractModel
 {
@@ -19,13 +20,15 @@ class Note extends AbstractModel
      * @var array
      */
     protected static $properties = array(
+        'id',
         'author',
         'body',
         'created_at',
         'updated_at',
         'parent_type',
         'parent',
-        'attachment'
+        'attachment',
+        'system'
     );
 
     /**

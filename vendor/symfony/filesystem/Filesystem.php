@@ -283,7 +283,9 @@ class Filesystem
     /**
      * Tells whether a file exists and is readable.
      *
-     * @param string $filename Path to the file.
+     * @param string $filename Path to the file
+     *
+     * @return bool
      *
      * @throws IOException When windows path is longer than 258 characters
      */
@@ -367,10 +369,14 @@ class Filesystem
         }
 
         // Determine how deep the start path is relative to the common path (ie, "web/bundles" = 2 levels)
-        $depth = count($startPathArr) - $index;
+        if (count($startPathArr) === 1 && $startPathArr[0] === '') {
+            $depth = 0;
+        } else {
+            $depth = count($startPathArr) - $index;
+        }
 
         // When we need to traverse from the start, and we are starting from a root path, don't add '../'
-        if ('/' === $startPath[0] && 0 === $index && 1 === $depth) {
+        if ('/' === $startPath[0] && 0 === $index && 0 === $depth) {
             $traverser = '';
         } else {
             // Repeated "../" for each level need to reach the common path
@@ -479,11 +485,11 @@ class Filesystem
     /**
      * Creates a temporary file with support for custom stream wrappers.
      *
-     * @param string $dir    The directory where the temporary filename will be created.
-     * @param string $prefix The prefix of the generated temporary filename.
-     *                       Note: Windows uses only the first three characters of prefix.
+     * @param string $dir    The directory where the temporary filename will be created
+     * @param string $prefix The prefix of the generated temporary filename
+     *                       Note: Windows uses only the first three characters of prefix
      *
-     * @return string The new temporary filename (with path), or throw an exception on failure.
+     * @return string The new temporary filename (with path), or throw an exception on failure
      */
     public function tempnam($dir, $prefix)
     {
@@ -491,7 +497,7 @@ class Filesystem
 
         // If no scheme or scheme is "file" or "gs" (Google Cloud) create temp file in local filesystem
         if (null === $scheme || 'file' === $scheme || 'gs' === $scheme) {
-            $tmpFile = tempnam($hierarchy, $prefix);
+            $tmpFile = @tempnam($hierarchy, $prefix);
 
             // If tempnam failed or no scheme return the filename otherwise prepend the scheme
             if (false !== $tmpFile) {
@@ -531,8 +537,8 @@ class Filesystem
     /**
      * Atomically dumps content into a file.
      *
-     * @param string   $filename The file to be written to.
-     * @param string   $content  The data to write into the file.
+     * @param string   $filename The file to be written to
+     * @param string   $content  The data to write into the file
      * @param null|int $mode     The file mode (octal). If null, file permissions are not modified
      *                           Deprecated since version 2.3.12, to be removed in 3.0.
      *
@@ -581,7 +587,7 @@ class Filesystem
     /**
      * Gets a 2-tuple of scheme (may be null) and hierarchical part of a filename (e.g. file:///tmp -> array(file, tmp)).
      *
-     * @param string $filename The filename to be parsed.
+     * @param string $filename The filename to be parsed
      *
      * @return array The filename scheme and hierarchical part
      */

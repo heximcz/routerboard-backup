@@ -50,132 +50,6 @@
         ]
     },
     {
-        "name": "m4tthumphrey/php-gitlab-api",
-        "version": "7.13.0",
-        "version_normalized": "7.13.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/m4tthumphrey/php-gitlab-api.git",
-            "reference": "65dc67929188f26e2059e99deb56e9c5608232b5"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/m4tthumphrey/php-gitlab-api/zipball/65dc67929188f26e2059e99deb56e9c5608232b5",
-            "reference": "65dc67929188f26e2059e99deb56e9c5608232b5",
-            "shasum": ""
-        },
-        "require": {
-            "ext-curl": "*",
-            "kriswallsmith/buzz": ">=0.7",
-            "php": ">=5.3.2"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "~4.5"
-        },
-        "time": "2015-07-28 11:27:19",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Gitlab\\": "lib/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Thibault Duplessis",
-                "email": "thibault.duplessis@gmail.com",
-                "homepage": "http://ornicar.github.com"
-            },
-            {
-                "name": "KnpLabs Team",
-                "homepage": "http://knplabs.com"
-            },
-            {
-                "name": "Matt Humphrey",
-                "homepage": "http://m4tt.io"
-            }
-        ],
-        "description": "GitLab API client",
-        "homepage": "https://github.com/m4tthumphrey/php-gitlab-api",
-        "keywords": [
-            "api",
-            "gitlab"
-        ]
-    },
-    {
-        "name": "dibi/dibi",
-        "version": "v3.0.4",
-        "version_normalized": "3.0.4.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/dg/dibi.git",
-            "reference": "4e838fc2b5cc1eca5425e6a0c70490bd67cef596"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/dg/dibi/zipball/4e838fc2b5cc1eca5425e6a0c70490bd67cef596",
-            "reference": "4e838fc2b5cc1eca5425e6a0c70490bd67cef596",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.4.4"
-        },
-        "replace": {
-            "dg/dibi": "self.version"
-        },
-        "require-dev": {
-            "nette/tester": "~1.3",
-            "tracy/tracy": "~2.2"
-        },
-        "time": "2016-04-06 17:09:24",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "3.0-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "src/"
-            ],
-            "files": [
-                "src/loader.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "BSD-3-Clause",
-            "GPL-2.0",
-            "GPL-3.0"
-        ],
-        "authors": [
-            {
-                "name": "David Grudl",
-                "homepage": "https://davidgrudl.com"
-            }
-        ],
-        "description": "Dibi is Database Abstraction Library for PHP",
-        "homepage": "https://dibiphp.com",
-        "keywords": [
-            "access",
-            "database",
-            "dbal",
-            "mssql",
-            "mysql",
-            "odbc",
-            "oracle",
-            "pdo",
-            "postgresql",
-            "sqlite",
-            "sqlsrv"
-        ]
-    },
-    {
         "name": "symfony/polyfill-mbstring",
         "version": "v1.2.0",
         "version_normalized": "1.2.0.0",
@@ -299,18 +173,87 @@
         "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
     },
     {
-        "name": "phpseclib/phpseclib",
-        "version": "2.0.2",
-        "version_normalized": "2.0.2.0",
+        "name": "dibi/dibi",
+        "version": "v3.0.6",
+        "version_normalized": "3.0.6.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/phpseclib/phpseclib.git",
-            "reference": "3d265f7c079f5b37d33475f996d7a383c5fc8aeb"
+            "url": "https://github.com/dg/dibi.git",
+            "reference": "9b070bb7378b867c8963fd5ce780b3b71ec1f85b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/3d265f7c079f5b37d33475f996d7a383c5fc8aeb",
-            "reference": "3d265f7c079f5b37d33475f996d7a383c5fc8aeb",
+            "url": "https://api.github.com/repos/dg/dibi/zipball/9b070bb7378b867c8963fd5ce780b3b71ec1f85b",
+            "reference": "9b070bb7378b867c8963fd5ce780b3b71ec1f85b",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.4"
+        },
+        "replace": {
+            "dg/dibi": "*"
+        },
+        "require-dev": {
+            "nette/tester": "~1.7",
+            "tracy/tracy": "~2.2"
+        },
+        "time": "2016-07-31 14:50:07",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/"
+            ],
+            "files": [
+                "src/loader.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause",
+            "GPL-2.0",
+            "GPL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "David Grudl",
+                "homepage": "https://davidgrudl.com"
+            }
+        ],
+        "description": "Dibi is Database Abstraction Library for PHP",
+        "homepage": "https://dibiphp.com",
+        "keywords": [
+            "access",
+            "database",
+            "dbal",
+            "mssql",
+            "mysql",
+            "odbc",
+            "oracle",
+            "pdo",
+            "postgresql",
+            "sqlite",
+            "sqlsrv"
+        ]
+    },
+    {
+        "name": "phpseclib/phpseclib",
+        "version": "2.0.4",
+        "version_normalized": "2.0.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/phpseclib/phpseclib.git",
+            "reference": "ab8028c93c03cc8d9c824efa75dc94f1db2369bf"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/ab8028c93c03cc8d9c824efa75dc94f1db2369bf",
+            "reference": "ab8028c93c03cc8d9c824efa75dc94f1db2369bf",
             "shasum": ""
         },
         "require": {
@@ -328,7 +271,7 @@
             "ext-mcrypt": "Install the Mcrypt extension in order to speed up a few other cryptographic operations.",
             "ext-openssl": "Install the OpenSSL extension in order to speed up a wide variety of cryptographic operations."
         },
-        "time": "2016-05-13 01:15:21",
+        "time": "2016-10-04 00:57:04",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -394,23 +337,23 @@
     },
     {
         "name": "symfony/finder",
-        "version": "v2.8.7",
-        "version_normalized": "2.8.7.0",
+        "version": "v2.8.13",
+        "version_normalized": "2.8.13.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/finder.git",
-            "reference": "3ec095fab1800222732ca522a95dce8fa124007b"
+            "reference": "bc24c8f5674c6f6841f2856b70e5d60784be5691"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/finder/zipball/3ec095fab1800222732ca522a95dce8fa124007b",
-            "reference": "3ec095fab1800222732ca522a95dce8fa124007b",
+            "url": "https://api.github.com/repos/symfony/finder/zipball/bc24c8f5674c6f6841f2856b70e5d60784be5691",
+            "reference": "bc24c8f5674c6f6841f2856b70e5d60784be5691",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.9"
         },
-        "time": "2016-06-06 11:11:27",
+        "time": "2016-09-28 00:10:16",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -444,34 +387,149 @@
         "homepage": "https://symfony.com"
     },
     {
-        "name": "symfony/yaml",
-        "version": "v2.8.7",
-        "version_normalized": "2.8.7.0",
+        "name": "m4tthumphrey/php-gitlab-api",
+        "version": "7.15.0",
+        "version_normalized": "7.15.0.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/symfony/yaml.git",
-            "reference": "815fabf3f48c7d1df345a69d1ad1a88f59757b34"
+            "url": "https://github.com/m4tthumphrey/php-gitlab-api.git",
+            "reference": "4c934c61e8d17db0d19a0679006a7b5fcb86e90c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/yaml/zipball/815fabf3f48c7d1df345a69d1ad1a88f59757b34",
-            "reference": "815fabf3f48c7d1df345a69d1ad1a88f59757b34",
+            "url": "https://api.github.com/repos/m4tthumphrey/php-gitlab-api/zipball/4c934c61e8d17db0d19a0679006a7b5fcb86e90c",
+            "reference": "4c934c61e8d17db0d19a0679006a7b5fcb86e90c",
             "shasum": ""
         },
         "require": {
-            "php": ">=5.3.9"
+            "ext-curl": "*",
+            "ext-xml": "*",
+            "kriswallsmith/buzz": ">=0.7",
+            "php": ">=5.3.2"
         },
-        "time": "2016-06-06 11:11:27",
+        "require-dev": {
+            "phpunit/phpunit": "~4.5"
+        },
+        "time": "2016-10-03 18:13:47",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Gitlab\\": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Thibault Duplessis",
+                "email": "thibault.duplessis@gmail.com",
+                "homepage": "http://ornicar.github.com"
+            },
+            {
+                "name": "KnpLabs Team",
+                "homepage": "http://knplabs.com"
+            },
+            {
+                "name": "Matt Humphrey",
+                "homepage": "http://m4tt.io"
+            }
+        ],
+        "description": "GitLab API client",
+        "homepage": "https://github.com/m4tthumphrey/php-gitlab-api",
+        "keywords": [
+            "api",
+            "gitlab"
+        ]
+    },
+    {
+        "name": "psr/log",
+        "version": "1.0.2",
+        "version_normalized": "1.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/log.git",
+            "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+            "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2016-10-10 12:19:37",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.8-dev"
+                "dev-master": "1.0.x-dev"
             }
         },
         "installation-source": "dist",
         "autoload": {
             "psr-4": {
-                "Symfony\\Component\\Yaml\\": ""
+                "Psr\\Log\\": "Psr/Log/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common interface for logging libraries",
+        "homepage": "https://github.com/php-fig/log",
+        "keywords": [
+            "log",
+            "psr",
+            "psr-3"
+        ]
+    },
+    {
+        "name": "symfony/debug",
+        "version": "v3.0.9",
+        "version_normalized": "3.0.9.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/debug.git",
+            "reference": "697c527acd9ea1b2d3efac34d9806bf255278b0a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/debug/zipball/697c527acd9ea1b2d3efac34d9806bf255278b0a",
+            "reference": "697c527acd9ea1b2d3efac34d9806bf255278b0a",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.5.9",
+            "psr/log": "~1.0"
+        },
+        "conflict": {
+            "symfony/http-kernel": ">=2.3,<2.3.24|~2.4.0|>=2.5,<2.5.9|>=2.6,<2.6.2"
+        },
+        "require-dev": {
+            "symfony/class-loader": "~2.8|~3.0",
+            "symfony/http-kernel": "~2.8|~3.0"
+        },
+        "time": "2016-07-30 07:22:48",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\Debug\\": ""
             },
             "exclude-from-classmap": [
                 "/Tests/"
@@ -491,26 +549,27 @@
                 "homepage": "https://symfony.com/contributors"
             }
         ],
-        "description": "Symfony Yaml Component",
+        "description": "Symfony Debug Component",
         "homepage": "https://symfony.com"
     },
     {
         "name": "symfony/console",
-        "version": "v2.8.7",
-        "version_normalized": "2.8.7.0",
+        "version": "v2.8.13",
+        "version_normalized": "2.8.13.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/console.git",
-            "reference": "5ac8bc9aa77bb2edf06af3a1bb6bc1020d23acd3"
+            "reference": "7350016c8abcab897046f1aead2b766b84d3eff8"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/console/zipball/5ac8bc9aa77bb2edf06af3a1bb6bc1020d23acd3",
-            "reference": "5ac8bc9aa77bb2edf06af3a1bb6bc1020d23acd3",
+            "url": "https://api.github.com/repos/symfony/console/zipball/7350016c8abcab897046f1aead2b766b84d3eff8",
+            "reference": "7350016c8abcab897046f1aead2b766b84d3eff8",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.9",
+            "symfony/debug": "~2.7,>=2.7.2|~3.0.0",
             "symfony/polyfill-mbstring": "~1.0"
         },
         "require-dev": {
@@ -523,7 +582,7 @@
             "symfony/event-dispatcher": "",
             "symfony/process": ""
         },
-        "time": "2016-06-06 15:06:25",
+        "time": "2016-10-06 01:43:09",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -557,24 +616,75 @@
         "homepage": "https://symfony.com"
     },
     {
-        "name": "symfony/filesystem",
-        "version": "v2.8.7",
-        "version_normalized": "2.8.7.0",
+        "name": "symfony/yaml",
+        "version": "v2.8.13",
+        "version_normalized": "2.8.13.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/symfony/filesystem.git",
-            "reference": "dee379131dceed90a429e951546b33edfe7dccbb"
+            "url": "https://github.com/symfony/yaml.git",
+            "reference": "396784cd06b91f3db576f248f2402d547a077787"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/filesystem/zipball/dee379131dceed90a429e951546b33edfe7dccbb",
-            "reference": "dee379131dceed90a429e951546b33edfe7dccbb",
+            "url": "https://api.github.com/repos/symfony/yaml/zipball/396784cd06b91f3db576f248f2402d547a077787",
+            "reference": "396784cd06b91f3db576f248f2402d547a077787",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.9"
         },
-        "time": "2016-04-12 18:01:21",
+        "time": "2016-10-21 20:59:10",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.8-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\Yaml\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Yaml Component",
+        "homepage": "https://symfony.com"
+    },
+    {
+        "name": "symfony/filesystem",
+        "version": "v2.8.13",
+        "version_normalized": "2.8.13.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/filesystem.git",
+            "reference": "a3784111af9f95f102b6411548376e1ae7c93898"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/filesystem/zipball/a3784111af9f95f102b6411548376e1ae7c93898",
+            "reference": "a3784111af9f95f102b6411548376e1ae7c93898",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.9"
+        },
+        "time": "2016-10-18 04:28:30",
         "type": "library",
         "extra": {
             "branch-alias": {

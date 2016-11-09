@@ -11,10 +11,12 @@ return array(
     'Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
     'Symfony\\Component\\Finder\\' => array($vendorDir . '/symfony/finder'),
     'Symfony\\Component\\Filesystem\\' => array($vendorDir . '/symfony/filesystem'),
+    'Symfony\\Component\\Debug\\' => array($vendorDir . '/symfony/debug'),
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Src\\RouterBoard\\' => array($baseDir . '/src/Routerboard', $baseDir . '/src/Routerboard/BackupFilesystem', $baseDir . '/src/Routerboard/GitLab', $baseDir . '/src/Routerboard/SecureConnector', $baseDir . '/src/Routerboard/Validators', $baseDir . '/src/Routerboard/InputParser'),
     'Src\\Logger\\' => array($baseDir . '/src/Logger'),
     'Src\\Adapters\\' => array($baseDir . '/src/Adapters'),
+    'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'App\\Console\\' => array($baseDir . '/app/Console'),
     'App\\Config\\' => array($baseDir . '/app/Config'),
 );

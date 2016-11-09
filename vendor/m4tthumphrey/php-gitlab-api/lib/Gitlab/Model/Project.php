@@ -141,6 +141,26 @@ class Project extends AbstractModel
 
         return static::fromArray($this->getClient(), $data);
     }
+    
+    /**
+     * @return Project
+     */
+    public function archive()
+    {
+        $data = $this->api("projects")->archive($this->id);
+        
+        return static::fromArray($this->getClient(), $data);
+    }
+    
+    /**
+     * @return Project
+     */
+    public function unarchive()
+    {
+        $data = $this->api("projects")->unarchive($this->id);
+        
+        return static::fromArray($this->getClient(), $data);
+    }
 
     /**
      * @return bool
@@ -286,7 +306,7 @@ class Project extends AbstractModel
 
         $keys = array();
         foreach ($data as $key) {
-            $hooks[] = Key::fromArray($this->getClient(), $key);
+            $keys[] = Key::fromArray($this->getClient(), $key);
         }
 
         return $keys;
@@ -322,6 +342,28 @@ class Project extends AbstractModel
     public function removeKey($key_id)
     {
         $this->api('projects')->removeKey($this->id, $key_id);
+
+        return true;
+    }
+
+    /**
+     * @param string $key_id
+     * @return bool
+     */
+    public function enableKey($key_id)
+    {
+        $this->api('projects')->enableKey($this->id, $key_id);
+
+        return true;
+    }
+
+    /**
+     * @param string $key_id
+     * @return bool
+     */
+    public function disableKey($key_id)
+    {
+        $this->api('projects')->disableKey($this->id, $key_id);
 
         return true;
     }
@@ -520,6 +562,17 @@ class Project extends AbstractModel
     public function blob($sha, $filepath)
     {
         return $this->api('repo')->blob($this->id, $sha, $filepath);
+    }
+
+    /**
+     * @param $sha
+     * @param $filepath
+     *
+     * @return array
+     */
+    public function getFile($sha, $filepath)
+    {
+        return $this->api('repo')->getFile($this->id, $filepath, $sha);
     }
 
     /**

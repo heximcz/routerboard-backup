@@ -150,6 +150,54 @@ class RepositoriesTest extends ApiTestCase
         $this->assertEquals($expectedArray, $api->createTag(1, '1.0', 'abcd1234', '1.0 release'));
     }
 
+	/**
+	 * @test
+	 */
+	public function shouldCreateRelease() {
+		$project_id  = 1;
+		$tagName     = 'sometag';
+		$description = '1.0 release';
+
+		$expectedArray = array( 'name' => $tagName );
+
+		$api = $this->getApiMock();
+		$api->expects( $this->once())
+		    ->method('post')
+		    ->with( 'projects/' . $project_id . '/repository/tags/' . $tagName . '/release', array(
+			    'id' => $project_id,
+			    'tag_name' => $tagName,
+			    'description' => $description
+		    ))
+		    ->will($this->returnValue($expectedArray))
+		;
+
+		$this->assertEquals( $expectedArray, $api->createRelease( $project_id, $tagName, $description ) );
+	}
+
+	/**
+	 * @test
+	 */
+	public function shouldUpdateRelease() {
+		$project_id  = 1;
+		$tagName     = 'sometag';
+		$description = '1.0 release';
+
+		$expectedArray = array( 'description' => $tagName );
+
+		$api = $this->getApiMock();
+		$api->expects( $this->once())
+		    ->method('put')
+		    ->with( 'projects/' . $project_id . '/repository/tags/' . $tagName . '/release', array(
+			    'id' => $project_id,
+			    'tag_name' => $tagName,
+			    'description' => $description
+		    ))
+		    ->will($this->returnValue($expectedArray))
+		;
+
+		$this->assertEquals( $expectedArray, $api->updateRelease( $project_id, $tagName, $description ) );
+	}
+
     /**
      * @test
      */
@@ -169,6 +217,46 @@ class RepositoriesTest extends ApiTestCase
 
         $this->assertEquals($expectedArray, $api->commits(1));
     }
+
+    /**
+     * @test
+     */
+    public function shouldGetCommitBuilds()
+    {
+        $expectedArray = array(
+            array('id' => 'abcd1234', 'status' => 'failed'),
+            array('id' => 'efgh5678', 'status' => 'success')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/repository/commits/abcd12345/builds', array('page' => 0, 'per_page' => AbstractApi::PER_PAGE, 'scope' => null))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->commitBuilds(1, 'abcd12345'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetCommitBuildsWithScope()
+    {
+        $expectedArray = array(
+            array('id' => 'abcd1234', 'status' => 'success'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/repository/commits/abcd12345/builds', array('page' => 0, 'per_page' => AbstractApi::PER_PAGE, 'scope' => 'success'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->commitBuilds(1, 'abcd12345', 'success'));
+    }
+
 
     /**
      * @test

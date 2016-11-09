@@ -23,10 +23,15 @@ class ComposerStaticInitf6d1b74598a5cf47c5b437717b0ef3c2
             'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\Finder\\' => 25,
             'Symfony\\Component\\Filesystem\\' => 29,
+            'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\Console\\' => 26,
             'Src\\RouterBoard\\' => 16,
             'Src\\Logger\\' => 11,
             'Src\\Adapters\\' => 13,
+        ),
+        'P' => 
+        array (
+            'Psr\\Log\\' => 8,
         ),
         'A' => 
         array (
@@ -56,6 +61,10 @@ class ComposerStaticInitf6d1b74598a5cf47c5b437717b0ef3c2
         array (
             0 => __DIR__ . '/..' . '/symfony/filesystem',
         ),
+        'Symfony\\Component\\Debug\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/debug',
+        ),
         'Symfony\\Component\\Console\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
@@ -76,6 +85,10 @@ class ComposerStaticInitf6d1b74598a5cf47c5b437717b0ef3c2
         'Src\\Adapters\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/Adapters',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
         'App\\Console\\' => 
         array (

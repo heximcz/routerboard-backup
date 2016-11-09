@@ -91,6 +91,54 @@ class Repositories extends AbstractApi
     }
 
     /**
+     * @param int    $project_id
+     * @param string $tag_name
+     * @param string $description
+     *
+     * @return mixed
+     */
+    public function createRelease( $project_id, $tag_name, $description ) {
+        return $this->post( $this->getProjectPath( $project_id, 'repository/tags/' . $this->encodeBranch( $tag_name ) . '/release' ), array(
+            'id'          => $project_id,
+            'tag_name'    => $tag_name,
+            'description' => $description
+        ) );
+    }
+
+    /**
+     * @param int    $project_id
+     * @param string $tag_name
+     * @param string $description
+     *
+     * @return mixed
+     */
+    public function updateRelease( $project_id, $tag_name, $description ) {
+        return $this->put( $this->getProjectPath( $project_id, 'repository/tags/' . $this->encodeBranch( $tag_name ) . '/release' ), array(
+            'id'          => $project_id,
+            'tag_name'    => $tag_name,
+            'description' => $description
+        ) );
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $sha
+     * @param string $scope
+     * @param int $page
+     * @param int $per_page
+     *
+     * @return mixed
+     */
+    public function commitBuilds($project_id, $sha, $scope = null, $page = 0, $per_page = self::PER_PAGE)
+    {
+        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/builds'), array(
+            'page' => $page,
+            'per_page' => $per_page,
+            'scope' => $scope
+        ));
+    }
+
+    /**
      * @param int $project_id
      * @param int $page
      * @param int $per_page
@@ -269,6 +317,19 @@ class Repositories extends AbstractApi
     public function contributors($project_id)
     {
         return $this->get($this->getProjectPath($project_id, 'repository/contributors'));
+    }
+
+    /**
+     * File content is base64 encoded and placed in the "content" index of the returning array.
+     * You can then save the content with the tar.gz extension
+     *
+     * @param int $project_id
+     * @param array $params
+     * @return mixed
+     */
+    public function archive($project_id, $params = array())
+    {
+        return $this->get($this->getProjectPath($project_id, 'repository/archive'), $params);
     }
 
     /**

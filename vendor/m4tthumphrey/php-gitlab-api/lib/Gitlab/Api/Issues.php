@@ -13,7 +13,7 @@ class Issues extends AbstractApi
     {
         $path = $project_id === null ? 'issues' : $this->getProjectPath($project_id, 'issues');
 
-        $params = array_intersect_key($params, array('labels' => '', 'state' => '', 'sort' => '', 'order_by' => ''));
+        $params = array_intersect_key($params, array('labels' => '', 'state' => '', 'sort' => '', 'order_by' => '', 'milestone' => ''));
         $params = array_merge(array(
             'page' => $page,
             'per_page' => $per_page
@@ -29,7 +29,7 @@ class Issues extends AbstractApi
      */
     public function show($project_id, $issue_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id)));
+        return $this->get($this->getProjectPath($project_id, 'issues?iid='.$this->encodePath($issue_id)));
     }
 
     /**
@@ -51,6 +51,16 @@ class Issues extends AbstractApi
     public function update($project_id, $issue_id, array $params)
     {
         return $this->put($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id)), $params);
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $issue_id
+     * @return mixed
+     */
+    public function remove($project_id, $issue_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id)), $params);
     }
 
     /**
@@ -104,5 +114,16 @@ class Issues extends AbstractApi
         return $this->put($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id).'/notes/'.$this->encodePath($note_id)), array(
             'body' => $body
         ));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $issue_id
+     * @param int $note_id
+     * @return mixed
+     */
+    public function removeComment($project_id, $issue_id, $note_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id).'/notes/'.$this->encodePath($note_id)));
     }
 }

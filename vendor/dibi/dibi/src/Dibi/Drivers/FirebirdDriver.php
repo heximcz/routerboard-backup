@@ -96,7 +96,7 @@ class FirebirdDriver implements Dibi\Driver, Dibi\ResultDriver, Dibi\Reflector
 	 */
 	public function disconnect()
 	{
-		ibase_close($this->connection);
+		@ibase_close($this->connection); // @ - connection can be already disconnected
 	}
 
 
@@ -333,9 +333,9 @@ class FirebirdDriver implements Dibi\Driver, Dibi\ResultDriver, Dibi\Reflector
 	 */
 	public function applyLimit(& $sql, $limit, $offset)
 	{
-		if ($limit >= 0 && $offset > 0) {
-			// see http://scott.yang.id.au/2004/01/limit-in-select-statements-in-firebird/
-			$sql = 'SELECT FIRST ' . (int) $limit . ($offset > 0 ? ' SKIP ' . (int) $offset : '') . ' * FROM (' . $sql . ')';
+		if ($limit > 0 || $offset > 0) {
+			// http://www.firebirdsql.org/refdocs/langrefupd20-select.html
+			$sql = 'SELECT ' . ($limit > 0 ? 'FIRST ' . (int) $limit : '') . ($offset > 0 ? ' SKIP ' . (int) $offset : '') . ' * FROM (' . $sql . ')';
 		}
 	}
 
@@ -370,7 +370,7 @@ class FirebirdDriver implements Dibi\Driver, Dibi\ResultDriver, Dibi\Reflector
 	 */
 	public function fetch($assoc)
 	{
-		$result = $assoc ? ibase_fetch_assoc($this->resultSet, IBASE_TEXT) : ibase_fetch_row($this->resultSet, IBASE_TEXT); // intentionally @
+		$result = $assoc ? @ibase_fetch_assoc($this->resultSet, IBASE_TEXT) : @ibase_fetch_row($this->resultSet, IBASE_TEXT); // intentionally @
 
 		if (ibase_errcode()) {
 			if (ibase_errcode() == self::ERROR_EXCEPTION_THROWN) {

@@ -126,6 +126,54 @@ class Projects extends AbstractApi
     {
         return $this->delete('projects/'.$this->encodePath($project_id));
     }
+    
+    /**
+     * @param int $project_id
+     * @return mixed
+     */
+    public function archive($project_id){
+        return $this->post("projects/".$this->encodePath($project_id)."/archive");
+    }
+    
+    /**
+     * @param int $project_id
+     * @return mixed
+     */
+    public function unarchive($project_id){
+        return $this->post("projects/".$this->encodePath($project_id)."/unarchive");
+    }
+
+    /**
+     * @param int $project_id
+     * @param array $scope
+     * @return mixed
+     */
+    public function builds($project_id, $scope = null)
+    {
+        return $this->get($this->getProjectPath($project_id, 'builds'), array(
+            'scope' => $scope
+        ));
+    }
+
+    /**
+     * @param $project_id
+     * @param $build_id
+     * @return mixed
+     */
+    public function build($project_id, $build_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'builds/'.$this->encodePath($build_id)));
+    }
+
+    /**
+     * @param $project_id
+     * @param $build_id
+     * @return mixed
+     */
+    public function trace($project_id, $build_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'builds/'.$this->encodePath($build_id).'/trace'));
+    }
 
     /**
      * @param int $project_id
@@ -293,6 +341,26 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param int $key_id
+     * @return mixed
+     */
+    public function enableKey($project_id, $key_id)
+    {
+        return $this->post($this->getProjectPath($project_id, 'keys/'.$this->encodePath($key_id).'/enable'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $key_id
+     * @return mixed
+     */
+    public function disableKey($project_id, $key_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'keys/'.$this->encodePath($key_id).'/disable'));
+    }
+
+    /**
+     * @param int $project_id
      * @param int $page
      * @param int $per_page
      * @return mixed
@@ -348,6 +416,15 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
+     * @return mixed
+     */
+    public function fork($project_id)
+    {
+        return $this->post('projects/fork/'.$this->encodePath($project_id));
+    }
+
+    /**
+     * @param int $project_id
      * @param int $forked_project_id
      * @return mixed
      */
@@ -384,5 +461,71 @@ class Projects extends AbstractApi
     public function removeService($project_id, $service_name)
     {
         return $this->delete($this->getProjectPath($project_id, 'services/'.$this->encodePath($service_name)));
+    }
+
+    /**
+     * @param int $project_id
+     * @return mixed
+     */
+    public function variables($project_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'variables'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $key
+     * @return mixed
+     */
+    public function variable($project_id, $key)
+    {
+        return $this->get($this->getProjectPath($project_id, 'variables/'.$this->encodePath($key)));
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $key
+     * @param string $value
+     * @return mixed
+     */
+    public function addVariable($project_id, $key, $value)
+    {
+        return $this->post($this->getProjectPath($project_id, 'variables'), array(
+            'key'   => $key,
+            'value' => $value
+        ));
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $key
+     * @param string $value
+     * @return mixed
+     */
+    public function updateVariable($project_id, $key, $value)
+    {
+        return $this->put($this->getProjectPath($project_id, 'variables/'.$this->encodePath($key)), array(
+            'value' => $value,
+        ));
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $key
+     * @return mixed
+     */
+    public function removeVariable($project_id, $key)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'variables/'.$this->encodePath($key)));
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $file
+     * @return mixed
+     */
+    public function uploadFile($project_id, $file)
+    {
+        return $this->post($this->getProjectPath($project_id, 'uploads'), array(), array(), array('file' => $file));
     }
 }

@@ -7,8 +7,9 @@ use Gitlab\Client;
  *
  * @author Joseph Bielawski <stloyd@gmail.com>
  * @author Matt Humphrey <matt@m4tt.co>
+ * @author Radu Topala <radu.topala@trisoft.ro>
  */
-abstract class AbstractApi
+abstract class AbstractApi implements ApiInterface
 {
     /**
      * Default entries per page
@@ -56,11 +57,12 @@ abstract class AbstractApi
      * @param string $path
      * @param array $parameters
      * @param array $requestHeaders
+     * @param array $files
      * @return mixed
      */
-    protected function post($path, array $parameters = array(), $requestHeaders = array())
+    protected function post($path, array $parameters = array(), $requestHeaders = array(), array $files = array())
     {
-        $response = $this->client->getHttpClient()->post($path, $parameters, $requestHeaders);
+        $response = $this->client->getHttpClient()->post($path, $parameters, $requestHeaders, $files);
 
         return $response->getContent();
     }
