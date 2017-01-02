@@ -1,5 +1,9 @@
 # Change Log
 
+##[0.9.4](https://github.com/heximcz/routerboard-backup/releases/tag/0.9.3)
+- security update PHPMailer (CVE-2016-10033, CVE-2016-10045) and other vendor
+
+
 ##[0.9.3](https://github.com/heximcz/routerboard-backup/releases/tag/0.9.3)
 - fixed [#3](https://github.com/heximcz/routerboard-backup/issues/3) Email in gitlab/username is not allowed
 - **NEW:** the number of backups rotation has been moved into the config file (update your config.yml if you need change this value, default is still 5)
