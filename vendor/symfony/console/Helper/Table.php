@@ -100,7 +100,7 @@ class Table
      *
      * @param string $name The style name
      *
-     * @return TableStyle A TableStyle instance
+     * @return TableStyle
      */
     public static function getStyleDefinition($name)
     {
@@ -120,7 +120,7 @@ class Table
      *
      * @param TableStyle|string $name The style name or a TableStyle instance
      *
-     * @return Table
+     * @return $this
      */
     public function setStyle($name)
     {
@@ -145,7 +145,7 @@ class Table
      * @param int               $columnIndex Column index
      * @param TableStyle|string $name        The style name or a TableStyle instance
      *
-     * @return Table
+     * @return $this
      */
     public function setColumnStyle($columnIndex, $name)
     {
@@ -560,7 +560,7 @@ class Table
 
                 foreach ($row as $i => $cell) {
                     if ($cell instanceof TableCell) {
-                        $textLength = strlen($cell);
+                        $textLength = Helper::strlenWithoutDecoration($this->output->getFormatter(), $cell);
                         if ($textLength > 0) {
                             $contentColumns = str_split($cell, ceil($textLength / $cell->getColspan()));
                             foreach ($contentColumns as $position => $content) {

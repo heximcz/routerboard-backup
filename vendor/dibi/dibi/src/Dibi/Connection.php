@@ -289,7 +289,7 @@ class Connection
 	 * @param  array
 	 * @return string
 	 */
-	private function translateArgs($args)
+	protected function translateArgs($args)
 	{
 		$this->connected || $this->connect();
 		if (!$this->translator) {
@@ -555,7 +555,7 @@ class Connection
 	/**
 	 * Executes SQL query and fetch result - shortcut for query() & fetch().
 	 * @param  array|mixed    one or more arguments
-	 * @return Row
+	 * @return Row|bool
 	 * @throws Exception
 	 */
 	public function fetch($args)
@@ -581,7 +581,7 @@ class Connection
 	/**
 	 * Executes SQL query and fetch first column - shortcut for query() & fetchSingle().
 	 * @param  array|mixed    one or more arguments
-	 * @return string
+	 * @return string|bool
 	 * @throws Exception
 	 */
 	public function fetchSingle($args)
@@ -594,7 +594,7 @@ class Connection
 	/**
 	 * Executes SQL query and fetch pairs - shortcut for query() & fetchPairs().
 	 * @param  array|mixed    one or more arguments
-	 * @return string
+	 * @return array
 	 * @throws Exception
 	 */
 	public function fetchPairs($args)
