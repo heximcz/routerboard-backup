@@ -23,7 +23,7 @@
         "suggest": {
             "ext-curl": "*"
         },
-        "time": "2015-06-25T17:26:56+00:00",
+        "time": "2015-06-25 17:26:56",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -79,7 +79,7 @@
             "ext-mcrypt": "Install the Mcrypt extension in order to speed up a few other cryptographic operations.",
             "ext-openssl": "Install the OpenSSL extension in order to speed up a wide variety of cryptographic operations."
         },
-        "time": "2016-10-04T00:57:04+00:00",
+        "time": "2016-10-04 00:57:04",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -167,7 +167,7 @@
         "require-dev": {
             "phpunit/phpunit": "~4.5"
         },
-        "time": "2016-10-03T18:13:47+00:00",
+        "time": "2016-10-03 18:13:47",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -219,7 +219,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2016-10-10T12:19:37+00:00",
+        "time": "2016-10-10 12:19:37",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -276,7 +276,7 @@
             "symfony/class-loader": "~2.8|~3.0",
             "symfony/http-kernel": "~2.8|~3.0"
         },
-        "time": "2016-07-30T07:22:48+00:00",
+        "time": "2016-07-30 07:22:48",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -330,7 +330,7 @@
         "suggest": {
             "ext-mbstring": "For best performance"
         },
-        "time": "2016-11-14T01:06:16+00:00",
+        "time": "2016-11-14 01:06:16",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -395,7 +395,7 @@
             "nette/tester": "~1.7",
             "tracy/tracy": "~2.2"
         },
-        "time": "2017-01-04T14:18:17+00:00",
+        "time": "2017-01-04 14:18:17",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -457,7 +457,7 @@
         "require": {
             "php": ">=5.3.9"
         },
-        "time": "2017-01-02T20:30:24+00:00",
+        "time": "2017-01-02 20:30:24",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -520,7 +520,7 @@
             "symfony/event-dispatcher": "",
             "symfony/process": ""
         },
-        "time": "2017-02-06T12:04:06+00:00",
+        "time": "2017-02-06 12:04:06",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -571,7 +571,7 @@
         "require": {
             "php": ">=5.3.9"
         },
-        "time": "2017-01-21T16:40:50+00:00",
+        "time": "2017-01-21 16:40:50",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -622,7 +622,7 @@
         "require": {
             "php": ">=5.3.9"
         },
-        "time": "2017-01-08T20:43:03+00:00",
+        "time": "2017-01-08 20:43:03",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -680,7 +680,7 @@
         "suggest": {
             "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
         },
-        "time": "2017-01-09T09:33:47+00:00",
+        "time": "2017-01-09 09:33:47",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
