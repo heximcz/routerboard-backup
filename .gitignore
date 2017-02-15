@@ -1,3 +1,9 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea/
 /composer.lock
+/routerboard-backup.iml
+/movie.mp4
+/config.yml
+/video-project.sh
+/r-backup/
+/cov/
