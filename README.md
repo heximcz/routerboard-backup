@@ -133,11 +133,19 @@ add this line to your /etc/crontab: (backup of all in database one per week to G
 }
 ```
 
-##YouTube video: How to
+## Donate
+If this repo helped you set donating to the author of the program.
+
+Bitcoin: 17MPKzx9jxssa5z83FBPmpfLYTpAcEEfLV
+Zcash: t1QdttLnVc55G5LrJShcQb487KqpvdJuk25
+Zcash z-address: zcCq73kvVVRe9JpNLtX3TjJuRPJRSgxZzt1YTn7sSyXwoJw5e2rLsr3u6dYerfkm6pjQNx1QsQowh62NHcQkNepdntWTivw
+
+
+## YouTube video: How to
 
 [![Routerboard Backup Video How To](http://img.youtube.com/vi/-bOup-f3Eeo/0.jpg)](https://www.youtube.com/watch?v=-bOup-f3Eeo)
 
-##Product microsite
+## Product microsite
 
 [https://routerboard-backup.best-hosting.cz/](https://routerboard-backup.best-hosting.cz/)
 
