@@ -8,7 +8,7 @@ use Symfony\Component\Console\Output\NullOutput;
 use Dibi\Connection;
 use PHPUnit\Framework\TestCase;
 
-abstract class RBCaseTest extends \PHPUnit_Framework_TestCase {
+abstract class RBCaseTest extends TestCase {
 	
 	protected static $db;
 	protected static $config;
