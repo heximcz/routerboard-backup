@@ -1,6 +1,9 @@
 # Change Log
 
-##[0.9.4](https://github.com/heximcz/routerboard-backup/releases/tag/0.9.3)
+##[0.9.5](https://github.com/heximcz/routerboard-backup/releases/tag/0.9.5)
+- update vendor - new PHPMailer and Symfony framework
+
+##[0.9.4](https://github.com/heximcz/routerboard-backup/releases/tag/0.9.4)
 - security update PHPMailer (CVE-2016-10033, CVE-2016-10045) and other vendor
 
 
