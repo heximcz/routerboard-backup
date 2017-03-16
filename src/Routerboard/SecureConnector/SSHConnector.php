@@ -72,7 +72,7 @@ class SSHConnector extends AbstractRouterBoard
             $ssh->exec('system backup save name=' . $filename);
             $ssh->exec('export compact file=' . $filename);
             // same high loads RB may be need a more time to create the backup files (issue #6)
-            sleep(5);
+            // sleep(5);
             // download and save new backup files
             $scp = new SCP($ssh);
             $bfs = new BackupFilesystem($this->config, $this->logger);
