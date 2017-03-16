@@ -1,4 +1,6 @@
 <?php
+require_once 'PHPUnit/Autoload.php';
+
 function includeIfExists($file) {
 	if (file_exists($file))
 		return include $file;
