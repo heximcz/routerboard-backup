@@ -18,7 +18,7 @@ class RouterBoardBackup extends AbstractRouterBoard implements IRouterBoardBacku
         parent::__construct($config, $logger);
         $this->dbconnect = new $this->config['database']['data-adapter']($this->config, $this->logger);
 		$this->ssh = new SSHConnector($this->config, $this->logger);
-		$this->filename = $this->config['routerboard']['backupuser'] . '-' . date("Ydmhis", time());
+		$this->filename = $this->config['routerboard']['backupuser'] . '-' . date("Ymdhis", time());
 		
 	}
 
