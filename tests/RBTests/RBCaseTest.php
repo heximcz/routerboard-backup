@@ -6,6 +6,7 @@ use Src\Adapters\RouterBoardDBAdapter;
 use Src\Logger\OutputLogger;
 use Symfony\Component\Console\Output\NullOutput;
 use Dibi\Connection;
+use PHPUnit\Framework\TestCase;
 
 abstract class RBCaseTest extends \PHPUnit_Framework_TestCase {
 	
