@@ -55,6 +55,16 @@ class Groups extends AbstractApi
     }
 
     /**
+     * @param int $id
+     * @param array $params
+     * @return mixed
+     */
+    public function update($id, array $params)
+    {
+        return $this->put('groups/'.$this->encodePath($id), $params);
+    }
+
+    /**
      * @param int $group_id
      * @return mixed
      */
@@ -122,5 +132,19 @@ class Groups extends AbstractApi
     public function removeMember($group_id, $user_id)
     {
         return $this->delete('groups/'.$this->encodePath($group_id).'/members/'.$this->encodePath($user_id));
+    }
+
+    /**
+     * @param $id
+     * @param int $page
+     * @param int $per_page
+     * @return mixed
+     */
+    public function projects($id, $page = 1, $per_page = self::PER_PAGE)
+    {
+        return $this->get('groups/'.$this->encodePath($id).'/projects', array(
+            'page' => $page,
+            'per_page' => $per_page
+        ));
     }
 }

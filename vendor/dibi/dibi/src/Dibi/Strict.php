@@ -105,7 +105,7 @@ trait Strict
 
 	/**
 	 * @param  string  method name
-	 * @param  callabke
+	 * @param  callable
 	 * @return mixed
 	 */
 	public static function extensionMethod($name, $callback = NULL)
@@ -131,7 +131,7 @@ trait Strict
 
 		$list = & self::$extMethods[strtolower($name)];
 		if ($callback === NULL) { // getter
-			$cache = & $list[''][$class];
+			$cache = &$list[''][$class];
 			if (isset($cache)) {
 				return $cache;
 			}

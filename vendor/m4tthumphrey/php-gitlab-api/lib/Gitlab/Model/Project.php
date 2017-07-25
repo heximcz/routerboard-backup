@@ -141,24 +141,24 @@ class Project extends AbstractModel
 
         return static::fromArray($this->getClient(), $data);
     }
-    
+
     /**
      * @return Project
      */
     public function archive()
     {
         $data = $this->api("projects")->archive($this->id);
-        
+
         return static::fromArray($this->getClient(), $data);
     }
-    
+
     /**
      * @return Project
      */
     public function unarchive()
     {
         $data = $this->api("projects")->unarchive($this->id);
-        
+
         return static::fromArray($this->getClient(), $data);
     }
 
@@ -420,14 +420,16 @@ class Project extends AbstractModel
 
     /**
      * @param string $branch_name
+     * @param bool $devPush
+     * @param bool $devMerge
      * @return Branch
      */
-    public function protectBranch($branch_name)
+    public function protectBranch($branch_name, $devPush = false, $devMerge = false)
     {
         $branch = new Branch($this, $branch_name);
         $branch->setClient($this->getClient());
 
-        return $branch->protect();
+        return $branch->protect($devPush, $devMerge);
     }
 
     /**
@@ -580,11 +582,13 @@ class Project extends AbstractModel
      * @param string $content
      * @param string $branch_name
      * @param string $commit_message
+     * @param string $author_email
+     * @param string $author_name
      * @return File
      */
-    public function createFile($file_path, $content, $branch_name, $commit_message)
+    public function createFile($file_path, $content, $branch_name, $commit_message, $author_email = null, $author_name = null)
     {
-        $data = $this->api('repo')->createFile($this->id, $file_path, $content, $branch_name, $commit_message);
+        $data = $this->api('repo')->createFile($this->id, $file_path, $content, $branch_name, $commit_message, null, $author_email, $author_name);
 
         return File::fromArray($this->getClient(), $this, $data);
     }
@@ -594,11 +598,13 @@ class Project extends AbstractModel
      * @param string $content
      * @param string $branch_name
      * @param string $commit_message
+     * @param string $author_email
+     * @param string $author_name
      * @return File
      */
-    public function updateFile($file_path, $content, $branch_name, $commit_message)
+    public function updateFile($file_path, $content, $branch_name, $commit_message, $author_email = null, $author_name = null)
     {
-        $data = $this->api('repo')->updateFile($this->id, $file_path, $content, $branch_name, $commit_message);
+        $data = $this->api('repo')->updateFile($this->id, $file_path, $content, $branch_name, $commit_message, null, $author_email, $author_name);
 
         return File::fromArray($this->getClient(), $this, $data);
     }
@@ -607,11 +613,13 @@ class Project extends AbstractModel
      * @param string $file_path
      * @param string $branch_name
      * @param string $commit_message
+     * @param string $author_email
+     * @param string $author_name
      * @return bool
      */
-    public function deleteFile($file_path, $branch_name, $commit_message)
+    public function deleteFile($file_path, $branch_name, $commit_message, $author_email = null, $author_name = null)
     {
-        $this->api('repo')->deleteFile($this->id, $file_path, $branch_name, $commit_message);
+        $this->api('repo')->deleteFile($this->id, $file_path, $branch_name, $commit_message, $author_email, $author_name);
 
         return true;
     }

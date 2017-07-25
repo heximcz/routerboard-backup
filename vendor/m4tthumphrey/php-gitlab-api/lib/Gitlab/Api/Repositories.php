@@ -48,11 +48,16 @@ class Repositories extends AbstractApi
     /**
      * @param int $project_id
      * @param string $branch_name
+     * @param bool $devPush
+     * @param bool $devMerge
      * @return mixed
      */
-    public function protectBranch($project_id, $branch_name)
+    public function protectBranch($project_id, $branch_name, $devPush = false, $devMerge = false)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodeBranch($branch_name).'/protect'));
+        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodeBranch($branch_name).'/protect'), array(
+            'developers_can_push' => $devPush,
+            'developers_can_merge' => $devMerge
+        ));
     }
 
     /**
@@ -261,16 +266,20 @@ class Repositories extends AbstractApi
      * @param string $branch_name
      * @param string $commit_message
      * @param string $encoding
+     * @param string $author_email
+     * @param string $author_name
      * @return mixed
      */
-    public function createFile($project_id, $file_path, $content, $branch_name, $commit_message, $encoding = null)
+    public function createFile($project_id, $file_path, $content, $branch_name, $commit_message, $encoding = null, $author_email = null, $author_name = null)
     {
         return $this->post($this->getProjectPath($project_id, 'repository/files'), array(
             'file_path' => $file_path,
             'branch_name' => $branch_name,
             'content' => $content,
             'commit_message' => $commit_message,
-            'encoding' => $encoding
+            'encoding' => $encoding,
+            'author_email' => $author_email,
+            'author_name' => $author_name,
         ));
     }
 
@@ -281,16 +290,20 @@ class Repositories extends AbstractApi
      * @param string $branch_name
      * @param string $commit_message
      * @param string $encoding
+     * @param string $author_email
+     * @param string $author_name
      * @return mixed
      */
-    public function updateFile($project_id, $file_path, $content, $branch_name, $commit_message, $encoding = null)
+    public function updateFile($project_id, $file_path, $content, $branch_name, $commit_message, $encoding = null, $author_email = null, $author_name = null)
     {
         return $this->put($this->getProjectPath($project_id, 'repository/files'), array(
             'file_path' => $file_path,
             'branch_name' => $branch_name,
             'content' => $content,
             'commit_message' => $commit_message,
-            'encoding' => $encoding
+            'encoding' => $encoding,
+            'author_email' => $author_email,
+            'author_name' => $author_name,
         ));
     }
 
@@ -299,14 +312,18 @@ class Repositories extends AbstractApi
      * @param string $file_path
      * @param string $branch_name
      * @param string $commit_message
+     * @param string $author_email
+     * @param string $author_name
      * @return mixed
      */
-    public function deleteFile($project_id, $file_path, $branch_name, $commit_message)
+    public function deleteFile($project_id, $file_path, $branch_name, $commit_message, $author_email = null, $author_name = null)
     {
         return $this->delete($this->getProjectPath($project_id, 'repository/files'), array(
             'file_path' => $file_path,
             'branch_name' => $branch_name,
-            'commit_message' => $commit_message
+            'commit_message' => $commit_message,
+            'author_email' => $author_email,
+            'author_name' => $author_name,
         ));
     }
 
@@ -320,16 +337,14 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * File content is base64 encoded and placed in the "content" index of the returning array.
-     * You can then save the content with the tar.gz extension
-     *
      * @param int $project_id
      * @param array $params
+     * @param string $format Options: "tar.gz", "zip", "tar.bz2" and "tar"
      * @return mixed
      */
-    public function archive($project_id, $params = array())
+    public function archive($project_id, $params = array(), $format = 'tar.gz')
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/archive'), $params);
+        return $this->get($this->getProjectPath($project_id, 'repository/archive.'.$format), $params);
     }
 
     /**

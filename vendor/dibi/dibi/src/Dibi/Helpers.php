@@ -50,14 +50,14 @@ class Helpers
 				if ($i === 0) {
 					echo "\n<table class=\"dump\">\n<thead>\n\t<tr>\n\t\t<th>#row</th>\n";
 					foreach ($row as $col => $foo) {
-						echo "\t\t<th>" . htmlSpecialChars($col) . "</th>\n";
+						echo "\t\t<th>" . htmlSpecialChars((string) $col) . "</th>\n";
 					}
 					echo "\t</tr>\n</thead>\n<tbody>\n";
 				}
 
 				echo "\t<tr>\n\t\t<th>", $i, "</th>\n";
 				foreach ($row as $col) {
-					echo "\t\t<td>", htmlSpecialChars($col), "</td>\n";
+					echo "\t\t<td>", htmlSpecialChars((string) $col), "</td>\n";
 				}
 				echo "\t</tr>\n";
 			}
@@ -220,11 +220,11 @@ class Helpers
 	 * @param  string alias key
 	 * @return void
 	 */
-	public static function alias(& $config, $key, $alias)
+	public static function alias(&$config, $key, $alias)
 	{
-		$foo = & $config;
+		$foo = &$config;
 		foreach (explode('|', $key) as $key) {
-			$foo = & $foo[$key];
+			$foo = &$foo[$key];
 		}
 
 		if (!isset($foo) && isset($config[$alias])) {

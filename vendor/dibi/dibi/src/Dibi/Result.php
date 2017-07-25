@@ -184,7 +184,7 @@ class Result implements IDataSource
 	/**
 	 * Fetches the row at current position, process optional type conversion.
 	 * and moves the internal cursor to the next position
-	 * @return Row|FALSE array on success, FALSE if no next record
+	 * @return Row|FALSE
 	 */
 	final public function fetch()
 	{
@@ -271,7 +271,7 @@ class Result implements IDataSource
 		}
 
 		$data = NULL;
-		$assoc = preg_split('#(\[\]|->|=|\|)#', $assoc, NULL, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+		$assoc = preg_split('#(\[\]|->|=|\|)#', $assoc, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
 		// check columns
 		foreach ($assoc as $as) {
@@ -291,12 +291,12 @@ class Result implements IDataSource
 
 		// make associative tree
 		do {
-			$x = & $data;
+			$x = &$data;
 
 			// iterative deepening
 			foreach ($assoc as $i => $as) {
 				if ($as === '[]') { // indexed-array node
-					$x = & $x[];
+					$x = &$x[];
 
 				} elseif ($as === '=') { // "value" node
 					$x = $row->{$assoc[$i + 1]};
@@ -305,14 +305,14 @@ class Result implements IDataSource
 				} elseif ($as === '->') { // "object" node
 					if ($x === NULL) {
 						$x = clone $row;
-						$x = & $x->{$assoc[$i + 1]};
+						$x = &$x->{$assoc[$i + 1]};
 						$x = NULL; // prepare child node
 					} else {
-						$x = & $x->{$assoc[$i + 1]};
+						$x = &$x->{$assoc[$i + 1]};
 					}
 
 				} elseif ($as !== '|') { // associative-array node
-					$x = & $x[$row->$as];
+					$x = &$x[$row->$as];
 				}
 			}
 
@@ -356,32 +356,32 @@ class Result implements IDataSource
 		}
 
 		do {
-			$x = & $data;
+			$x = &$data;
 
 			foreach ($assoc as $i => $as) {
 				if ($as === '#') { // indexed-array node
-					$x = & $x[];
+					$x = &$x[];
 
 				} elseif ($as === '=') { // "record" node
 					if ($x === NULL) {
 						$x = $row->toArray();
-						$x = & $x[ $assoc[$i + 1] ];
+						$x = &$x[ $assoc[$i + 1] ];
 						$x = NULL; // prepare child node
 					} else {
-						$x = & $x[ $assoc[$i + 1] ];
+						$x = &$x[ $assoc[$i + 1] ];
 					}
 
 				} elseif ($as === '@') { // "object" node
 					if ($x === NULL) {
 						$x = clone $row;
-						$x = & $x->{$assoc[$i + 1]};
+						$x = &$x->{$assoc[$i + 1]};
 						$x = NULL; // prepare child node
 					} else {
-						$x = & $x->{$assoc[$i + 1]};
+						$x = &$x->{$assoc[$i + 1]};
 					}
 
 				} else { // associative-array node
-					$x = & $x[$row->$as];
+					$x = &$x[$row->$as];
 				}
 			}
 
@@ -483,7 +483,7 @@ class Result implements IDataSource
 	 * @param  array
 	 * @return void
 	 */
-	private function normalize(array & $row)
+	private function normalize(array &$row)
 	{
 		foreach ($this->types as $key => $type) {
 			if (!isset($row[$key])) { // NULL
@@ -499,7 +499,7 @@ class Result implements IDataSource
 					: $tmp;
 
 			} elseif ($type === Type::FLOAT) {
-				$value = ltrim($value, '0');
+				$value = ltrim((string) $value, '0');
 				$p = strpos($value, '.');
 				if ($p !== FALSE) {
 					$value = rtrim(rtrim($value, '0'), '.');
@@ -558,9 +558,9 @@ class Result implements IDataSource
 
 
 	/**
-	 * Sets data format.
-	 * @param  string  type (use constant Type::*)
-	 * @param  string  format
+	 * Sets date format.
+	 * @param  string
+	 * @param  string|NULL  format
 	 * @return self
 	 */
 	final public function setFormat($type, $format)
@@ -572,7 +572,7 @@ class Result implements IDataSource
 
 	/**
 	 * Returns data format.
-	 * @return string
+	 * @return string|NULL
 	 */
 	final public function getFormat($type)
 	{

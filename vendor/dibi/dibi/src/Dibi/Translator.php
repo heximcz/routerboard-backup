@@ -73,8 +73,8 @@ final class Translator
 
 		$commandIns = NULL;
 		$lastArr = NULL;
-		$cursor = & $this->cursor;
-		$comment = & $this->comment;
+		$cursor = &$this->cursor;
+		$comment = &$this->comment;
 
 		// iterate
 		$sql = [];
@@ -246,7 +246,7 @@ final class Translator
 				case 'in':// replaces scalar %in modifier!
 				case 'l': // (val, val, ...)
 					foreach ($value as $k => $v) {
-						$pair = explode('%', $k, 2); // split into identifier & modifier
+						$pair = explode('%', (string) $k, 2); // split into identifier & modifier
 						$vx[] = $this->formatValue($v, isset($pair[1]) ? $pair[1] : (is_array($v) ? 'ex' : FALSE));
 					}
 					return '(' . (($vx || $modifier === 'l') ? implode(', ', $vx) : 'NULL') . ')';
@@ -326,7 +326,7 @@ final class Translator
 
 			switch ($modifier) {
 				case 's':  // string
-					return $value === NULL ? 'NULL' : $this->driver->escapeText($value);
+					return $value === NULL ? 'NULL' : $this->driver->escapeText((string) $value);
 
 				case 'bin':// binary
 					return $value === NULL ? 'NULL' : $this->driver->escapeBinary($value);
@@ -336,7 +336,7 @@ final class Translator
 
 				case 'sN': // string or NULL
 				case 'sn':
-					return $value == '' ? 'NULL' : $this->driver->escapeText($value); // notice two equal signs
+					return $value == '' ? 'NULL' : $this->driver->escapeText((string) $value); // notice two equal signs
 
 				case 'in': // deprecated
 					trigger_error('Modifier %in is deprecated, use %iN.', E_USER_DEPRECATED);
@@ -480,7 +480,7 @@ final class Translator
 
 
 		if (!empty($matches[11])) { // placeholder
-			$cursor = & $this->cursor;
+			$cursor = &$this->cursor;
 
 			if ($cursor >= count($this->args)) {
 				return $this->errors[] = '**Extra placeholder**';
@@ -492,7 +492,7 @@ final class Translator
 
 		if (!empty($matches[10])) { // modifier
 			$mod = $matches[10];
-			$cursor = & $this->cursor;
+			$cursor = &$this->cursor;
 
 			if ($cursor >= count($this->args) && $mod !== 'else' && $mod !== 'end') {
 				return $this->errors[] = "**Extra modifier %$mod**";
@@ -600,7 +600,7 @@ final class Translator
 	{
 		$value = $this->connection->substitute($value);
 		$parts = explode('.', $value);
-		foreach ($parts as & $v) {
+		foreach ($parts as &$v) {
 			if ($v !== '*') {
 				$v = $this->driver->escapeIdentifier($v);
 			}

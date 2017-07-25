@@ -30,7 +30,7 @@ class PdoDriver implements Dibi\Driver, Dibi\ResultDriver
 	/** @var PDO  Connection resource */
 	private $connection;
 
-	/** @var \PDOStatement  Resultset resource */
+	/** @var \PDOStatement|NULL  Resultset resource */
 	private $resultSet;
 
 	/** @var int|FALSE  Affected rows */
@@ -40,7 +40,7 @@ class PdoDriver implements Dibi\Driver, Dibi\ResultDriver
 	private $driverName;
 
 	/** @var string */
-	private $serverVersion;
+	private $serverVersion = '';
 
 
 	/**
@@ -59,10 +59,10 @@ class PdoDriver implements Dibi\Driver, Dibi\ResultDriver
 	 * @return void
 	 * @throws Dibi\Exception
 	 */
-	public function connect(array & $config)
+	public function connect(array &$config)
 	{
-		$foo = & $config['dsn'];
-		$foo = & $config['options'];
+		$foo = &$config['dsn'];
+		$foo = &$config['options'];
 		Dibi\Helpers::alias($config, 'resource', 'pdo');
 
 		if ($config['resource'] instanceof PDO) {
@@ -112,7 +112,7 @@ class PdoDriver implements Dibi\Driver, Dibi\ResultDriver
 		if (isset($list[$cmd])) {
 			$this->affectedRows = $this->connection->exec($sql);
 			if ($this->affectedRows !== FALSE) {
-				return;
+				return NULL;
 			}
 		} else {
 			$res = $this->connection->query($sql);
@@ -254,7 +254,7 @@ class PdoDriver implements Dibi\Driver, Dibi\ResultDriver
 
 	/**
 	 * Encodes data for use in a SQL statement.
-	 * @param  mixed     value
+	 * @param  string    value
 	 * @return string    encoded value
 	 */
 	public function escapeText($value)
@@ -267,6 +267,10 @@ class PdoDriver implements Dibi\Driver, Dibi\ResultDriver
 	}
 
 
+	/**
+	 * @param  string
+	 * @return string
+	 */
 	public function escapeBinary($value)
 	{
 		if ($this->driverName === 'odbc') {
@@ -277,6 +281,10 @@ class PdoDriver implements Dibi\Driver, Dibi\ResultDriver
 	}
 
 
+	/**
+	 * @param  string
+	 * @return string
+	 */
 	public function escapeIdentifier($value)
 	{
 		switch ($this->driverName) {
@@ -304,16 +312,24 @@ class PdoDriver implements Dibi\Driver, Dibi\ResultDriver
 	}
 
 
+	/**
+	 * @param  bool
+	 * @return string
+	 */
 	public function escapeBool($value)
 	{
 		if ($this->driverName === 'pgsql') {
 			return $value ? 'TRUE' : 'FALSE';
 		} else {
-			return $value ? 1 : 0;
+			return $value ? '1' : '0';
 		}
 	}
 
 
+	/**
+	 * @param  \DateTime|\DateTimeInterface|string|int
+	 * @return string
+	 */
 	public function escapeDate($value)
 	{
 		if (!$value instanceof \DateTime && !$value instanceof \DateTimeInterface) {
@@ -323,6 +339,10 @@ class PdoDriver implements Dibi\Driver, Dibi\ResultDriver
 	}
 
 
+	/**
+	 * @param  \DateTime|\DateTimeInterface|string|int
+	 * @return string
+	 */
 	public function escapeDateTime($value)
 	{
 		if (!$value instanceof \DateTime && !$value instanceof \DateTimeInterface) {
@@ -394,9 +414,12 @@ class PdoDriver implements Dibi\Driver, Dibi\ResultDriver
 
 	/**
 	 * Injects LIMIT/OFFSET to the SQL query.
+	 * @param  string
+	 * @param  int|NULL
+	 * @param  int|NULL
 	 * @return void
 	 */
-	public function applyLimit(& $sql, $limit, $offset)
+	public function applyLimit(&$sql, $limit, $offset)
 	{
 		if ($limit < 0 || $offset < 0) {
 			throw new Dibi\NotSupportedException('Negative offset or limit.');
@@ -548,7 +571,7 @@ class PdoDriver implements Dibi\Driver, Dibi\ResultDriver
 
 	/**
 	 * Returns the result set resource.
-	 * @return \PDOStatement
+	 * @return \PDOStatement|NULL
 	 */
 	public function getResultResource()
 	{

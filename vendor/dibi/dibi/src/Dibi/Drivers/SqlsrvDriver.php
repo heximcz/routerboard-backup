@@ -29,10 +29,10 @@ class SqlsrvDriver implements Dibi\Driver, Dibi\ResultDriver
 {
 	use Dibi\Strict;
 
-	/** @var resource  Connection resource */
+	/** @var resource|NULL */
 	private $connection;
 
-	/** @var resource  Resultset resource */
+	/** @var resource|NULL */
 	private $resultSet;
 
 	/** @var bool */
@@ -42,7 +42,7 @@ class SqlsrvDriver implements Dibi\Driver, Dibi\ResultDriver
 	private $affectedRows = FALSE;
 
 	/** @var string */
-	private $version;
+	private $version = '';
 
 
 	/**
@@ -61,7 +61,7 @@ class SqlsrvDriver implements Dibi\Driver, Dibi\ResultDriver
 	 * @return void
 	 * @throws Dibi\Exception
 	 */
-	public function connect(array & $config)
+	public function connect(array &$config)
 	{
 		Helpers::alias($config, 'options|UID', 'username');
 		Helpers::alias($config, 'options|PWD', 'password');
@@ -122,6 +122,7 @@ class SqlsrvDriver implements Dibi\Driver, Dibi\ResultDriver
 			$this->affectedRows = sqlsrv_rows_affected($res);
 			return $this->createResultDriver($res);
 		}
+		return NULL;
 	}
 
 
@@ -188,7 +189,7 @@ class SqlsrvDriver implements Dibi\Driver, Dibi\ResultDriver
 
 	/**
 	 * Returns the connection resource.
-	 * @return mixed
+	 * @return resource|NULL
 	 */
 	public function getResource()
 	{
@@ -224,7 +225,7 @@ class SqlsrvDriver implements Dibi\Driver, Dibi\ResultDriver
 
 	/**
 	 * Encodes data for use in a SQL statement.
-	 * @param  mixed     value
+	 * @param  string    value
 	 * @return string    encoded value
 	 */
 	public function escapeText($value)
@@ -233,12 +234,20 @@ class SqlsrvDriver implements Dibi\Driver, Dibi\ResultDriver
 	}
 
 
+	/**
+	 * @param  string
+	 * @return string
+	 */
 	public function escapeBinary($value)
 	{
 		return "'" . str_replace("'", "''", $value) . "'";
 	}
 
 
+	/**
+	 * @param  string
+	 * @return string
+	 */
 	public function escapeIdentifier($value)
 	{
 		// @see https://msdn.microsoft.com/en-us/library/ms176027.aspx
@@ -246,12 +255,20 @@ class SqlsrvDriver implements Dibi\Driver, Dibi\ResultDriver
 	}
 
 
+	/**
+	 * @param  bool
+	 * @return string
+	 */
 	public function escapeBool($value)
 	{
-		return $value ? 1 : 0;
+		return $value ? '1' : '0';
 	}
 
 
+	/**
+	 * @param  \DateTime|\DateTimeInterface|string|int
+	 * @return string
+	 */
 	public function escapeDate($value)
 	{
 		if (!$value instanceof \DateTime && !$value instanceof \DateTimeInterface) {
@@ -261,6 +278,10 @@ class SqlsrvDriver implements Dibi\Driver, Dibi\ResultDriver
 	}
 
 
+	/**
+	 * @param  \DateTime|\DateTimeInterface|string|int
+	 * @return string
+	 */
 	public function escapeDateTime($value)
 	{
 		if (!$value instanceof \DateTime && !$value instanceof \DateTimeInterface) {
@@ -304,14 +325,17 @@ class SqlsrvDriver implements Dibi\Driver, Dibi\ResultDriver
 
 	/**
 	 * Injects LIMIT/OFFSET to the SQL query.
+	 * @param  string
+	 * @param  int|NULL
+	 * @param  int|NULL
 	 * @return void
 	 */
-	public function applyLimit(& $sql, $limit, $offset)
+	public function applyLimit(&$sql, $limit, $offset)
 	{
 		if ($limit < 0 || $offset < 0) {
 			throw new Dibi\NotSupportedException('Negative offset or limit.');
 
-		} elseif (version_compare($this->version, 11, '<')) { // 11 == SQL Server 2012
+		} elseif (version_compare($this->version, '11', '<')) { // 11 == SQL Server 2012
 			if ($offset) {
 				throw new Dibi\NotSupportedException('Offset is not supported by this database.');
 
@@ -405,7 +429,7 @@ class SqlsrvDriver implements Dibi\Driver, Dibi\ResultDriver
 
 	/**
 	 * Returns the result set resource.
-	 * @return mixed
+	 * @return resource|NULL
 	 */
 	public function getResultResource()
 	{

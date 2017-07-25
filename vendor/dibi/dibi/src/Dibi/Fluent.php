@@ -130,19 +130,19 @@ class Fluent implements IDataSource
 			if (isset(self::$masks[$clause])) {
 				$this->clauses = array_fill_keys(self::$masks[$clause], NULL);
 			}
-			$this->cursor = & $this->clauses[$clause];
+			$this->cursor = &$this->clauses[$clause];
 			$this->cursor = [];
 			$this->command = $clause;
 		}
 
 		// auto-switch to a clause
 		if (isset(self::$clauseSwitches[$clause])) {
-			$this->cursor = & $this->clauses[self::$clauseSwitches[$clause]];
+			$this->cursor = &$this->clauses[self::$clauseSwitches[$clause]];
 		}
 
 		if (array_key_exists($clause, $this->clauses)) {
 			// append to clause
-			$this->cursor = & $this->clauses[$clause];
+			$this->cursor = &$this->clauses[$clause];
 
 			// TODO: really delete?
 			if ($args === [self::REMOVE]) {
@@ -211,7 +211,7 @@ class Fluent implements IDataSource
 	 */
 	public function clause($clause)
 	{
-		$this->cursor = & $this->clauses[self::$normalizer->$clause];
+		$this->cursor = &$this->clauses[self::$normalizer->$clause];
 		if ($this->cursor === NULL) {
 			$this->cursor = [];
 		}
@@ -300,7 +300,7 @@ class Fluent implements IDataSource
 	/**
 	 * Generates and executes SQL query.
 	 * @param  mixed what to return?
-	 * @return Result|int  result set object (if any)
+	 * @return Result|int  result set or number of affected rows
 	 * @throws Exception
 	 */
 	public function execute($return = NULL)
@@ -319,7 +319,7 @@ class Fluent implements IDataSource
 
 	/**
 	 * Generates, executes SQL query and fetches the single row.
-	 * @return Row|FALSE  array on success, FALSE if no next record
+	 * @return Row|FALSE
 	 */
 	public function fetch()
 	{
@@ -512,10 +512,10 @@ class Fluent implements IDataSource
 	{
 		// remove references
 		foreach ($this->clauses as $clause => $val) {
-			$this->clauses[$clause] = & $val;
+			$this->clauses[$clause] = &$val;
 			unset($val);
 		}
-		$this->cursor = & $foo;
+		$this->cursor = &$foo;
 	}
 
 }
