@@ -7,6 +7,11 @@ namespace Composer\Autoload;
 class ComposerStaticInitf6d1b74598a5cf47c5b437717b0ef3c2
 {
     public static $files = array (
+        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        'ddc0a4d7e61c0286f0f8593b1903e894' => __DIR__ . '/..' . '/clue/stream-filter/src/functions.php',
+        '8cff32064859f4559445b89279f3199c' => __DIR__ . '/..' . '/php-http/message/src/filters.php',
+        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
+        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '0097ca414fcb37c7130ac24b05f485f8' => __DIR__ . '/..' . '/dibi/dibi/src/loader.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
@@ -21,6 +26,7 @@ class ComposerStaticInitf6d1b74598a5cf47c5b437717b0ef3c2
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\Yaml\\' => 23,
+            'Symfony\\Component\\OptionsResolver\\' => 34,
             'Symfony\\Component\\Finder\\' => 25,
             'Symfony\\Component\\Filesystem\\' => 29,
             'Symfony\\Component\\Debug\\' => 24,
@@ -32,6 +38,29 @@ class ComposerStaticInitf6d1b74598a5cf47c5b437717b0ef3c2
         'P' => 
         array (
             'Psr\\Log\\' => 8,
+            'Psr\\Http\\Message\\' => 17,
+        ),
+        'H' => 
+        array (
+            'Http\\Promise\\' => 13,
+            'Http\\Message\\MultipartStream\\' => 29,
+            'Http\\Message\\' => 13,
+            'Http\\Discovery\\' => 15,
+            'Http\\Client\\Common\\' => 19,
+            'Http\\Client\\' => 12,
+            'Http\\Adapter\\Guzzle6\\' => 21,
+        ),
+        'G' => 
+        array (
+            'GuzzleHttp\\Psr7\\' => 16,
+            'GuzzleHttp\\Promise\\' => 19,
+            'GuzzleHttp\\' => 11,
+            'Gitlab\\' => 7,
+        ),
+        'C' => 
+        array (
+            'CodeClimate\\PhpTestReporter\\' => 28,
+            'Clue\\StreamFilter\\' => 18,
         ),
         'A' => 
         array (
@@ -52,6 +81,10 @@ class ComposerStaticInitf6d1b74598a5cf47c5b437717b0ef3c2
         'Symfony\\Component\\Yaml\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
+        ),
+        'Symfony\\Component\\OptionsResolver\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/options-resolver',
         ),
         'Symfony\\Component\\Finder\\' => 
         array (
@@ -90,6 +123,63 @@ class ComposerStaticInitf6d1b74598a5cf47c5b437717b0ef3c2
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
+        'Psr\\Http\\Message\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Http\\Promise\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-http/promise/src',
+        ),
+        'Http\\Message\\MultipartStream\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-http/multipart-stream-builder/src',
+        ),
+        'Http\\Message\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-http/message-factory/src',
+            1 => __DIR__ . '/..' . '/php-http/message/src',
+        ),
+        'Http\\Discovery\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-http/discovery/src',
+        ),
+        'Http\\Client\\Common\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-http/client-common/src',
+        ),
+        'Http\\Client\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-http/httplug/src',
+        ),
+        'Http\\Adapter\\Guzzle6\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-http/guzzle6-adapter/src',
+        ),
+        'GuzzleHttp\\Psr7\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
+        ),
+        'GuzzleHttp\\Promise\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
+        ),
+        'GuzzleHttp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
+        ),
+        'Gitlab\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/m4tthumphrey/php-gitlab-api/lib/Gitlab',
+        ),
+        'CodeClimate\\PhpTestReporter\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/codeclimate/php-test-reporter/src',
+        ),
+        'Clue\\StreamFilter\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/clue/stream-filter/src',
+        ),
         'App\\Console\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/Console',
@@ -97,23 +187,6 @@ class ComposerStaticInitf6d1b74598a5cf47c5b437717b0ef3c2
         'App\\Config\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/Config',
-        ),
-    );
-
-    public static $prefixesPsr0 = array (
-        'G' => 
-        array (
-            'Gitlab\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/m4tthumphrey/php-gitlab-api/lib',
-            ),
-        ),
-        'B' => 
-        array (
-            'Buzz' => 
-            array (
-                0 => __DIR__ . '/..' . '/kriswallsmith/buzz/lib',
-            ),
         ),
     );
 
@@ -189,7 +262,6 @@ class ComposerStaticInitf6d1b74598a5cf47c5b437717b0ef3c2
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitf6d1b74598a5cf47c5b437717b0ef3c2::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitf6d1b74598a5cf47c5b437717b0ef3c2::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitf6d1b74598a5cf47c5b437717b0ef3c2::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitf6d1b74598a5cf47c5b437717b0ef3c2::$classMap;
 
         }, null, ClassLoader::class);

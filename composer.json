@@ -17,7 +17,8 @@
     "dibi/dibi": "^3.0",
     "phpseclib/phpseclib": "^2.0",
     "symfony/finder": "^2.8",
-    "m4tthumphrey/php-gitlab-api": "^8.0"
+    "m4tthumphrey/php-gitlab-api": "^9.0",
+    "php-http/guzzle6-adapter": "*"
   },
   "autoload": {
     "psr-4": {
