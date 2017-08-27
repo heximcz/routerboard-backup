@@ -97,14 +97,14 @@ class RouterBoardGitLab extends AbstractRouterBoard implements IRouterBoardBacku
      */
     private function doGitLabPush($addr, $identity, $extension, $type)
     {
-        $rbfolder = $identity . '_' . $addr . DIRECTORY_SEPARATOR;
+        $rbFolder = $identity . '_' . $addr . DIRECTORY_SEPARATOR;
         $message = 'backup/change time ' . date("Y-m-d H:i.s") . ' type = ' . $type;
         if ($type == 'base64')
-            $content = base64_encode(file_get_contents($this->folder . $rbfolder . $this->filename . '.' . $extension));
+            $content = base64_encode(file_get_contents($this->folder . $rbFolder . $this->filename . '.' . $extension));
         else
-            $content = file_get_contents($this->folder . $rbfolder . $this->filename . '.' . $extension);
+            $content = file_get_contents($this->folder . $rbFolder . $this->filename . '.' . $extension);
         $this->gitlab->sendFile(
-            $rbfolder . $this->filename . '.' . $extension,
+            $rbFolder . $this->filename . '.' . $extension,
             $content,
             'master',
             $message
