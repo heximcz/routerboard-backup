@@ -12,16 +12,16 @@ class GitLabAPI extends AbstractRouterBoard
 {
 
     private $client;
-    private $idproject;
-    private $idgroup;
+    private $idProject;
+    private $idGroup;
 
     public function __construct($config, $logger)
     {
         parent::__construct($config, $logger);
-        $this->client = new Client($this->config['gitlab']['url']);
-        $this->client->authenticate($this->config['gitlab']['token'], $this->config['gitlab']['auth-method']);
-        $this->idproject = false;
-        $this->idgroup = false;
+        $this->client = Client::create($this->config['gitlab']['url'])
+            ->authenticate($this->config['gitlab']['token'], $this->config['gitlab']['auth-method']);
+        $this->idProject = false;
+        $this->idGroup = false;
     }
 
     /**
@@ -30,7 +30,7 @@ class GitLabAPI extends AbstractRouterBoard
      */
     public function getProjectID()
     {
-        return $this->idproject;
+        return $this->idProject;
     }
 
     /**
@@ -39,7 +39,7 @@ class GitLabAPI extends AbstractRouterBoard
      */
     public function getGroupID()
     {
-        return $this->idgroup;
+        return $this->idGroup;
     }
 
     /**
@@ -59,14 +59,17 @@ class GitLabAPI extends AbstractRouterBoard
     {
         $this->checkUserName($this->config['gitlab']['username']);
         $project = new Projects($this->client);
-        $arrProjects = $project->search($this->config['gitlab']['project-name'], 1, 1000, 'path');
-        if ($this->idgroup) {
+        $arrProjects = $project->all([
+            'search' => $this->config['gitlab']['project-name']
+        ]);
+        //old $this->config['gitlab']['project-name'], 1, 1000, 'path');
+        if ($this->idGroup) {
             return $this->arraySearchValues(
                 $this->config['gitlab']['group-name'] . "/" . $this->config['gitlab']['project-name'],
                 $arrProjects,
                 'path_with_namespace',
                 'id',
-                $this->idproject
+                $this->idProject
             );
         }
         return $this->arraySearchValues(
@@ -74,7 +77,7 @@ class GitLabAPI extends AbstractRouterBoard
             $arrProjects,
             'path_with_namespace',
             'id',
-            $this->idproject
+            $this->idProject
         );
     }
 
@@ -84,13 +87,15 @@ class GitLabAPI extends AbstractRouterBoard
     public function checkGroupName()
     {
         $groups = new Groups($this->client);
-        return $this->arraySearchValues(
+        echo "Group\n";
+        print_r( $this->arraySearchValues(
             $this->config['gitlab']['group-name'],
             $groups->all(),
             'path',
             'id',
-            $this->idgroup
-        );
+            $this->idGroup
+        ));
+        exit;
     }
 
     /**
@@ -100,7 +105,7 @@ class GitLabAPI extends AbstractRouterBoard
     public function createProject()
     {
         $project = new Project();
-        if ($this->idgroup) {
+        if ($this->idGroup) {
             $project->create($this->client, $this->config['gitlab']['project-name'], array(
                 'description' => 'Mikrotik RouterOS backup files.',
                 'namespace_id' => $this->getGroupID(),
@@ -136,7 +141,6 @@ class GitLabAPI extends AbstractRouterBoard
      * @param string $content
      * @param string $branch
      * @param string $message
-     * @throws Gitlab\Exception\RuntimeException;
      */
     public function sendFile($filePath, $content, $branch, $message)
     {
