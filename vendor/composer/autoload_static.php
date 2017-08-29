@@ -59,7 +59,6 @@ class ComposerStaticInitf6d1b74598a5cf47c5b437717b0ef3c2
         ),
         'C' => 
         array (
-            'CodeClimate\\PhpTestReporter\\' => 28,
             'Clue\\StreamFilter\\' => 18,
         ),
         'A' => 
@@ -171,10 +170,6 @@ class ComposerStaticInitf6d1b74598a5cf47c5b437717b0ef3c2
         'Gitlab\\' => 
         array (
             0 => __DIR__ . '/..' . '/m4tthumphrey/php-gitlab-api/lib/Gitlab',
-        ),
-        'CodeClimate\\PhpTestReporter\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/codeclimate/php-test-reporter/src',
         ),
         'Clue\\StreamFilter\\' => 
         array (
