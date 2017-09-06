@@ -148,9 +148,10 @@ class GitLabAPI extends AbstractRouterBoard
         $project = new Project($this->getProjectID(), $this->client);
         // try if file exist
         try {
-            $project->getFile('master',$filePath);
+            $project->getFile('master', $filePath);
             $project->updateFile($filePath, $content, $branch, $message);
         } catch (RuntimeException $runtimeException) {
+            // $runtimeException->getMessage() = '404 File Not Found'
             $project->createFile($filePath, $content, $branch, $message);
         }
     }
