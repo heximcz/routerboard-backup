@@ -6,6 +6,7 @@ use Gitlab\Client;
 use Gitlab\Api\Projects;
 use Gitlab\Api\Groups;
 use Gitlab\Model\Project;
+use Gitlab\Exception\RuntimeException;
 use Exception;
 
 class GitLabAPI extends AbstractRouterBoard
@@ -145,7 +146,13 @@ class GitLabAPI extends AbstractRouterBoard
     public function sendFile($filePath, $content, $branch, $message)
     {
         $project = new Project($this->getProjectID(), $this->client);
-        $project->updateFile($filePath, $content, $branch, $message);
+        // try if file exist
+        try {
+            $project->getFile('master',$filePath);
+            $project->updateFile($filePath, $content, $branch, $message);
+        } catch (RuntimeException $runtimeException) {
+            $project->createFile($filePath, $content, $branch, $message);
+        }
     }
 
     /**
@@ -182,7 +189,6 @@ class GitLabAPI extends AbstractRouterBoard
     {
         if (!filter_var($userName, FILTER_VALIDATE_EMAIL) === false) {
             throw new Exception("Email in gitlab/username is not allowed! Set your real username.");
-            return false;
         }
         return true;
     }
