@@ -4,7 +4,6 @@ namespace RBTests;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use App\Console\CliRouterBoardGitLab;
-use Gitlab\Exception\RuntimeException;
 
 class GitLabTest extends RBCaseTest {
 
@@ -23,7 +22,7 @@ class GitLabTest extends RBCaseTest {
 			) );
 			$this->assertRegExp ( '/../', $commandTester->getDisplay () );
 		} 
-		catch (RuntimeException $e) {
+		catch (\LogicException $e) {
 			$this->assertContains('Host can not be empty', $e->getMessage());
 		}
 	}
