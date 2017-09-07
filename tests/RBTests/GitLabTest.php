@@ -24,8 +24,7 @@ class GitLabTest extends RBCaseTest {
 			$this->assertRegExp ( '/../', $commandTester->getDisplay () );
 		} 
 		catch (RuntimeException $e) {
-			$this->assertContains('resolve host', $e->getMessage());
+			$this->assertContains('Host can not be empty', $e->getMessage());
 		}
 	}
-
 }
