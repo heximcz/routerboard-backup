@@ -20,6 +20,10 @@ Backup to **local hard drive** or backup to **GitLab repository**.
 
 PHP > 5.6.x
 
+## Warning
+
+Private Token support will be removed in GitLab 10.2, from this version please use [Personal Access Tokens](https://docs.gitlab.com/ce/user/profile/personal_access_tokens.html)
+
 ## Features
 
 * **(NEW) Full support Gitlab API V4** (from 1.0.0)
