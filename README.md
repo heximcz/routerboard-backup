@@ -26,7 +26,8 @@ Private Token support will be removed in GitLab 10.2, from this version please u
 
 ## Features
 
-* **(NEW) Full support Gitlab API V4** (from 1.0.0)
+* **(NEW) support for gitlab base64 file decode** (from 1.0.1)
+* (NEW) Full support Gitlab API V4 (from 1.0.0)
 * Support for override default SSH port in the config file. (from v0.9.0)
 * Backup to GitLab repository. (from v0.8.0)
 * Auto generate RSA key if it does not exist.
@@ -106,6 +107,8 @@ print help:
 ```php ./routerboard-backup rb:list -h```
 
 ```php ./routerboard-backup rb:gitlab -h```
+
+```php ./routerboard-backup rb:decode -h```
 
 
 ## Using via crontab

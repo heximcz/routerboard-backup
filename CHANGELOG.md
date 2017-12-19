@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.0.1](https://github.com/heximcz/routerboard-backup/releases/tag/1.0.1)
+- update vendor - Symfony framework
+- add support for gitlab base64 file decode (rb:decode -f filepath) [issue #9](https://github.com/heximcz/routerboard-backup/issues/9)
+
 ## [1.0.0](https://github.com/heximcz/routerboard-backup/releases/tag/1.0.0)
 - update vendor - Symfony framework, Gitlab API
 - full support Gitlab API V4
