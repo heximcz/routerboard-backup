@@ -11,7 +11,6 @@ use Gitlab\Client;
  * @property-read string $title
  * @property-read string $description
  * @property-read string $due_date
- * @property-read string $start_date
  * @property-read string $state
  * @property-read bool $closed
  * @property-read string $updated_at
@@ -31,7 +30,6 @@ class Milestone extends AbstractModel
         'title',
         'description',
         'due_date',
-        'start_date',
         'state',
         'closed',
         'updated_at',

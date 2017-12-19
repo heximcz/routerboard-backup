@@ -2,7 +2,6 @@
 
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Projects extends AbstractApi
 {
@@ -215,7 +214,7 @@ class Projects extends AbstractApi
      */
     public function createPipeline($project_id, $commit_ref)
     {
-        return $this->post($this->getProjectPath($project_id, 'pipeline'), array(
+        return $this->post($this->getProjectPath($project_id, 'pipelines'), array(
             'ref' => $commit_ref));
     }
 
@@ -382,15 +381,13 @@ class Projects extends AbstractApi
      * @param int $project_id
      * @param string $title
      * @param string $key
-     * @param bool $canPush
      * @return mixed
      */
-    public function addDeployKey($project_id, $title, $key, $canPush = false)
+    public function addDeployKey($project_id, $title, $key)
     {
         return $this->post($this->getProjectPath($project_id, 'deploy_keys'), array(
             'title' => $title,
-            'key' => $key,
-            'can_push' => $canPush
+            'key' => $key
         ));
     }
 
@@ -497,20 +494,11 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param array $params (
-     *
-     *     @var string $namespace      The ID or path of the namespace that the project will be forked to
-     * )
      * @return mixed
      */
-    public function fork($project_id, array $parameters = [])
+    public function fork($project_id)
     {
-        $resolver = new OptionsResolver();
-        $resolver->setDefined('namespace');
-
-        $resolved = $resolver->resolve($parameters);
-
-        return $this->post($this->getProjectPath($project_id, 'fork'), $resolved);
+        return $this->post('projects/'.$this->encodePath($project_id).'/fork');
     }
 
     /**
@@ -576,51 +564,27 @@ class Projects extends AbstractApi
      * @param int $project_id
      * @param string $key
      * @param string $value
-     * @param bool $protected
-     * @param string $environment_scope
      * @return mixed
      */
-    public function addVariable($project_id, $key, $value, $protected = null, $environment_scope = null)
+    public function addVariable($project_id, $key, $value)
     {
-        $payload = array(
+        return $this->post($this->getProjectPath($project_id, 'variables'), array(
             'key'   => $key,
-            'value' => $value,
-        );
-
-        if ($protected) {
-            $payload['protected'] = $protected;
-        }
-
-        if ($environment_scope) {
-            $payload['environment_scope'] = $environment_scope;
-        }
-
-        return $this->post($this->getProjectPath($project_id, 'variables'), $payload);
+            'value' => $value
+        ));
     }
 
     /**
      * @param int $project_id
      * @param string $key
      * @param string $value
-     * @param bool $protected
-     * @param string $environment_scope
      * @return mixed
      */
-    public function updateVariable($project_id, $key, $value, $protected = null, $environment_scope = null)
+    public function updateVariable($project_id, $key, $value)
     {
-        $payload = array(
+        return $this->put($this->getProjectPath($project_id, 'variables/'.$this->encodePath($key)), array(
             'value' => $value,
-        );
-
-        if ($protected) {
-            $payload['protected'] = $protected;
-        }
-
-        if ($environment_scope) {
-            $payload['environment_scope'] = $environment_scope;
-        }
-
-        return $this->put($this->getProjectPath($project_id, 'variables/'.$this->encodePath($key)), $payload);
+        ));
     }
 
     /**

@@ -29,7 +29,6 @@ use Gitlab\Client;
  * @property-read int $greatest_access_level
  * @property-read string $last_activity_at
  * @property-read string $tag_list
- * @property-read string $avatar_url
  * @property-read User $owner
  * @property-read ProjectNamespace $namespace
  */
@@ -62,8 +61,7 @@ class Project extends AbstractModel
         'greatest_access_level',
         'last_activity_at',
         'snippets_enabled',
-        'tag_list',
-        'avatar_url'
+        'tag_list'
     );
 
     /**
@@ -330,12 +328,11 @@ class Project extends AbstractModel
     /**
      * @param string $title
      * @param string $key
-     * @param bool $canPush
      * @return Key
      */
-    public function addDeployKey($title, $key, $canPush = false)
+    public function addDeployKey($title, $key)
     {
-        $data = $this->client->projects()->addDeployKey($this->id, $title, $key, $canPush);
+        $data = $this->client->projects()->addDeployKey($this->id, $title, $key);
 
         return Key::fromArray($this->getClient(), $data);
     }

@@ -80,7 +80,7 @@ class Issue extends AbstractModel implements Noteable
      */
     public function show()
     {
-        $data = $this->client->issues()->show($this->project->id, $this->iid);
+        $data = $this->client->issues()->show($this->project->id, $this->id);
 
         return static::fromArray($this->getClient(), $this->project, $data);
     }
@@ -91,7 +91,7 @@ class Issue extends AbstractModel implements Noteable
      */
     public function update(array $params)
     {
-        $data = $this->client->issues()->update($this->project->id, $this->iid, $params);
+        $data = $this->client->issues()->update($this->project->id, $this->id, $params);
 
         return static::fromArray($this->getClient(), $this->project, $data);
     }
