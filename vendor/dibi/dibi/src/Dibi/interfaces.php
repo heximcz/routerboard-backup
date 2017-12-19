@@ -42,20 +42,20 @@ interface Driver
 	/**
 	 * Internal: Executes the SQL query.
 	 * @param  string      SQL statement.
-	 * @return ResultDriver|NULL
+	 * @return ResultDriver|null
 	 * @throws DriverException
 	 */
 	function query($sql);
 
 	/**
 	 * Gets the number of affected rows by the last INSERT, UPDATE or DELETE query.
-	 * @return int|FALSE  number of rows or FALSE on error
+	 * @return int|false  number of rows or false on error
 	 */
 	function getAffectedRows();
 
 	/**
 	 * Retrieves the ID generated for an AUTO_INCREMENT column by the previous INSERT query.
-	 * @return int|FALSE  int on success or FALSE on failure
+	 * @return int|false  int on success or false on failure
 	 */
 	function getInsertId($sequence);
 
@@ -65,7 +65,7 @@ interface Driver
 	 * @return void
 	 * @throws DriverException
 	 */
-	function begin($savepoint = NULL);
+	function begin($savepoint = null);
 
 	/**
 	 * Commits statements in a transaction.
@@ -73,7 +73,7 @@ interface Driver
 	 * @return void
 	 * @throws DriverException
 	 */
-	function commit($savepoint = NULL);
+	function commit($savepoint = null);
 
 	/**
 	 * Rollback changes in a transaction.
@@ -81,7 +81,7 @@ interface Driver
 	 * @return void
 	 * @throws DriverException
 	 */
-	function rollback($savepoint = NULL);
+	function rollback($savepoint = null);
 
 	/**
 	 * Returns the connection resource.
@@ -143,12 +143,11 @@ interface Driver
 	/**
 	 * Injects LIMIT/OFFSET to the SQL query.
 	 * @param  string
-	 * @param  int|NULL
-	 * @param  int|NULL
+	 * @param  int|null
+	 * @param  int|null
 	 * @return void
 	 */
 	function applyLimit(&$sql, $limit, $offset);
-
 }
 
 
@@ -167,14 +166,14 @@ interface ResultDriver
 	/**
 	 * Moves cursor position without fetching row.
 	 * @param  int      the 0-based cursor pos to seek to
-	 * @return boolean  TRUE on success, FALSE if unable to seek to specified record
+	 * @return bool     true on success, false if unable to seek to specified record
 	 * @throws Exception
 	 */
 	function seek($row);
 
 	/**
 	 * Fetches the row at current position and moves the internal cursor to the next position.
-	 * @param  bool     TRUE for associative array, FALSE for numeric
+	 * @param  bool     true for associative array, false for numeric
 	 * @return array    array on success, nonarray if no next record
 	 * @internal
 	 */
@@ -205,7 +204,6 @@ interface ResultDriver
 	 * @return string
 	 */
 	function unescapeBinary($value);
-
 }
 
 
@@ -241,5 +239,4 @@ interface Reflector
 	 * @return array
 	 */
 	function getForeignKeys($table);
-
 }

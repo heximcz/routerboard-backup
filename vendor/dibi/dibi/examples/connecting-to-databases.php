@@ -74,7 +74,7 @@ try {
 		'driver' => 'odbc',
 		'username' => 'root',
 		'password' => '***',
-		'dsn' => 'Driver={Microsoft Access Driver (*.mdb)};Dbq='.__DIR__.'/data/sample.mdb',
+		'dsn' => 'Driver={Microsoft Access Driver (*.mdb)};Dbq=' . __DIR__ . '/data/sample.mdb',
 	]);
 	echo 'OK';
 } catch (Dibi\Exception $e) {
@@ -89,7 +89,7 @@ try {
 	dibi::connect([
 		'driver' => 'postgre',
 		'string' => 'host=localhost port=5432 dbname=mary',
-		'persistent' => TRUE,
+		'persistent' => true,
 	]);
 	echo 'OK';
 } catch (Dibi\Exception $e) {

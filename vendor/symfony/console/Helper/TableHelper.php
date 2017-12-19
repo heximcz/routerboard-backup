@@ -30,9 +30,6 @@ class TableHelper extends Helper
     const LAYOUT_BORDERLESS = 1;
     const LAYOUT_COMPACT = 2;
 
-    /**
-     * @var Table
-     */
     private $table;
 
     public function __construct($triggerDeprecationError = true)
@@ -247,8 +244,6 @@ class TableHelper extends Helper
      * | 9971-5-0210-0 | A Tale of Two Cities  | Charles Dickens  |
      * | 960-425-059-0 | The Lord of the Rings | J. R. R. Tolkien |
      * +---------------+-----------------------+------------------+
-     *
-     * @param OutputInterface $output
      */
     public function render(OutputInterface $output)
     {

@@ -33,7 +33,7 @@ class Connection
 	private $translator;
 
 	/** @var bool  Is connected? */
-	private $connected = FALSE;
+	private $connected = false;
 
 	/** @var HashMap Substitutes for identifiers */
 	private $substitutes;
@@ -41,19 +41,18 @@ class Connection
 
 	/**
 	 * Connection options: (see driver-specific options too)
-	 *   - lazy (bool) => if TRUE, connection will be established only when required
+	 *   - lazy (bool) => if true, connection will be established only when required
 	 *   - result (array) => result set options
 	 *       - formatDateTime => date-time format (if empty, DateTime objects will be returned)
 	 *   - profiler (array or bool)
 	 *       - run (bool) => enable profiler?
 	 *       - file => file to log
 	 *   - substitutes (array) => map of driver specific substitutes (under development)
-
 	 * @param  mixed   connection parameters
 	 * @param  string  connection name
 	 * @throws Exception
 	 */
-	public function __construct($config, $name = NULL)
+	public function __construct($config, $name = null)
 	{
 		if (is_string($config)) {
 			parse_str($config, $config);
@@ -111,11 +110,6 @@ class Connection
 			if (Loggers\FirePhpLogger::isAvailable()) {
 				$this->onEvent[] = [new Loggers\FirePhpLogger($filter), 'logEvent'];
 			}
-
-			if (!interface_exists('Tracy\IBarPanel') && interface_exists('Nette\Diagnostics\IBarPanel') && class_exists('Dibi\Bridges\Nette\Panel')) {
-				$panel = new Bridges\Nette\Panel(isset($profilerCfg['explain']) ? $profilerCfg['explain'] : TRUE, $filter);
-				$panel->register($this);
-			}
 		}
 
 		$this->substitutes = new HashMap(function ($expr) { return ":$expr:"; });
@@ -148,10 +142,10 @@ class Connection
 	 */
 	final public function connect()
 	{
-		$event = $this->onEvent ? new Event($this, Event::CONNECT) : NULL;
+		$event = $this->onEvent ? new Event($this, Event::CONNECT) : null;
 		try {
 			$this->driver->connect($this->config);
-			$this->connected = TRUE;
+			$this->connected = true;
 			$event && $this->onEvent($event->done());
 
 		} catch (Exception $e) {
@@ -168,12 +162,12 @@ class Connection
 	final public function disconnect()
 	{
 		$this->driver->disconnect();
-		$this->connected = FALSE;
+		$this->connected = false;
 	}
 
 
 	/**
-	 * Returns TRUE when connection was established.
+	 * Returns true when connection was established.
 	 * @return bool
 	 */
 	final public function isConnected()
@@ -189,9 +183,9 @@ class Connection
 	 * @param  mixed  default value to use if key not found
 	 * @return mixed
 	 */
-	final public function getConfig($key = NULL, $default = NULL)
+	final public function getConfig($key = null, $default = null)
 	{
-		if ($key === NULL) {
+		if ($key === null) {
 			return $this->config;
 
 		} elseif (isset($this->config[$key])) {
@@ -258,7 +252,7 @@ class Connection
 		$args = func_get_args();
 		try {
 			Helpers::dump($this->translateArgs($args));
-			return TRUE;
+			return true;
 
 		} catch (Exception $e) {
 			if ($e->getSql()) {
@@ -266,7 +260,7 @@ class Connection
 			} else {
 				echo get_class($e) . ': ' . $e->getMessage() . (PHP_SAPI === 'cli' ? "\n" : '<br>');
 			}
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -311,7 +305,7 @@ class Connection
 		$this->connected || $this->connect();
 
 		\dibi::$sql = $sql;
-		$event = $this->onEvent ? new Event($this, Event::QUERY, $sql) : NULL;
+		$event = $this->onEvent ? new Event($this, Event::QUERY, $sql) : null;
 		try {
 			$res = $this->driver->query($sql);
 
@@ -348,12 +342,11 @@ class Connection
 
 
 	/**
-	 * Gets the number of affected rows. Alias for getAffectedRows().
-	 * @return int  number of rows
-	 * @throws Exception
+	 * @deprecated
 	 */
 	public function affectedRows()
 	{
+		trigger_error(__METHOD__ . '() is deprecated, use getAffectedRows()', E_USER_DEPRECATED);
 		return $this->getAffectedRows();
 	}
 
@@ -364,25 +357,23 @@ class Connection
 	 * @return int
 	 * @throws Exception
 	 */
-	public function getInsertId($sequence = NULL)
+	public function getInsertId($sequence = null)
 	{
 		$this->connected || $this->connect();
 		$id = $this->driver->getInsertId($sequence);
 		if ($id < 1) {
 			throw new Exception('Cannot retrieve last generated ID.');
 		}
-		return (int) $id;
+		return Helpers::intVal($id);
 	}
 
 
 	/**
-	 * Retrieves the ID generated for an AUTO_INCREMENT column. Alias for getInsertId().
-	 * @param  string     optional sequence name
-	 * @return int
-	 * @throws Exception
+	 * @deprecated
 	 */
-	public function insertId($sequence = NULL)
+	public function insertId($sequence = null)
 	{
+		trigger_error(__METHOD__ . '() is deprecated, use getInsertId()', E_USER_DEPRECATED);
 		return $this->getInsertId($sequence);
 	}
 
@@ -392,10 +383,10 @@ class Connection
 	 * @param  string  optional savepoint name
 	 * @return void
 	 */
-	public function begin($savepoint = NULL)
+	public function begin($savepoint = null)
 	{
 		$this->connected || $this->connect();
-		$event = $this->onEvent ? new Event($this, Event::BEGIN, $savepoint) : NULL;
+		$event = $this->onEvent ? new Event($this, Event::BEGIN, $savepoint) : null;
 		try {
 			$this->driver->begin($savepoint);
 			$event && $this->onEvent($event->done());
@@ -412,10 +403,10 @@ class Connection
 	 * @param  string  optional savepoint name
 	 * @return void
 	 */
-	public function commit($savepoint = NULL)
+	public function commit($savepoint = null)
 	{
 		$this->connected || $this->connect();
-		$event = $this->onEvent ? new Event($this, Event::COMMIT, $savepoint) : NULL;
+		$event = $this->onEvent ? new Event($this, Event::COMMIT, $savepoint) : null;
 		try {
 			$this->driver->commit($savepoint);
 			$event && $this->onEvent($event->done());
@@ -432,10 +423,10 @@ class Connection
 	 * @param  string  optional savepoint name
 	 * @return void
 	 */
-	public function rollback($savepoint = NULL)
+	public function rollback($savepoint = null)
 	{
 		$this->connected || $this->connect();
-		$event = $this->onEvent ? new Event($this, Event::ROLLBACK, $savepoint) : NULL;
+		$event = $this->onEvent ? new Event($this, Event::ROLLBACK, $savepoint) : null;
 		try {
 			$this->driver->rollback($savepoint);
 			$event && $this->onEvent($event->done());
@@ -543,7 +534,7 @@ class Connection
 	 */
 	public function substitute($value)
 	{
-		return strpos($value, ':') === FALSE
+		return strpos($value, ':') === false
 			? $value
 			: preg_replace_callback('#:([^:\s]*):#', function ($m) { return $this->substitutes->{$m[1]}; }, $value);
 	}
@@ -555,7 +546,7 @@ class Connection
 	/**
 	 * Executes SQL query and fetch result - shortcut for query() & fetch().
 	 * @param  array|mixed    one or more arguments
-	 * @return Row|FALSE
+	 * @return Row|false
 	 * @throws Exception
 	 */
 	public function fetch($args)
@@ -619,11 +610,12 @@ class Connection
 	/**
 	 * Import SQL dump from file.
 	 * @param  string  filename
+	 * @param  callable  function (int $count, ?float $percent): void
 	 * @return int  count of sql commands
 	 */
-	public function loadFile($file)
+	public function loadFile($file, callable $onProgress = null)
 	{
-		return Helpers::loadFromFile($this, $file);
+		return Helpers::loadFromFile($this, $file, $onProgress);
 	}
 
 
@@ -634,7 +626,7 @@ class Connection
 	public function getDatabaseInfo()
 	{
 		$this->connected || $this->connect();
-		return new Reflection\Database($this->driver->getReflector(), isset($this->config['database']) ? $this->config['database'] : NULL);
+		return new Reflection\Database($this->driver->getReflector(), isset($this->config['database']) ? $this->config['database'] : null);
 	}
 
 
@@ -662,5 +654,4 @@ class Connection
 			call_user_func($handler, $arg);
 		}
 	}
-
 }

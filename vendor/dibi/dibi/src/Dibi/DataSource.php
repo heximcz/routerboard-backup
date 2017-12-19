@@ -10,7 +10,6 @@ namespace Dibi;
 
 /**
  * Default implementation of IDataSource for dibi.
- *
  */
 class DataSource implements IDataSource
 {
@@ -40,10 +39,10 @@ class DataSource implements IDataSource
 	/** @var array */
 	private $conds = [];
 
-	/** @var int|NULL */
+	/** @var int|null */
 	private $offset;
 
-	/** @var int|NULL */
+	/** @var int|null */
 	private $limit;
 
 
@@ -53,7 +52,7 @@ class DataSource implements IDataSource
 	 */
 	public function __construct($sql, Connection $connection)
 	{
-		if (strpbrk($sql, " \t\r\n") === FALSE) {
+		if (strpbrk($sql, " \t\r\n") === false) {
 			$this->sql = $connection->getDriver()->escapeIdentifier($sql); // table name
 		} else {
 			$this->sql = '(' . $sql . ') t'; // SQL command
@@ -68,14 +67,14 @@ class DataSource implements IDataSource
 	 * @param  string        column alias
 	 * @return self
 	 */
-	public function select($col, $as = NULL)
+	public function select($col, $as = null)
 	{
 		if (is_array($col)) {
 			$this->cols = $col;
 		} else {
 			$this->cols[$col] = $as;
 		}
-		$this->result = NULL;
+		$this->result = null;
 		return $this;
 	}
 
@@ -93,7 +92,7 @@ class DataSource implements IDataSource
 		} else {
 			$this->conds[] = func_get_args();
 		}
-		$this->result = $this->count = NULL;
+		$this->result = $this->count = null;
 		return $this;
 	}
 
@@ -111,22 +110,22 @@ class DataSource implements IDataSource
 		} else {
 			$this->sorting[$row] = $sorting;
 		}
-		$this->result = NULL;
+		$this->result = null;
 		return $this;
 	}
 
 
 	/**
 	 * Limits number of rows.
-	 * @param  int|NULL limit
+	 * @param  int|null limit
 	 * @param  int offset
 	 * @return self
 	 */
-	public function applyLimit($limit, $offset = NULL)
+	public function applyLimit($limit, $offset = null)
 	{
 		$this->limit = $limit;
 		$this->offset = $offset;
-		$this->result = $this->count = NULL;
+		$this->result = $this->count = null;
 		return $this;
 	}
 
@@ -150,7 +149,7 @@ class DataSource implements IDataSource
 	 */
 	public function getResult()
 	{
-		if ($this->result === NULL) {
+		if ($this->result === null) {
 			$this->result = $this->connection->nativeQuery($this->__toString());
 		}
 		return $this->result;
@@ -168,7 +167,7 @@ class DataSource implements IDataSource
 
 	/**
 	 * Generates, executes SQL query and fetches the single row.
-	 * @return Row|FALSE
+	 * @return Row|false
 	 */
 	public function fetch()
 	{
@@ -178,7 +177,7 @@ class DataSource implements IDataSource
 
 	/**
 	 * Like fetch(), but returns only first field.
-	 * @return mixed  value on success, FALSE if no next record
+	 * @return mixed  value on success, false if no next record
 	 */
 	public function fetchSingle()
 	{
@@ -213,7 +212,7 @@ class DataSource implements IDataSource
 	 * @param  string  value
 	 * @return array
 	 */
-	public function fetchPairs($key = NULL, $value = NULL)
+	public function fetchPairs($key = null, $value = null)
 	{
 		return $this->getResult()->fetchPairs($key, $value);
 	}
@@ -225,7 +224,7 @@ class DataSource implements IDataSource
 	 */
 	public function release()
 	{
-		$this->result = $this->count = $this->totalCount = NULL;
+		$this->result = $this->count = $this->totalCount = null;
 	}
 
 
@@ -262,12 +261,13 @@ class DataSource implements IDataSource
 			return $this->connection->translate('
 SELECT %n', (empty($this->cols) ? '*' : $this->cols), '
 FROM %SQL', $this->sql, '
-%ex', $this->conds ? ['WHERE %and', $this->conds] : NULL, '
-%ex', $this->sorting ? ['ORDER BY %by', $this->sorting] : NULL, '
+%ex', $this->conds ? ['WHERE %and', $this->conds] : null, '
+%ex', $this->sorting ? ['ORDER BY %by', $this->sorting] : null, '
 %ofs %lmt', $this->offset, $this->limit
 			);
 		} catch (\Exception $e) {
 			trigger_error($e->getMessage(), E_USER_ERROR);
+			return '';
 		}
 	}
 
@@ -281,11 +281,11 @@ FROM %SQL', $this->sql, '
 	 */
 	public function count()
 	{
-		if ($this->count === NULL) {
+		if ($this->count === null) {
 			$this->count = $this->conds || $this->offset || $this->limit
-				? (int) $this->connection->nativeQuery(
+				? Helpers::intVal($this->connection->nativeQuery(
 					'SELECT COUNT(*) FROM (' . $this->__toString() . ') t'
-				)->fetchSingle()
+				)->fetchSingle())
 				: $this->getTotalCount();
 		}
 		return $this->count;
@@ -298,12 +298,11 @@ FROM %SQL', $this->sql, '
 	 */
 	public function getTotalCount()
 	{
-		if ($this->totalCount === NULL) {
-			$this->totalCount = (int) $this->connection->nativeQuery(
+		if ($this->totalCount === null) {
+			$this->totalCount = Helpers::intVal($this->connection->nativeQuery(
 				'SELECT COUNT(*) FROM ' . $this->sql
-			)->fetchSingle();
+			)->fetchSingle());
 		}
 		return $this->totalCount;
 	}
-
 }

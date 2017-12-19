@@ -67,9 +67,6 @@ class Finder implements \IteratorAggregate, \Countable
 
     private static $vcsPatterns = array('.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg');
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $this->ignore = static::IGNORE_VCS_FILES | static::IGNORE_DOT_FILES;
@@ -486,8 +483,6 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * This can be slow as all the matching files and directories must be retrieved for comparison.
      *
-     * @param \Closure $closure An anonymous function
-     *
      * @return $this
      *
      * @see SortableIterator
@@ -592,8 +587,6 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * The anonymous function receives a \SplFileInfo and must return false
      * to remove files.
-     *
-     * @param \Closure $closure An anonymous function
      *
      * @return $this
      *
@@ -702,7 +695,7 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * @return $this
      *
-     * @throws \InvalidArgumentException When the given argument is not iterable.
+     * @throws \InvalidArgumentException when the given argument is not iterable
      */
     public function append($iterator)
     {
@@ -854,8 +847,6 @@ class Finder implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @param AdapterInterface $adapter
-     *
      * @return AdapterInterface
      */
     private function buildAdapter(AdapterInterface $adapter)

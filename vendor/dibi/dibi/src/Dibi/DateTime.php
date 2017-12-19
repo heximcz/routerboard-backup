@@ -18,12 +18,12 @@ class DateTime extends \DateTime
 	/**
 	 * @param  string|int
 	 */
-	public function __construct($time = 'now', \DateTimeZone $timezone = NULL)
+	public function __construct($time = 'now', \DateTimeZone $timezone = null)
 	{
 		if (is_numeric($time)) {
 			parent::__construct('@' . $time);
 			$this->setTimeZone($timezone ? $timezone : new \DateTimeZone(date_default_timezone_get()));
-		} elseif ($timezone === NULL) {
+		} elseif ($timezone === null) {
 			parent::__construct($time);
 		} else {
 			parent::__construct($time, $timezone);
@@ -33,7 +33,7 @@ class DateTime extends \DateTime
 
 	public function modifyClone($modify = '')
 	{
-		$dolly = clone($this);
+		$dolly = clone $this;
 		return $modify ? $dolly->modify($modify) : $dolly;
 	}
 
@@ -55,7 +55,7 @@ class DateTime extends \DateTime
 
 	public function __toString()
 	{
-		return $this->format('Y-m-d H:i:s');
+		return $this->format('Y-m-d H:i:s.u');
 	}
 
 
@@ -71,5 +71,4 @@ class DateTime extends \DateTime
 			parent::__wakeup();
 		}
 	}
-
 }

@@ -6,9 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Dibi\\Bridges\\Nette\\DibiExtension21' => $vendorDir . '/dibi/dibi/src/Dibi/Bridges/Nette/DibiExtension21.php',
     'Dibi\\Bridges\\Nette\\DibiExtension22' => $vendorDir . '/dibi/dibi/src/Dibi/Bridges/Nette/DibiExtension22.php',
-    'Dibi\\Bridges\\Nette\\Panel' => $vendorDir . '/dibi/dibi/src/Dibi/Bridges/Nette/Panel.php',
     'Dibi\\Bridges\\Tracy\\Panel' => $vendorDir . '/dibi/dibi/src/Dibi/Bridges/Tracy/Panel.php',
     'Dibi\\Connection' => $vendorDir . '/dibi/dibi/src/Dibi/Connection.php',
     'Dibi\\ConstraintViolationException' => $vendorDir . '/dibi/dibi/src/Dibi/exceptions.php',
@@ -32,6 +30,7 @@ return array(
     'Dibi\\Drivers\\SqlsrvReflector' => $vendorDir . '/dibi/dibi/src/Dibi/Drivers/SqlsrvReflector.php',
     'Dibi\\Event' => $vendorDir . '/dibi/dibi/src/Dibi/Event.php',
     'Dibi\\Exception' => $vendorDir . '/dibi/dibi/src/Dibi/exceptions.php',
+    'Dibi\\Expression' => $vendorDir . '/dibi/dibi/src/Dibi/Expression.php',
     'Dibi\\Fluent' => $vendorDir . '/dibi/dibi/src/Dibi/Fluent.php',
     'Dibi\\ForeignKeyConstraintViolationException' => $vendorDir . '/dibi/dibi/src/Dibi/exceptions.php',
     'Dibi\\HashMap' => $vendorDir . '/dibi/dibi/src/Dibi/HashMap.php',

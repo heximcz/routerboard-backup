@@ -186,9 +186,7 @@ class ComposerStaticInitf6d1b74598a5cf47c5b437717b0ef3c2
     );
 
     public static $classMap = array (
-        'Dibi\\Bridges\\Nette\\DibiExtension21' => __DIR__ . '/..' . '/dibi/dibi/src/Dibi/Bridges/Nette/DibiExtension21.php',
         'Dibi\\Bridges\\Nette\\DibiExtension22' => __DIR__ . '/..' . '/dibi/dibi/src/Dibi/Bridges/Nette/DibiExtension22.php',
-        'Dibi\\Bridges\\Nette\\Panel' => __DIR__ . '/..' . '/dibi/dibi/src/Dibi/Bridges/Nette/Panel.php',
         'Dibi\\Bridges\\Tracy\\Panel' => __DIR__ . '/..' . '/dibi/dibi/src/Dibi/Bridges/Tracy/Panel.php',
         'Dibi\\Connection' => __DIR__ . '/..' . '/dibi/dibi/src/Dibi/Connection.php',
         'Dibi\\ConstraintViolationException' => __DIR__ . '/..' . '/dibi/dibi/src/Dibi/exceptions.php',
@@ -212,6 +210,7 @@ class ComposerStaticInitf6d1b74598a5cf47c5b437717b0ef3c2
         'Dibi\\Drivers\\SqlsrvReflector' => __DIR__ . '/..' . '/dibi/dibi/src/Dibi/Drivers/SqlsrvReflector.php',
         'Dibi\\Event' => __DIR__ . '/..' . '/dibi/dibi/src/Dibi/Event.php',
         'Dibi\\Exception' => __DIR__ . '/..' . '/dibi/dibi/src/Dibi/exceptions.php',
+        'Dibi\\Expression' => __DIR__ . '/..' . '/dibi/dibi/src/Dibi/Expression.php',
         'Dibi\\Fluent' => __DIR__ . '/..' . '/dibi/dibi/src/Dibi/Fluent.php',
         'Dibi\\ForeignKeyConstraintViolationException' => __DIR__ . '/..' . '/dibi/dibi/src/Dibi/exceptions.php',
         'Dibi\\HashMap' => __DIR__ . '/..' . '/dibi/dibi/src/Dibi/HashMap.php',

@@ -13,7 +13,7 @@ namespace Dibi;
  */
 class Exception extends \Exception
 {
-	/** @var string|NULL */
+	/** @var string|null */
 	private $sql;
 
 
@@ -23,7 +23,7 @@ class Exception extends \Exception
 	 * @param  mixed
 	 * @param  string  SQL command
 	 */
-	public function __construct($message = '', $code = 0, $sql = NULL)
+	public function __construct($message = '', $code = 0, $sql = null)
 	{
 		parent::__construct($message);
 		$this->code = $code;
@@ -47,7 +47,6 @@ class Exception extends \Exception
 	{
 		return parent::__toString() . ($this->sql ? "\nSQL: " . $this->sql : '');
 	}
-
 }
 
 
@@ -64,7 +63,6 @@ class DriverException extends Exception
  */
 class PcreException extends Exception
 {
-
 	public function __construct($message = '%msg.')
 	{
 		static $messages = [
@@ -105,7 +103,7 @@ class ProcedureException extends Exception
 	 * @param  int     Some code
 	 * @param  string SQL command
 	 */
-	public function __construct($message = NULL, $code = 0, $severity = NULL, $sql = NULL)
+	public function __construct($message = null, $code = 0, $severity = null, $sql = null)
 	{
 		parent::__construct($message, (int) $code, $sql);
 		$this->severity = $severity;
@@ -120,7 +118,6 @@ class ProcedureException extends Exception
 	{
 		$this->severity;
 	}
-
 }
 
 

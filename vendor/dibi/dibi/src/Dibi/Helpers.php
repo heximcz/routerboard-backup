@@ -15,13 +15,14 @@ class Helpers
 	/** @var array */
 	private static $types;
 
+
 	/**
 	 * Prints out a syntax highlighted version of the SQL command or Result.
 	 * @param  string|Result
 	 * @param  bool  return output instead of printing it?
 	 * @return string
 	 */
-	public static function dump($sql = NULL, $return = FALSE)
+	public static function dump($sql = null, $return = false)
 	{
 		ob_start();
 		if ($sql instanceof Result && PHP_SAPI === 'cli') {
@@ -38,7 +39,7 @@ class Helpers
 				echo $hasColors ? "\033[1;37m#row: $i\033[0m\n" : "#row: $i\n";
 				foreach ($row as $col => $val) {
 					$spaces = $maxLen - mb_strlen($col) + 2;
-					echo "$col" . str_repeat(' ', $spaces) .  "$val\n";
+					echo "$col" . str_repeat(' ', $spaces) . "$val\n";
 				}
 				echo "\n";
 			}
@@ -50,14 +51,14 @@ class Helpers
 				if ($i === 0) {
 					echo "\n<table class=\"dump\">\n<thead>\n\t<tr>\n\t\t<th>#row</th>\n";
 					foreach ($row as $col => $foo) {
-						echo "\t\t<th>" . htmlSpecialChars((string) $col) . "</th>\n";
+						echo "\t\t<th>" . htmlspecialchars((string) $col) . "</th>\n";
 					}
 					echo "\t</tr>\n</thead>\n<tbody>\n";
 				}
 
 				echo "\t<tr>\n\t\t<th>", $i, "</th>\n";
 				foreach ($row as $col) {
-					echo "\t\t<td>", htmlSpecialChars((string) $col), "</td>\n";
+					echo "\t\t<td>", htmlspecialchars((string) $col), "</td>\n";
 				}
 				echo "\t</tr>\n";
 			}
@@ -67,7 +68,7 @@ class Helpers
 				: "</tbody>\n</table>\n";
 
 		} else {
-			if ($sql === NULL) {
+			if ($sql === null) {
 				$sql = \dibi::$sql;
 			}
 
@@ -106,7 +107,7 @@ class Helpers
 				echo trim($sql) . "\n\n";
 
 			} else {
-				$sql = htmlSpecialChars($sql);
+				$sql = htmlspecialchars($sql);
 				$sql = preg_replace_callback($highlighter, function ($m) {
 					if (!empty($m[1])) { // comment
 						return '<em style="color:gray">' . $m[1] . '</em>';
@@ -135,12 +136,12 @@ class Helpers
 
 	/**
 	 * Finds the best suggestion.
-	 * @return string|NULL
+	 * @return string|null
 	 * @internal
 	 */
 	public static function getSuggestion(array $items, $value)
 	{
-		$best = NULL;
+		$best = null;
 		$min = (strlen($value) / 4 + 1) * 10 + .1;
 		foreach (array_unique($items, SORT_REGULAR) as $item) {
 			$item = is_object($item) ? $item->getName() : $item;
@@ -175,7 +176,7 @@ class Helpers
 	/**
 	 * Heuristic type detection.
 	 * @param  string
-	 * @return string|NULL
+	 * @return string|null
 	 * @internal
 	 */
 	public static function detectType($type)
@@ -197,7 +198,7 @@ class Helpers
 				return $val;
 			}
 		}
-		return NULL;
+		return null;
 	}
 
 
@@ -206,7 +207,7 @@ class Helpers
 	 */
 	public static function getTypeCache()
 	{
-		if (self::$types === NULL) {
+		if (self::$types === null) {
 			self::$types = new HashMap([__CLASS__, 'detectType']);
 		}
 		return self::$types;
@@ -238,7 +239,7 @@ class Helpers
 	 * Import SQL dump from file.
 	 * @return int  count of sql commands
 	 */
-	public static function loadFromFile(Connection $connection, $file)
+	public static function loadFromFile(Connection $connection, $file, callable $onProgress = null)
 	{
 		@set_time_limit(0); // intentionally @
 
@@ -247,31 +248,55 @@ class Helpers
 			throw new \RuntimeException("Cannot open file '$file'.");
 		}
 
-		$count = 0;
+		$stat = fstat($handle);
+		$count = $size = 0;
 		$delimiter = ';';
 		$sql = '';
 		$driver = $connection->getDriver();
-		while (!feof($handle)) {
-			$s = rtrim(fgets($handle));
-			if (substr($s, 0, 10) === 'DELIMITER ') {
-				$delimiter = substr($s, 10);
+		while (($s = fgets($handle)) !== false) {
+			$size += strlen($s);
+			if (strtoupper(substr($s, 0, 10)) === 'DELIMITER ') {
+				$delimiter = trim(substr($s, 10));
 
-			} elseif (substr($s, -strlen($delimiter)) === $delimiter) {
-				$sql .= substr($s, 0, -strlen($delimiter));
+			} elseif (substr($ts = rtrim($s), -strlen($delimiter)) === $delimiter) {
+				$sql .= substr($ts, 0, -strlen($delimiter));
 				$driver->query($sql);
 				$sql = '';
 				$count++;
+				if ($onProgress) {
+					call_user_func($onProgress, $count, isset($stat['size']) ? $size * 100 / $stat['size'] : null);
+				}
 
 			} else {
-				$sql .= $s . "\n";
+				$sql .= $s;
 			}
 		}
-		if (trim($sql) !== '') {
+
+		if (rtrim($sql) !== '') {
 			$driver->query($sql);
 			$count++;
+			if ($onProgress) {
+				call_user_func($onProgress, $count, isset($stat['size']) ? 100 : null);
+			}
 		}
 		fclose($handle);
 		return $count;
 	}
 
+
+	/**
+	 * @internal
+	 * @return string|int
+	 */
+	public static function intVal($value)
+	{
+		if (is_int($value)) {
+			return $value;
+		} elseif (is_string($value) && preg_match('#-?\d++\z#A', $value)) {
+			// support for long numbers - keep them unchanged
+			return is_float($number = $value * 1) ? $value : $number;
+		} else {
+			throw new Exception("Expected number, '$value' given.");
+		}
+	}
 }

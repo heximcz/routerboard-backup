@@ -30,7 +30,7 @@ class Regex implements ValueInterface
     private $pattern;
 
     /**
-     * @var array
+     * @var string
      */
     private $options;
 
@@ -69,8 +69,8 @@ class Regex implements ValueInterface
 
             if (
                 ($start === $end && !preg_match('/[*?[:alnum:] \\\\]/', $start))
-                || ($start === '{' && $end === '}')
-                || ($start === '(' && $end === ')')
+                || ('{' === $start && '}' === $end)
+                || ('(' === $start && ')' === $end)
             ) {
                 return new self(substr($m[1], 1, -1), $m[2], $end);
             }
@@ -279,8 +279,6 @@ class Regex implements ValueInterface
     }
 
     /**
-     * @param array $replacement
-     *
      * @return $this
      */
     public function replaceJokers($replacement)

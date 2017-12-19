@@ -22,8 +22,8 @@ class dibi
 
 	/** version */
 	const
-		VERSION = '3.0.8',
-		REVISION = 'released on 2017-06-09';
+		VERSION = '3.1.0',
+		REVISION = 'released on 2017-09-25';
 
 	/** sorting order */
 	const
@@ -49,12 +49,6 @@ class dibi
 		FIELD_DATETIME = Type::DATETIME,
 		FIELD_TIME = Type::TIME;
 
-	/** @var Dibi\Connection[]  Connection registry storage for DibiConnection objects */
-	private static $registry = [];
-
-	/** @var Dibi\Connection  Current connection */
-	private static $connection;
-
 	/** @var string  Last SQL command @see dibi::query() */
 	public static $sql;
 
@@ -69,6 +63,12 @@ class dibi
 
 	/** @var string  Default dibi driver */
 	public static $defaultDriver = 'mysqli';
+
+	/** @var Dibi\Connection[]  Connection registry storage for DibiConnection objects */
+	private static $registry = [];
+
+	/** @var Dibi\Connection  Current connection */
+	private static $connection;
 
 
 	/**
@@ -107,12 +107,12 @@ class dibi
 
 
 	/**
-	 * Returns TRUE when connection was established.
+	 * Returns true when connection was established.
 	 * @return bool
 	 */
 	public static function isConnected()
 	{
-		return (self::$connection !== NULL) && self::$connection->isConnected();
+		return (self::$connection !== null) && self::$connection->isConnected();
 	}
 
 
@@ -122,10 +122,10 @@ class dibi
 	 * @return Dibi\Connection
 	 * @throws Dibi\Exception
 	 */
-	public static function getConnection($name = NULL)
+	public static function getConnection($name = null)
 	{
-		if ($name === NULL) {
-			if (self::$connection === NULL) {
+		if ($name === null) {
+			if (self::$connection === null) {
 				throw new Dibi\Exception('Dibi is not connected to database.');
 			}
 
@@ -277,12 +277,11 @@ class dibi
 
 
 	/**
-	 * Gets the number of affected rows. Alias for getAffectedRows().
-	 * @return int  number of rows
-	 * @throws Dibi\Exception
+	 * @deprecated
 	 */
 	public static function affectedRows()
 	{
+		trigger_error(__METHOD__ . '() is deprecated, use getAffectedRows()', E_USER_DEPRECATED);
 		return self::getConnection()->getAffectedRows();
 	}
 
@@ -294,20 +293,18 @@ class dibi
 	 * @return int
 	 * @throws Dibi\Exception
 	 */
-	public static function getInsertId($sequence = NULL)
+	public static function getInsertId($sequence = null)
 	{
 		return self::getConnection()->getInsertId($sequence);
 	}
 
 
 	/**
-	 * Retrieves the ID generated for an AUTO_INCREMENT column. Alias for getInsertId().
-	 * @param  string     optional sequence name
-	 * @return int
-	 * @throws Dibi\Exception
+	 * @deprecated
 	 */
-	public static function insertId($sequence = NULL)
+	public static function insertId($sequence = null)
 	{
+		trigger_error(__METHOD__ . '() is deprecated, use getInsertId()', E_USER_DEPRECATED);
 		return self::getConnection()->getInsertId($sequence);
 	}
 
@@ -318,19 +315,19 @@ class dibi
 	 * @return void
 	 * @throws Dibi\Exception
 	 */
-	public static function begin($savepoint = NULL)
+	public static function begin($savepoint = null)
 	{
 		self::getConnection()->begin($savepoint);
 	}
 
 
 	/**
-	 * Commits statements in a transaction - Monostate for Dibi\Connection::commit($savepoint = NULL).
+	 * Commits statements in a transaction - Monostate for Dibi\Connection::commit($savepoint = null).
 	 * @param  string  optional savepoint name
 	 * @return void
 	 * @throws Dibi\Exception
 	 */
-	public static function commit($savepoint = NULL)
+	public static function commit($savepoint = null)
 	{
 		self::getConnection()->commit($savepoint);
 	}
@@ -342,7 +339,7 @@ class dibi
 	 * @return void
 	 * @throws Dibi\Exception
 	 */
-	public static function rollback($savepoint = NULL)
+	public static function rollback($savepoint = null)
 	{
 		self::getConnection()->rollback($savepoint);
 	}
@@ -446,9 +443,8 @@ class dibi
 	 * @param  bool  return output instead of printing it?
 	 * @return string
 	 */
-	public static function dump($sql = NULL, $return = FALSE)
+	public static function dump($sql = null, $return = false)
 	{
 		return Dibi\Helpers::dump($sql, $return);
 	}
-
 }
