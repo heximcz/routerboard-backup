@@ -6,11 +6,13 @@ class Repositories extends AbstractApi
 {
     /**
      * @param int $project_id
+     * @param array $parameters
      * @return mixed
      */
-    public function branches($project_id)
+    public function branches($project_id, array $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/branches'));
+        $resolver = $this->createOptionsResolver();
+        return $this->get($this->getProjectPath($project_id, 'repository/branches'), $resolver->resolve($parameters));
     }
 
     /**
@@ -20,7 +22,7 @@ class Repositories extends AbstractApi
      */
     public function branch($project_id, $branch_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/branches/'.$this->encodeBranch($branch_id)));
+        return $this->get($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch_id)));
     }
 
     /**
@@ -44,7 +46,7 @@ class Repositories extends AbstractApi
      */
     public function deleteBranch($project_id, $branch)
     {
-        return $this->delete($this->getProjectPath($project_id, 'repository/branches/'.$this->encodeBranch($branch)));
+        return $this->delete($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch)));
     }
 
     /**
@@ -56,7 +58,7 @@ class Repositories extends AbstractApi
      */
     public function protectBranch($project_id, $branch_name, $devPush = false, $devMerge = false)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodeBranch($branch_name).'/protect'), array(
+        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch_name).'/protect'), array(
             'developers_can_push' => $devPush,
             'developers_can_merge' => $devMerge
         ));
@@ -69,7 +71,7 @@ class Repositories extends AbstractApi
      */
     public function unprotectBranch($project_id, $branch_name)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodeBranch($branch_name).'/unprotect'));
+        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch_name).'/unprotect'));
     }
 
     /**
@@ -109,7 +111,7 @@ class Repositories extends AbstractApi
      */
     public function createRelease($project_id, $tag_name, $description)
     {
-        return $this->post($this->getProjectPath($project_id, 'repository/tags/' . $this->encodeBranch($tag_name) . '/release'), array(
+        return $this->post($this->getProjectPath($project_id, 'repository/tags/' . $this->encodePath($tag_name) . '/release'), array(
             'id'          => $project_id,
             'tag_name'    => $tag_name,
             'description' => $description
@@ -125,7 +127,7 @@ class Repositories extends AbstractApi
      */
     public function updateRelease($project_id, $tag_name, $description)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/tags/' . $this->encodeBranch($tag_name) . '/release'), array(
+        return $this->put($this->getProjectPath($project_id, 'repository/tags/' . $this->encodePath($tag_name) . '/release'), array(
             'id'          => $project_id,
             'tag_name'    => $tag_name,
             'description' => $description
@@ -277,7 +279,7 @@ class Repositories extends AbstractApi
     {
         return $this->get($this->getProjectPath(
             $project_id,
-            'repository/compare?from='.$this->encodeBranch($fromShaOrMaster).'&to='.$this->encodeBranch($toShaOrMaster)
+            'repository/compare?from='.$this->encodePath($fromShaOrMaster).'&to='.$this->encodePath($toShaOrMaster)
         ));
     }
 
@@ -419,16 +421,5 @@ class Repositories extends AbstractApi
     public function archive($project_id, $params = array(), $format = 'tar.gz')
     {
         return $this->get($this->getProjectPath($project_id, 'repository/archive.'.$format), $params);
-    }
-
-    /**
-     * @param string $path
-     * @return string
-     */
-    protected function encodeBranch($path)
-    {
-        $path = $this->encodePath($path);
-
-        return str_replace('%2F', '/', $path);
     }
 }
