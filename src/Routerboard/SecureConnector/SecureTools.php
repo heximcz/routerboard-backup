@@ -19,9 +19,7 @@ class SecureTools extends AbstractRouterBoard
 
     /**
      * Check if ssh-rsa keys exist. If not, will be created
-     *
-     * @throws if ssh directory no exist
-     * @throws if keys no been generated
+     * @throws Exception - if ssh directory no exist / if keys no been generated
      */
     public function checkRSA()
     {
@@ -37,6 +35,9 @@ class SecureTools extends AbstractRouterBoard
             $this->logger->log("The SSH-RSA public key does exist. OK.");
     }
 
+    /**
+     * @throws Exception
+     */
     protected function createRSA()
     {
         $rsa = new RSA();
@@ -75,19 +76,17 @@ class SecureTools extends AbstractRouterBoard
     {
         if (empty($suffix))
             $suffix = date("Ydmhis", time());
-        if ($this->fsys->exists($this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub')) {
-            $this->fsys->copy(
-                $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub',
-                $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub.' . $suffix . '.bak'
-            );
-            $this->fsys->chmod($this->config ['system'] ['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub.' . $suffix . '.bak', 0600);
+        $originFile = $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub';
+        if ($this->fsys->exists($originFile)) {
+            $targetFile = $originFile . "." . $suffix . '.bak';
+            $this->fsys->copy($originFile, $targetFile);
+            $this->fsys->chmod($targetFile, 0600);
         }
-        if ($this->fsys->exists($this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa')) {
-            $this->fsys->copy(
-                $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa',
-                $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.' . $suffix . '.bak'
-            );
-            $this->fsys->chmod($this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.' . $suffix . '.bak', 0600);
+        $originFile = $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa';
+        if ($this->fsys->exists($originFile)) {
+            $targetFile = $originFile . "." . $suffix . '.bak';
+            $this->fsys->copy($originFile, $targetFile);
+            $this->fsys->chmod($targetFile, 0600);
         }
     }
 
