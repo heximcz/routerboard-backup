@@ -48,20 +48,26 @@ class CliRouterBoardGitLab extends Command
         $logger = new OutputLogger ($output);
         $gitlab = new RouterBoardGitLab($this->config, $logger);
         $action = $input->getArgument('action');
-        switch ($action) {
-            case "backup":
-                if (!$input->getOption('addr')) {
-                    $logger->log("Action: Backup all routers from backup list to GitLab.");
-                    $gitlab->backupAllRouterBoards();
+
+        try {
+            switch ($action) {
+                case "backup":
+                    if (!$input->getOption('addr')) {
+                        $logger->log("Action: Backup all routers from backup list to GitLab.");
+                        $gitlab->backupAllRouterBoards();
+                        break;
+                    }
+                    $logger->log("Action: Backup one or more routers from input to GitLab.");
+                    $gitlab->backupOneRouterBoard(new InputParser($this->config, $logger, $input->getOption('addr')));
                     break;
-                }
-                $logger->log("Action: Backup one or more routers from input to GitLab.");
-                $gitlab->backupOneRouterBoard(new InputParser($this->config, $logger, $input->getOption('addr')));
-                break;
-            default:
-                $command = $this->getApplication()->get('help');
-                $command->run(new ArrayInput(['command_name' => $this->getName()]), $output);
-                break;
+                default:
+                    $command = $this->getApplication()->get('help');
+                    $command->run(new ArrayInput(['command_name' => $this->getName()]), $output);
+                    break;
+            }
+        } catch (\Exception $e) {
+            $logger->log("Error: " . $e->getMessage() . " in " . $e->getFile() . " on line:" . $e->getLine(), $logger->setError());
         }
+
     }
 }

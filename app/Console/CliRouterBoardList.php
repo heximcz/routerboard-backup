@@ -37,20 +37,27 @@ class CliRouterBoardList extends Command
         $logger = new OutputLogger ($output);
         $rprint = new RouterBoardList($this->config, $logger);
         $action = $input->getArgument('action');
-        switch ($action) {
-            case "list":
-                $logger->log("Action: Print all routers from backup list.");
-                $rprint->printAllRouterBoards();
-                break;
-            default:
-                $this->defaultHelp($output);
-                break;
+
+        try {
+            switch ($action) {
+                case "list":
+                    $logger->log("Action: Print all routers from backup list.");
+                    $rprint->printAllRouterBoards();
+                    break;
+                default:
+                    $this->defaultHelp($output);
+                    break;
+            }
+        } catch (\Exception $e) {
+            $logger->log("Error: " . $e->getMessage() . " in " . $e->getFile() . " on line:" . $e->getLine(), $logger->setError());
         }
+
     }
 
     /**
      * Print help to default otput
      * @param $output
+     * @throws \Exception
      */
     private function defaultHelp($output)
     {

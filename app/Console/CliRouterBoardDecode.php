@@ -32,8 +32,7 @@ class CliRouterBoardDecode extends Command
             ->addUsage(
                 '-f ./rbackup.backup' .
                 '<comment>-> decode base64 rbackup.backup file from gitlab.</comment>'
-            )
-            ;
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -42,21 +41,26 @@ class CliRouterBoardDecode extends Command
         $decode = new RouterBoardDecode($this->config, $logger);
 
         $action = $input->getArgument('action');
-        switch ($action) {
-            case "base64":
-                if ($input->getOption('file')) {
-                    $logger->log("Action: Decoding file.");
-                    try {
-                        $decode->decodeBase64File($input->getOption('file'));
-                    } catch (\Exception $e) {
-                        $logger->log($e->getMessage(), $logger->setError());
+        try {
+            switch ($action) {
+                case "base64":
+                    if ($input->getOption('file')) {
+                        $logger->log("Action: Decoding file.");
+                        try {
+                            $decode->decodeBase64File($input->getOption('file'));
+                        } catch (\Exception $e) {
+                            $logger->log($e->getMessage(), $logger->setError());
+                        }
                     }
-                }
-                break;
-            default:
-                $this->defaultHelp($output);
-                break;
+                    break;
+                default:
+                    $this->defaultHelp($output);
+                    break;
+            }
+        } catch (\Exception $e) {
+            $logger->log("Error: " . $e->getMessage() . " in " . $e->getFile() . " on line:" . $e->getLine(), $logger->setError());
         }
+
     }
 
 

@@ -55,15 +55,22 @@ class CliRouterBoardModify extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $logger = new OutputLogger ($output);
+
         // Check IP address input option.
         if (!$input->getOption('addr')) {
-            $this->defaultHelp($output);
+            try {
+                $this->defaultHelp($output);
+            } catch (\Exception $e) {
+                $logger->log("Error: " . $e->getMessage() . " in " . $e->getFile() . " on line:" . $e->getLine(), $logger->setError());
+            }
             return;
         }
-        $logger = new OutputLogger ($output);
+
         $rbmod = new RouterBoardMod($this->config, $logger);
         $iparse = new InputParser($this->config, $logger, $input->getOption('addr'));
         $action = $input->getArgument('action');
+
         try {
             switch ($action) {
                 case "addnew":
@@ -92,6 +99,7 @@ class CliRouterBoardModify extends Command
     /**
      * Print help to default otput
      * @param $output
+     * @throws \Exception
      */
     private function defaultHelp($output)
     {
