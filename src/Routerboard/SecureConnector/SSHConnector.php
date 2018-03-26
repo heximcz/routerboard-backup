@@ -5,7 +5,6 @@ namespace Src\RouterBoard;
 use phpseclib\Net\SSH2;
 use phpseclib\Net\SCP;
 use phpseclib\Crypt\RSA;
-use Src\RouterBoard\BackupFilesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
 
 class SSHConnector extends AbstractRouterBoard

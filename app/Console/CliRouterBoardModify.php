@@ -64,24 +64,28 @@ class CliRouterBoardModify extends Command
         $rbmod = new RouterBoardMod($this->config, $logger);
         $iparse = new InputParser($this->config, $logger, $input->getOption('addr'));
         $action = $input->getArgument('action');
-        switch ($action) {
-            case "addnew":
-                $logger->log("Action: Add a new router/s to backup list.");
-                $rsa = new SecureTools($this->config, $logger);
-                $rsa->checkRSA();
-                $rbmod->addNewIP($iparse);
-                break;
-            case "delete":
-                $logger->log("Action: Delete a router/s from backup list.");
-                $rbmod->deleteIP($iparse);
-                break;
-            case "update":
-                $logger->log("Action: Update a router ip address in backup list.");
-                $rbmod->updateIP($iparse);
-                break;
-            default:
-                $this->defaultHelp($output);
-                break;
+        try {
+            switch ($action) {
+                case "addnew":
+                    $logger->log("Action: Add a new router/s to backup list.");
+                    $rsa = new SecureTools($this->config, $logger);
+                    $rsa->checkRSA();
+                    $rbmod->addNewIP($iparse);
+                    break;
+                case "delete":
+                    $logger->log("Action: Delete a router/s from backup list.");
+                    $rbmod->deleteIP($iparse);
+                    break;
+                case "update":
+                    $logger->log("Action: Update a router ip address in backup list.");
+                    $rbmod->updateIP($iparse);
+                    break;
+                default:
+                    $this->defaultHelp($output);
+                    break;
+            }
+        } catch (\Exception $e) {
+            $logger->log("Error: " . $e->getMessage() . " in " . $e->getFile() . " on line:" . $e->getLine(), $logger->setError());
         }
     }
 
