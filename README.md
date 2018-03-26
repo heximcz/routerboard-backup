@@ -18,7 +18,7 @@ Backup to **local hard drive** or backup to **GitLab repository**.
 
 ## Prerequisites
 
-PHP > 5.6.x
+PHP >= 7.1.3 **( from v1.0.2 )**
 
 ## Warning
 

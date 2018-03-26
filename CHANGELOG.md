@@ -1,4 +1,9 @@
 # Change Log
+## [1.0.2](https://github.com/heximcz/routerboard-backup/releases/tag/1.0.2)
+- PHP minimum version 7.1.3
+- update vendor - Symfony framework
+- add better exception handling
+- fix login failed exception when add new router
 
 ## [1.0.1](https://github.com/heximcz/routerboard-backup/releases/tag/1.0.1)
 - update vendor - Symfony framework
