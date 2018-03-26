@@ -22,8 +22,8 @@ class dibi
 
 	/** version */
 	const
-		VERSION = '3.1.0',
-		REVISION = 'released on 2017-09-25';
+		VERSION = '3.2.0',
+		REVISION = 'released on 2018-03-09';
 
 	/** sorting order */
 	const
@@ -64,7 +64,7 @@ class dibi
 	/** @var string  Default dibi driver */
 	public static $defaultDriver = 'mysqli';
 
-	/** @var Dibi\Connection[]  Connection registry storage for DibiConnection objects */
+	/** @var Dibi\Connection[]  Connection registry storage for Dibi\Connection objects */
 	private static $registry = [];
 
 	/** @var Dibi\Connection  Current connection */

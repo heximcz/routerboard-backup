@@ -34,7 +34,9 @@ class MySqliDriver implements Dibi\Driver, Dibi\ResultDriver
 	use Dibi\Strict;
 
 	const ERROR_ACCESS_DENIED = 1045;
+
 	const ERROR_DUPLICATE_ENTRY = 1062;
+
 	const ERROR_DATA_TRUNCATED = 1265;
 
 	/** @var \mysqli|null */
@@ -148,7 +150,7 @@ class MySqliDriver implements Dibi\Driver, Dibi\ResultDriver
 		$res = @mysqli_query($this->connection, $sql, $this->buffered ? MYSQLI_STORE_RESULT : MYSQLI_USE_RESULT); // intentionally @
 
 		if ($code = mysqli_errno($this->connection)) {
-			throw self::createException(mysqli_error($this->connection), $code, $sql);
+			throw static::createException(mysqli_error($this->connection), $code, $sql);
 
 		} elseif (is_object($res)) {
 			return $this->createResultDriver($res);

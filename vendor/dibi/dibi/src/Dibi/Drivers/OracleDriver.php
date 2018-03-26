@@ -42,6 +42,7 @@ class OracleDriver implements Dibi\Driver, Dibi\ResultDriver, Dibi\Reflector
 
 	/** @var string  Date and datetime format */
 	private $fmtDate;
+
 	private $fmtDateTime;
 
 	/** @var int|false Number of affected rows */
@@ -119,7 +120,7 @@ class OracleDriver implements Dibi\Driver, Dibi\ResultDriver, Dibi\Reflector
 			@oci_execute($res, $this->autocommit ? OCI_COMMIT_ON_SUCCESS : OCI_DEFAULT);
 			$err = oci_error($res);
 			if ($err) {
-				throw self::createException($err['message'], $err['code'], $sql);
+				throw static::createException($err['message'], $err['code'], $sql);
 
 			} elseif (is_resource($res)) {
 				$this->affectedRows = oci_num_rows($res);

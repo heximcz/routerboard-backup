@@ -94,7 +94,7 @@ class Finder implements \IteratorAggregate, \Countable
      */
     public function addAdapter(AdapterInterface $adapter, $priority = 0)
     {
-        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.8 and will be removed in 3.0.', E_USER_DEPRECATED);
+        @trigger_error('The '.__METHOD__.' method is deprecated since Symfony 2.8 and will be removed in 3.0.', E_USER_DEPRECATED);
 
         $this->initDefaultAdapters();
 
@@ -116,7 +116,7 @@ class Finder implements \IteratorAggregate, \Countable
      */
     public function useBestAdapter()
     {
-        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.8 and will be removed in 3.0.', E_USER_DEPRECATED);
+        @trigger_error('The '.__METHOD__.' method is deprecated since Symfony 2.8 and will be removed in 3.0.', E_USER_DEPRECATED);
 
         $this->initDefaultAdapters();
 
@@ -138,7 +138,7 @@ class Finder implements \IteratorAggregate, \Countable
      */
     public function setAdapter($name)
     {
-        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.8 and will be removed in 3.0.', E_USER_DEPRECATED);
+        @trigger_error('The '.__METHOD__.' method is deprecated since Symfony 2.8 and will be removed in 3.0.', E_USER_DEPRECATED);
 
         $this->initDefaultAdapters();
 
@@ -161,7 +161,7 @@ class Finder implements \IteratorAggregate, \Countable
      */
     public function removeAdapters()
     {
-        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.8 and will be removed in 3.0.', E_USER_DEPRECATED);
+        @trigger_error('The '.__METHOD__.' method is deprecated since Symfony 2.8 and will be removed in 3.0.', E_USER_DEPRECATED);
 
         $this->adapters = array();
 
@@ -177,7 +177,7 @@ class Finder implements \IteratorAggregate, \Countable
      */
     public function getAdapters()
     {
-        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.8 and will be removed in 3.0.', E_USER_DEPRECATED);
+        @trigger_error('The '.__METHOD__.' method is deprecated since Symfony 2.8 and will be removed in 3.0.', E_USER_DEPRECATED);
 
         $this->initDefaultAdapters();
 
@@ -407,6 +407,10 @@ class Finder implements \IteratorAggregate, \Countable
     /**
      * Excludes directories.
      *
+     * Directories passed as argument must be relative to the ones defined with the `in()` method. For example:
+     *
+     *     $finder->in(__DIR__)->exclude('ruby');
+     *
      * @param string|array $dirs A directory path or an array of directories
      *
      * @return $this
@@ -422,6 +426,8 @@ class Finder implements \IteratorAggregate, \Countable
 
     /**
      * Excludes "hidden" directories and files (starting with a dot).
+     *
+     * This option is enabled by default.
      *
      * @param bool $ignoreDotFiles Whether to exclude "hidden" files or not
      *
@@ -442,6 +448,8 @@ class Finder implements \IteratorAggregate, \Countable
 
     /**
      * Forces the finder to ignore version control directories.
+     *
+     * This option is enabled by default.
      *
      * @param bool $ignoreVCS Whether to exclude VCS files or not
      *

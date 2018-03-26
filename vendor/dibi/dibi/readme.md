@@ -7,22 +7,28 @@
 [![Latest Stable Version](https://poser.pugx.org/dibi/dibi/v/stable)](https://github.com/dg/dibi/releases)
 [![License](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://github.com/dg/dibi/blob/master/license.md)
 
+
+Introduction
+------------
+
 Database access functions in PHP are not standardised. This library
 hides the differences between them, and above all, it gives you a very handy interface.
 
-The best way to install Dibi is to use a [Composer](https://getcomposer.org/download):
 
-    php composer.phar require dibi/dibi
+Installation
+------------
 
-Or you can download the latest package from https://dibiphp.com. In this
-package is also `Dibi.minified`, shrinked single-file version of whole Dibi,
-useful when you don't want to modify the library, but just use it.
+The recommended way to install Dibi is via Composer (alternatively you can [download package](https://github.com/dg/dibi/releases)):
 
-Dibi requires PHP 5.4.4 or later. It has been tested with PHP 7 too.
+```bash
+composer require dibi/dibi
+```
+
+The Dibi 3.x requires PHP version 5.4.4 and supports PHP up to 7.2.
 
 
-Examples
---------
+Usage
+-----
 
 Refer to the `examples` directory for examples. Dibi documentation is
 available on the [homepage](https://dibiphp.com).
@@ -30,34 +36,34 @@ available on the [homepage](https://dibiphp.com).
 Connect to database:
 
 ```php
-// connect to database (static way)
-dibi::connect([
-    'driver'   => 'mysql',
+$dibi = new Dibi\Connection([
+    'driver'   => 'mysqli',
     'host'     => 'localhost',
     'username' => 'root',
     'password' => '***',
 ]);
 
-// or object way; in all other examples use $connection-> instead of dibi::
-$connection = new DibiConnection($options);
+
+// or static way; in all other examples use dibi:: instead of $dibi->
+dibi::connect($options);
 ```
 
 SELECT, INSERT, UPDATE
 
 ```php
-dibi::query('SELECT * FROM users WHERE id = ?', $id);
+$dibi->query('SELECT * FROM users WHERE id = ?', $id);
 
 $arr = [
     'name' => 'John',
     'is_admin'  => true,
 ];
-dibi::query('INSERT INTO users', $arr);
+$dibi->query('INSERT INTO users', $arr);
 // INSERT INTO users (`name`, `is_admin`) VALUES ('John', 1)
 
-dibi::query('UPDATE users SET', $arr, 'WHERE `id`=?', $x);
+$dibi->query('UPDATE users SET', $arr, 'WHERE `id`=?', $x);
 // UPDATE users SET `name`='John', `is_admin`=1 WHERE `id` = 123
 
-dibi::query('UPDATE users SET', [
+$dibi->query('UPDATE users SET', [
 	'title' => array('SHA1(?)', 'tajneheslo'),
 ]);
 // UPDATE users SET 'title' = SHA1('tajneheslo')
@@ -66,7 +72,7 @@ dibi::query('UPDATE users SET', [
 Getting results
 
 ```php
-$result = dibi::query('SELECT * FROM users');
+$result = $dibi->query('SELECT * FROM users');
 
 $value = $result->fetchSingle(); // single value
 $all = $result->fetchAll(); // all rows
@@ -82,7 +88,7 @@ foreach ($result as $n => $row) {
 Modifiers for arrays:
 
 ```php
-dibi::query('SELECT * FROM users WHERE %and', [
+$dibi->query('SELECT * FROM users WHERE %and', [
 	array('number > ?', 10),
 	array('number < ?', 100),
 ]);
@@ -105,7 +111,7 @@ dibi::query('SELECT * FROM users WHERE %and', [
 Modifiers for LIKE
 
 ```php
-dibi::query("SELECT * FROM table WHERE name LIKE %like~", $query);
+$dibi->query("SELECT * FROM table WHERE name LIKE %like~", $query);
 ```
 
 <table>
@@ -117,7 +123,7 @@ dibi::query("SELECT * FROM table WHERE name LIKE %like~", $query);
 DateTime:
 
 ```php
-dibi::query('UPDATE users SET', [
+$dibi->query('UPDATE users SET', [
     'time' => new DateTime,
 ]);
 // UPDATE users SET ('2008-01-01 01:08:10')
