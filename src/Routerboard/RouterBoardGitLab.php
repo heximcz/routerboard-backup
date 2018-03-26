@@ -2,9 +2,6 @@
 
 namespace Src\RouterBoard;
 
-use Src\RouterBoard\GitLabAPI;
-use Src\RouterBoard\SSHConnector;
-use Src\RouterBoard\InputParser;
 use Exception;
 
 class RouterBoardGitLab extends AbstractRouterBoard implements IRouterBoardBackup

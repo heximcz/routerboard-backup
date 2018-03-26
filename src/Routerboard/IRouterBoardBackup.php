@@ -14,7 +14,7 @@ interface IRouterBoardBackup
 
     /**
      * Backup selected IP addresses
-     * @param array $addr
+     * @param array $input ip address
      */
     public function backupOneRouterBoard(InputParser $input);
 
