@@ -2,15 +2,15 @@
 
 namespace Src\RouterBoard;
 
-use Src\RouterBoard\SSHConnector;
-use Src\RouterBoard\InputParser;
 use Exception;
 
 class RouterBoardMod extends AbstractRouterBoard implements IRouterBoardMod
 {
 
     /**
-     * @see \Src\RouterBoard\IRouterBoard::addNewIP()
+     * @see \Src\RouterBoard\IRouterBoardMod::addNewIP()
+     * @param InputParser $input
+     * @throws Exception
      */
     public function addNewIP(InputParser $input)
     {
@@ -27,6 +27,8 @@ class RouterBoardMod extends AbstractRouterBoard implements IRouterBoardMod
                     if ($dbconnect->addIP($ipAddr['addr'], $ipAddr['port'], $identity))
                         $this->logger->log("The router: '" . $identity . "'@'" . $ipAddr['addr'] . ":" . $ipAddr['port'] . "' has been successfully added to database.");
                 }
+                else
+                    throw new Exception("Remote Login to the ".$ipAddr['addr']." Failed!");
             } else
                 $this->logger->log("The IP address " . $ipAddr['addr'] . " already exists in the database!", $this->logger->setError());
         }
@@ -34,6 +36,8 @@ class RouterBoardMod extends AbstractRouterBoard implements IRouterBoardMod
 
     /**
      * @see \Src\RouterBoard\IRouterBoard::deleteIP()
+     * @param InputParser $input
+     * @throws Exception
      */
     public function deleteIP(InputParser $input)
     {
@@ -54,6 +58,8 @@ class RouterBoardMod extends AbstractRouterBoard implements IRouterBoardMod
 
     /**
      * @see \Src\RouterBoard\IRouterBoard::updateIP()
+     * @param InputParser $input
+     * @throws Exception
      */
     public function updateIP(InputParser $input)
     {
