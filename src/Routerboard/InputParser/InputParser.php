@@ -8,7 +8,9 @@ use Symfony\Component\Console\Input\InputInterface;
 class InputParser extends AbstractRouterBoard
 {
 
-    private $paddr = array();
+    /** @var array $pAddr Parsed IP Address */
+    private $pAddr = array();
+    /** @var IPValidator $validate */
     private $validate;
 
     /**
@@ -30,8 +32,8 @@ class InputParser extends AbstractRouterBoard
      */
     public function getAddr()
     {
-        if (!empty($this->paddr))
-            return $this->paddr;
+        if (!empty($this->pAddr))
+            return $this->pAddr;
         return false;
     }
 
@@ -44,15 +46,15 @@ class InputParser extends AbstractRouterBoard
         $i = 0;
         foreach ($input as $addr) {
             if (strpos($addr, ':') === false) {
-                $this->paddr[$i]['addr'] = $addr;
-                $this->paddr[$i++]['port'] = $this->config['routerboard']['ssh-port'];
+                $this->pAddr[$i]['addr'] = $addr;
+                $this->pAddr[$i++]['port'] = $this->config['routerboard']['ssh-port'];
                 continue;
             }
             $parse = explode(':', $addr, 2);
-            $this->paddr[$i]['addr'] = $parse[0];
-            $this->paddr[$i++]['port'] = $parse[1];
+            $this->pAddr[$i]['addr'] = $parse[0];
+            $this->pAddr[$i++]['port'] = $parse[1];
         }
-        $this->paddr = array_filter($this->paddr, array($this, "validateParsedAddress"));
+        $this->pAddr = array_filter($this->pAddr, array($this, "validateParsedAddress"));
     }
 
     /**

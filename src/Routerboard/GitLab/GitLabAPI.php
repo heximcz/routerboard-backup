@@ -13,6 +13,7 @@ use Src\Logger\OutputLogger;
 class GitLabAPI extends AbstractRouterBoard
 {
 
+    /** @var Client $client */
     private $client;
     private $idProject;
     private $idGroup;

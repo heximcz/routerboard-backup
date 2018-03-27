@@ -31,7 +31,7 @@ class RouterBoardDBAdapter extends AbstractDataAdapter
      * RouterBoardDBAdapter constructor.
      * @param array $config
      * @param OutputLogger $logger
-     * @throws \Dibi\Exception
+     * @throws \Exception
      */
     public function __construct(array $config, OutputLogger $logger)
     {

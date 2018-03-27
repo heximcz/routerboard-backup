@@ -3,6 +3,7 @@
 namespace Src\RouterBoard;
 
 use Exception;
+use Src\Adapters\RouterBoardDBAdapter;
 
 class RouterBoardMod extends AbstractRouterBoard implements IRouterBoardMod
 {
@@ -14,17 +15,19 @@ class RouterBoardMod extends AbstractRouterBoard implements IRouterBoardMod
      */
     public function addNewIP(InputParser $input)
     {
-        $dbconnect = new $this->config['database']['data-adapter']($this->config, $this->logger);
+        $dbClass = $this->config['database']['data-adapter'];
+        /** @var RouterBoardDBAdapter $dbConnect */
+        $dbConnect = new $dbClass($this->config, $this->logger);
 		$user = new SSHConnector($this->config, $this->logger);
 
 		if (!$inputArray = $input->getAddr())
             throw new Exception("Input array is empty!");
 
 		foreach ($inputArray as $ipAddr) {
-            if (!$dbconnect->checkExistIP($ipAddr['addr'])) {
+            if (!$dbConnect->checkExistIP($ipAddr['addr'])) {
                 // create backup user and on success add ip to backup list in db
                 if ($identity = $user->createBackupAccount($ipAddr['addr'], $ipAddr['port'])) {
-                    if ($dbconnect->addIP($ipAddr['addr'], $ipAddr['port'], $identity))
+                    if ($dbConnect->addIP($ipAddr['addr'], $ipAddr['port'], $identity))
                         $this->logger->log("The router: '" . $identity . "'@'" . $ipAddr['addr'] . ":" . $ipAddr['port'] . "' has been successfully added to database.");
                 }
                 else
@@ -41,13 +44,15 @@ class RouterBoardMod extends AbstractRouterBoard implements IRouterBoardMod
      */
     public function deleteIP(InputParser $input)
     {
-        $dbconnect = new $this->config['database']['data-adapter']($this->config, $this->logger);
+        $dbClass = $this->config['database']['data-adapter'];
+        /** @var RouterBoardDBAdapter $dbConnect */
+        $dbConnect = new $dbClass($this->config, $this->logger);
 		
 		if (!$inputArray = $input->getAddr())
             throw new Exception("Input array is empty!");
 		
 		foreach ($inputArray as $ipAddr) {
-            if ($dbconnect->deleteIP($ipAddr['addr'])) {
+            if ($dbConnect->deleteIP($ipAddr['addr'])) {
                 $this->logger->log("The IP '" . $ipAddr['addr'] . "' has been deleted successfully.");
                 continue;
             }
@@ -71,10 +76,12 @@ class RouterBoardMod extends AbstractRouterBoard implements IRouterBoardMod
             return;
         }
 
-        $dbconnect = new $this->config['database']['data-adapter']($this->config, $this->logger);
+        $dbClass = $this->config['database']['data-adapter'];
+        /** @var RouterBoardDBAdapter $dbConnect */
+        $dbConnect = new $dbClass($this->config, $this->logger);
 
-		$ip0 = $dbconnect->checkExistIP($inputArray[0]['addr']);
-		$ip1 = $dbconnect->checkExistIP($inputArray[1]['addr']);
+		$ip0 = $dbConnect->checkExistIP($inputArray[0]['addr']);
+		$ip1 = $dbConnect->checkExistIP($inputArray[1]['addr']);
 		if ($ip0 && $ip1) {
             $this->logger->log("Both IP addresses already exist in database!", $this->logger->setError());
             return;
@@ -87,7 +94,7 @@ class RouterBoardMod extends AbstractRouterBoard implements IRouterBoardMod
 		$ssh = new SSHConnector($this->config, $this->logger);
 		if ($ip0) {
             if ($identity = $ssh->createBackupAccount($inputArray[1]['addr'], $inputArray[1]['port'])) {
-                if ($dbconnect->updateIP($inputArray[0]['addr'], $inputArray[1]['addr'], $inputArray[1]['port'], $identity))
+                if ($dbConnect->updateIP($inputArray[0]['addr'], $inputArray[1]['addr'], $inputArray[1]['port'], $identity))
                     $this->logger->log("The update has been successful.");
                 else
                     $this->logger->log("The update IP '" . $inputArray[0]['addr'] . "' database error.", $this->logger->setError());
@@ -95,7 +102,7 @@ class RouterBoardMod extends AbstractRouterBoard implements IRouterBoardMod
             return;
         }
 		if ($identity = $ssh->createBackupAccount($inputArray[0]['addr'], $inputArray[0]['port'])) {
-            if ($dbconnect->updateIP($inputArray[1]['addr'], $inputArray[0]['addr'], $inputArray[0]['port'], $identity))
+            if ($dbConnect->updateIP($inputArray[1]['addr'], $inputArray[0]['addr'], $inputArray[0]['port'], $identity))
                 $this->logger->log("The update has been successful.");
             else
                 $this->logger->log("The update IP '" . $inputArray[1]['addr'] . "' database error.", $this->logger->setError());

@@ -19,6 +19,7 @@ interface IBackupFilesystem
      *
      * @param string $addr ip address of the router
      * @param string $content contents of the backup file
+     * @param string $folder
      * @param string $filename
      * @param string $extension of a file
      * @param string $identity of the routerboard, may be false

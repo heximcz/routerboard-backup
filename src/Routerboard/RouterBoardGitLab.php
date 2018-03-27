@@ -3,15 +3,20 @@
 namespace Src\RouterBoard;
 
 use Exception;
+use Src\Adapters\RouterBoardDBAdapter;
 use Src\Logger\OutputLogger;
 
 class RouterBoardGitLab extends AbstractRouterBoard implements IRouterBoardBackup
 {
 
+    /** @var GitLabAPI $gitlab */
     private $gitlab;
-    private $dbconnect;
+    /** @var RouterBoardDBAdapter $dbConnect */
+    private $dbConnect;
+    /** @var SSHConnector $ssh */
     private $ssh;
-    private $rootdir;
+
+    private $rootDir;
     private $filename;
     private $folder;
 
@@ -33,11 +38,12 @@ class RouterBoardGitLab extends AbstractRouterBoard implements IRouterBoardBacku
             $this->logger->log("Project ID " . $this->gitlab->getProjectID(), $this->logger->setDebug());
             $this->logger->log("Group ID " . $this->gitlab->getGroupID(), $this->logger->setDebug());
         }
-        $this->dbconnect = new $this->config['database']['data-adapter']($this->config, $this->logger);
+        $dbClass = $this->config['database']['data-adapter'];
+        $this->dbConnect = new $dbClass($this->config, $this->logger);
 		$this->ssh = new SSHConnector($this->config, $this->logger);
-		$this->rootdir = $this->config['routerboard']['backupuser'];
-		$this->filename = $this->rootdir;
-		$this->folder = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $this->rootdir . DIRECTORY_SEPARATOR;
+		$this->rootDir = $this->config['routerboard']['backupuser'];
+		$this->filename = $this->rootDir;
+		$this->folder = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $this->rootDir . DIRECTORY_SEPARATOR;
 	}
 
     /**
@@ -45,17 +51,17 @@ class RouterBoardGitLab extends AbstractRouterBoard implements IRouterBoardBacku
      */
     public function backupAllRouterBoards()
     {
-        if ($result = $this->dbconnect->getIP()) {
+        if ($result = $this->dbConnect->getIP()) {
             foreach ($result as $data) {
                 // get backup file from routerboard
                 if (is_null($data['port']))
                     $data['port'] = $this->config['routerboard']['ssh-port'];
-                if ($this->ssh->getBackupFile($data['addr'], $data['port'], $this->rootdir, $this->folder, $data['identity'])) {
+                if ($this->ssh->getBackupFile($data['addr'], $data['port'], $this->rootDir, $this->folder, $data['identity'])) {
                     // push both to the repository
                     $this->doGitLabPush($data['addr'], $data['identity'], 'backup', 'base64');
                     $this->doGitLabPush($data['addr'], $data['identity'], 'rsc', 'text');
                     $this->logger->log("Backup of the router " . $data['addr'] . " has been sucessfully.");
-                    $this->dbconnect->updateBackupTime($data['addr']);
+                    $this->dbConnect->updateBackupTime($data['addr']);
                 }
             }
             return;
@@ -67,6 +73,8 @@ class RouterBoardGitLab extends AbstractRouterBoard implements IRouterBoardBacku
 
     /**
      * @see \Src\RouterBoard\IRouterBoardBackup::backupOneRouterBoard()
+     * @param InputParser $input
+     * @throws Exception
      */
     public function backupOneRouterBoard(InputParser $input)
     {
@@ -74,16 +82,16 @@ class RouterBoardGitLab extends AbstractRouterBoard implements IRouterBoardBacku
             throw new Exception("Input array is empty!");
 
         foreach ($inputArray as $ipAddr) {
-            if ($this->dbconnect->checkExistIP($ipAddr['addr'])) {
-                $data = $this->dbconnect->getOneIP($ipAddr['addr']);
+            if ($this->dbConnect->checkExistIP($ipAddr['addr'])) {
+                $data = $this->dbConnect->getOneIP($ipAddr['addr']);
                 if (is_null($data[0]['port']))
                     $data[0]['port'] = $this->config['routerboard']['ssh-port'];
-                if ($this->ssh->getBackupFile($data[0]['addr'], $data[0]['port'], $this->rootdir, $this->folder, $data[0]['identity'])) {
+                if ($this->ssh->getBackupFile($data[0]['addr'], $data[0]['port'], $this->rootDir, $this->folder, $data[0]['identity'])) {
                     // push both to the repository
                     $this->doGitLabPush($data[0]['addr'], $data[0]['identity'], 'backup', 'base64');
                     $this->doGitLabPush($data[0]['addr'], $data[0]['identity'], 'rsc', 'text');
                     $this->logger->log("Backup of the router " . $data[0]['addr'] . " has been sucessfully.");
-                    $this->dbconnect->updateBackupTime($data[0]['addr']);
+                    $this->dbConnect->updateBackupTime($data[0]['addr']);
                     continue;
                 }
             }

@@ -3,13 +3,17 @@
 namespace Src\RouterBoard;
 
 use Exception;
+use Src\Adapters\RouterBoardDBAdapter;
 use Src\Logger\OutputLogger;
 
 class RouterBoardBackup extends AbstractRouterBoard implements IRouterBoardBackup
 {
 
-    private $dbconnect;
+    /** @var RouterBoardDBAdapter $dbConnect */
+    private $dbConnect;
+    /** @var SSHConnector $ssh */
     private $ssh;
+    /** @var string $filename */
     private $filename;
 
     /**
@@ -20,7 +24,8 @@ class RouterBoardBackup extends AbstractRouterBoard implements IRouterBoardBacku
     public function __construct(array $config, OutputLogger $logger)
     {
         parent::__construct($config, $logger);
-        $this->dbconnect = new $this->config['database']['data-adapter']($this->config, $this->logger);
+        $dbClass = $this->config['database']['data-adapter'];
+        $this->dbConnect = new $dbClass($this->config, $this->logger);
 		$this->ssh = new SSHConnector($this->config, $this->logger);
 		$this->filename = $this->config['routerboard']['backupuser'] . '-' . date("Ymdhis", time());
 		
@@ -31,7 +36,7 @@ class RouterBoardBackup extends AbstractRouterBoard implements IRouterBoardBacku
      */
     public function backupAllRouterBoards()
     {
-        if ($result = $this->dbconnect->getIP()) {
+        if ($result = $this->dbConnect->getIP()) {
             foreach ($result as $data) {
                 if (!is_null($data['port'])) {
                     $this->goBackup($data['addr'], $data['port'], $data['identity']);
@@ -47,6 +52,8 @@ class RouterBoardBackup extends AbstractRouterBoard implements IRouterBoardBacku
 
     /**
      * @see \Src\RouterBoard\IRouterBoardBackup::backupOneRouterBoard()
+     * @param InputParser $input
+     * @throws Exception
      */
     public function backupOneRouterBoard(InputParser $input)
     {
@@ -54,8 +61,8 @@ class RouterBoardBackup extends AbstractRouterBoard implements IRouterBoardBacku
             throw new Exception("Input array is empty!");
 
         foreach ($inputArray as $ipAddr) {
-            if ($this->dbconnect->checkExistIP($ipAddr['addr'])) {
-                $data = $this->dbconnect->getOneIP($ipAddr['addr']);
+            if ($this->dbConnect->checkExistIP($ipAddr['addr'])) {
+                $data = $this->dbConnect->getOneIP($ipAddr['addr']);
                 $this->goBackup($data[0]['addr'], $data[0]['port'], $data[0]['identity']);
                 continue;
             }
@@ -68,7 +75,7 @@ class RouterBoardBackup extends AbstractRouterBoard implements IRouterBoardBacku
     {
         if ($this->ssh->getBackupFile($addr, $port, $this->filename, $this->config['system']['backupdir'], $identity)) {
             $this->logger->log("Backup of the router " . $addr . " has been sucessfully.");
-            $this->dbconnect->updateBackupTime($addr);
+            $this->dbConnect->updateBackupTime($addr);
             return;
         }
         $this->logger->log("Backup of the router " . $addr . " has not been sucessfully.", $this->logger->setError());

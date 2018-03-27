@@ -7,14 +7,10 @@ use Src\Logger\OutputLogger;
 abstract class AbstractRouterBoard
 {
 
-    /**
-     * @var array $config
-     */
+    /** @var array $config */
     protected $config = array();
 
-    /**
-     * @var OutputLogger $logger
-     */
+    /** @var OutputLogger $logger */
     protected $logger;
 
     /**

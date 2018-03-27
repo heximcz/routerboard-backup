@@ -10,7 +10,8 @@ use Exception;
 class SecureTools extends AbstractRouterBoard
 {
 
-    private $fsys;
+    /** @var Filesystem $fSys */
+    private $fSys;
 
     /**
      * SecureTools constructor.
@@ -20,7 +21,7 @@ class SecureTools extends AbstractRouterBoard
     public function __construct(array $config, OutputLogger $logger)
     {
         parent::__construct($config, $logger);
-        $this->fsys = new Filesystem();
+        $this->fSys = new Filesystem();
     }
 
     /**
@@ -30,11 +31,11 @@ class SecureTools extends AbstractRouterBoard
     public function checkRSA()
     {
         // does exist ssh directory ?
-        if (!$this->fsys->exists($this->config ['system'] ['ssh-dir'])) {
-            $this->fsys->mkdir($this->config ['system'] ['ssh-dir'], 0700);
+        if (!$this->fSys->exists($this->config ['system'] ['ssh-dir'])) {
+            $this->fSys->mkdir($this->config ['system'] ['ssh-dir'], 0700);
             $this->logger->log("The SSH directory: " . $this->config ['system'] ['ssh-dir'] . " has been created !", $this->logger->setNotice());
         }
-        if (!$this->fsys->exists($this->config ['system'] ['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub')) {
+        if (!$this->fSys->exists($this->config ['system'] ['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub')) {
             $this->logger->log("The SSH-RSA public key does not exist. Creating new.", $this->logger->setNotice());
             $this->createRSA();
         } else
@@ -54,18 +55,18 @@ class SecureTools extends AbstractRouterBoard
             // be safe
             $this->backupExistRSA();
             // create id_rsa.pub (public key)
-            $this->fsys->dumpFile(
+            $this->fSys->dumpFile(
                 $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub',
                 $key['publickey']
             );
             // create id_rsa (private key)
-            $this->fsys->dumpFile(
+            $this->fSys->dumpFile(
                 $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa',
                 $key['privatekey']
             );
             // set permissions -rw-------
-            $this->fsys->chmod($this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa', 0600);
-            $this->fsys->chmod($this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub', 0600);
+            $this->fSys->chmod($this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa', 0600);
+            $this->fSys->chmod($this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub', 0600);
             // backup existing RSA files for sure.
             $this->backupExistRSA('routerboard-backup');
             $this->logger->log("The SSH-RSA public key has been created. Never delete those files! (id_rsa,id_rsa.pub)", $this->logger->setNotice());
@@ -83,16 +84,16 @@ class SecureTools extends AbstractRouterBoard
         if (empty($suffix))
             $suffix = date("Ydmhis", time());
         $originFile = $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa.pub';
-        if ($this->fsys->exists($originFile)) {
+        if ($this->fSys->exists($originFile)) {
             $targetFile = $originFile . "." . $suffix . '.bak';
-            $this->fsys->copy($originFile, $targetFile);
-            $this->fsys->chmod($targetFile, 0600);
+            $this->fSys->copy($originFile, $targetFile);
+            $this->fSys->chmod($targetFile, 0600);
         }
         $originFile = $this->config['system']['ssh-dir'] . DIRECTORY_SEPARATOR . 'id_rsa';
-        if ($this->fsys->exists($originFile)) {
+        if ($this->fSys->exists($originFile)) {
             $targetFile = $originFile . "." . $suffix . '.bak';
-            $this->fsys->copy($originFile, $targetFile);
-            $this->fsys->chmod($targetFile, 0600);
+            $this->fSys->copy($originFile, $targetFile);
+            $this->fSys->chmod($targetFile, 0600);
         }
     }
 
