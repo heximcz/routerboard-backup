@@ -8,6 +8,7 @@ use Gitlab\Api\Groups;
 use Gitlab\Model\Project;
 use Gitlab\Exception\RuntimeException;
 use Exception;
+use Src\Logger\OutputLogger;
 
 class GitLabAPI extends AbstractRouterBoard
 {
@@ -16,7 +17,12 @@ class GitLabAPI extends AbstractRouterBoard
     private $idProject;
     private $idGroup;
 
-    public function __construct($config, $logger)
+    /**
+     * GitLabAPI constructor.
+     * @param array $config
+     * @param OutputLogger $logger
+     */
+    public function __construct(array $config, OutputLogger $logger)
     {
         parent::__construct($config, $logger);
         $this->client = Client::create($this->config['gitlab']['url'])
@@ -52,9 +58,11 @@ class GitLabAPI extends AbstractRouterBoard
         return $this->client;
     }
 
+
     /**
      * Check if project with name ['gitlab']['project-name'] does exist in repository.
-     * @return boolean
+     * @return bool
+     * @throws Exception
      */
     public function checkProjectName()
     {
@@ -102,6 +110,7 @@ class GitLabAPI extends AbstractRouterBoard
     /**
      * Create new project from ['gitlab']['project-name']
      * @return boolean
+     * @throws Exception
      */
     public function createProject()
     {
@@ -162,7 +171,7 @@ class GitLabAPI extends AbstractRouterBoard
      * @param array $array - data
      * @param string $value - find in key
      * @param string $get - get another value from same level
-     * @param reference to the existing variable $destination
+     * @param string $destination reference to the existing variable $destination
      * @return boolean
      */
     private function arraySearchValues($name, $array, $value, $get, &$destination)

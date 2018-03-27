@@ -26,8 +26,8 @@ interface IAdapter
 
     /**
      * Update IP in db
-     * @param string $oldIP
-     * @param string $newIP
+     * @param string $oldAddr
+     * @param string $newAddr
      * @param integer $newPort
      * @param string $identity
      * @return boolean

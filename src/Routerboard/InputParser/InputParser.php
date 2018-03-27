@@ -2,7 +2,8 @@
 
 namespace Src\RouterBoard;
 
-use Src\RouterBoard\IPValidator;
+use Src\Logger\OutputLogger;
+use Symfony\Component\Console\Input\InputInterface;
 
 class InputParser extends AbstractRouterBoard
 {
@@ -10,7 +11,13 @@ class InputParser extends AbstractRouterBoard
     private $paddr = array();
     private $validate;
 
-    public function __construct($config, $logger, $input)
+    /**
+     * InputParser constructor.
+     * @param array $config
+     * @param OutputLogger $logger
+     * @param array $input
+     */
+    public function __construct(array $config, OutputLogger $logger, array $input)
     {
         parent::__construct($config, $logger);
         $this->validate = new IPValidator($config, $logger);
@@ -32,7 +39,7 @@ class InputParser extends AbstractRouterBoard
      * Parse input IP address parameters and check different SSH port
      * @param array $input
      */
-    private function inputParserArray($input)
+    private function inputParserArray(array $input)
     {
         $i = 0;
         foreach ($input as $addr) {
@@ -50,7 +57,8 @@ class InputParser extends AbstractRouterBoard
 
     /**
      * Check if domain or IP address is valid and port range is between 1-65535
-     * @param string $addr
+     * @param array $addr
+     * @return boolean
      */
     private function validateParsedAddress($addr)
     {

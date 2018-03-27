@@ -7,7 +7,6 @@ use Symfony\Component\Filesystem\Filesystem;
 class RouterBoardDecode extends AbstractRouterBoard
 {
 
-
     /**
      * @param $file
      * @throws \Exception

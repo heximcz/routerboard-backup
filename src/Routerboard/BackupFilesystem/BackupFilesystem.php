@@ -10,7 +10,7 @@ class BackupFilesystem extends AbstractRouterBoard implements IBackupFilesystem
 {
 
     /**
-     * @see \Src\RouterBoard\BackupFilesystem\IBackupFilesystem::fileRotate()
+     * @see \Src\RouterBoard\IBackupFilesystem::fileRotate()
      */
     public function rotateBackupFiles($directory, $extension, $rotate)
     {
@@ -36,7 +36,7 @@ class BackupFilesystem extends AbstractRouterBoard implements IBackupFilesystem
     }
 
     /**
-     * @see \Src\RouterBoard\BackupFilesystem\IBackupFilesystem::saveBackupRB()
+     * @see \Src\RouterBoard\IBackupFilesystem::saveBackupRB()
      */
     public function saveBackupFile($addr, $content, $folder, $filename, $extension, $identity = NULL)
     {

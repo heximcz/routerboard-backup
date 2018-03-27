@@ -2,7 +2,6 @@
 namespace Src\Logger;
 
 use Symfony\Component\Console\Output\OutputInterface;
-use Src\Logger\AbstractMailLogger;
 
 class OutputLogger extends AbstractMailLogger implements ILogger
 {

@@ -94,7 +94,7 @@ class SSHConnector extends AbstractRouterBoard
      * @param string $addr
      * @param string $port
      * @param bool $type - connect via user&rsakey(true), user&password(false)
-     * @return mixed object | false
+     * @return SSH2 | false
      */
     protected function sshConnect($addr, $port, $type)
     {
@@ -116,17 +116,20 @@ class SSHConnector extends AbstractRouterBoard
 
     /**
      * SSH Disconnect
-     * @param $ssh
+     * @param SSH2 $ssh
      */
-    protected function sshDisconnect($ssh)
+    protected function sshDisconnect(SSH2 $ssh)
     {
         $ssh->disconnect();
         restore_error_handler();
     }
 
+
     /**
      * My error handler, I do not like this: PHP Notice:  Cannot connect...
      * Must be a public!
+     * @param $severity
+     * @param $message
      */
     public function myErrorHandler($severity, $message)
     {

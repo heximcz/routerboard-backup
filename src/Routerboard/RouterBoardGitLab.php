@@ -3,6 +3,7 @@
 namespace Src\RouterBoard;
 
 use Exception;
+use Src\Logger\OutputLogger;
 
 class RouterBoardGitLab extends AbstractRouterBoard implements IRouterBoardBackup
 {
@@ -14,7 +15,13 @@ class RouterBoardGitLab extends AbstractRouterBoard implements IRouterBoardBacku
     private $filename;
     private $folder;
 
-    public function __construct($config, $logger)
+    /**
+     * RouterBoardGitLab constructor.
+     * @param array $config
+     * @param OutputLogger $logger
+     * @throws Exception
+     */
+    public function __construct(array $config, OutputLogger $logger)
     {
         parent::__construct($config, $logger);
         $this->gitlab = new GitLabAPI($this->config, $this->logger);

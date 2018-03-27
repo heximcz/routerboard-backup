@@ -3,6 +3,7 @@
 namespace Src\RouterBoard;
 
 use phpseclib\Crypt\RSA;
+use Src\Logger\OutputLogger;
 use Symfony\Component\Filesystem\Filesystem;
 use Exception;
 
@@ -11,7 +12,12 @@ class SecureTools extends AbstractRouterBoard
 
     private $fsys;
 
-    public function __construct($config, $logger)
+    /**
+     * SecureTools constructor.
+     * @param array $config
+     * @param OutputLogger $logger
+     */
+    public function __construct(array $config, OutputLogger $logger)
     {
         parent::__construct($config, $logger);
         $this->fsys = new Filesystem();

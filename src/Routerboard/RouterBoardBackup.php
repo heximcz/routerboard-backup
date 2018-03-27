@@ -2,9 +2,8 @@
 
 namespace Src\RouterBoard;
 
-use Src\RouterBoard\SSHConnector;
-use Src\RouterBoard\InputParser;
 use Exception;
+use Src\Logger\OutputLogger;
 
 class RouterBoardBackup extends AbstractRouterBoard implements IRouterBoardBackup
 {
@@ -13,7 +12,12 @@ class RouterBoardBackup extends AbstractRouterBoard implements IRouterBoardBacku
     private $ssh;
     private $filename;
 
-    public function __construct($config, $logger)
+    /**
+     * RouterBoardBackup constructor.
+     * @param array $config
+     * @param OutputLogger $logger
+     */
+    public function __construct(array $config, OutputLogger $logger)
     {
         parent::__construct($config, $logger);
         $this->dbconnect = new $this->config['database']['data-adapter']($this->config, $this->logger);

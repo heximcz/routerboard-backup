@@ -2,6 +2,7 @@
 namespace Src\Adapters;
 
 use dibi;
+use Src\Logger\OutputLogger;
 
 class RouterBoardDBAdapter extends AbstractDataAdapter
 {
@@ -26,7 +27,13 @@ class RouterBoardDBAdapter extends AbstractDataAdapter
       MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
     */
 
-    public function __construct($config, $logger)
+    /**
+     * RouterBoardDBAdapter constructor.
+     * @param array $config
+     * @param OutputLogger $logger
+     * @throws \Dibi\Exception
+     */
+    public function __construct(array $config, OutputLogger $logger)
     {
         parent::__construct($config, $logger);
         $options = array(
