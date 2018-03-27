@@ -10,7 +10,7 @@ class BackupFilesystem extends AbstractRouterBoard implements IBackupFilesystem
 {
 
     /**
-     * @see \Src\RouterBoard\IBackupFilesystem::fileRotate()
+     * @see \Src\RouterBoard\IBackupFilesystem::rotateBackupFiles()
      */
     public function rotateBackupFiles($directory, $extension, $rotate)
     {
@@ -36,7 +36,7 @@ class BackupFilesystem extends AbstractRouterBoard implements IBackupFilesystem
     }
 
     /**
-     * @see \Src\RouterBoard\IBackupFilesystem::saveBackupRB()
+     * @see \Src\RouterBoard\IBackupFilesystem::saveBackupFile()
      */
     public function saveBackupFile($addr, $content, $folder, $filename, $extension, $identity = NULL)
     {
@@ -45,15 +45,17 @@ class BackupFilesystem extends AbstractRouterBoard implements IBackupFilesystem
             return false;
         }
         $bfs = new Filesystem();
-        $backupdir = $folder . DIRECTORY_SEPARATOR;
+        $backupDir = $folder . DIRECTORY_SEPARATOR;
         if ($identity)
-            $backupdir .= $identity . '_' . $addr . DIRECTORY_SEPARATOR;
+            $backupDir .= $identity . '_' . $addr . DIRECTORY_SEPARATOR;
         else
-            $backupdir .= $addr . DIRECTORY_SEPARATOR;
-        if (!$bfs->exists($backupdir))
-            $bfs->mkdir($backupdir, 0700);
-        $bfs->dumpFile($backupdir . $filename . '.' . $extension, $content, 0600);
-        $this->rotateBackupFiles($backupdir, $extension, $this->config['system']['backup-rotate']);
+            $backupDir .= $addr . DIRECTORY_SEPARATOR;
+        if (!$bfs->exists($backupDir))
+            $bfs->mkdir($backupDir, 0700);
+        $file = $backupDir . $filename . '.' . $extension;
+        $bfs->dumpFile($file, $content);
+        $bfs->chmod($file, 0600);
+        $this->rotateBackupFiles($backupDir, $extension, $this->config['system']['backup-rotate']);
         return true;
     }
 
