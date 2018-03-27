@@ -2,7 +2,7 @@
 
 namespace Src\Logger;
 
-use PHPMailer;
+use PHPMailer\PHPMailer\PHPMailer;
 
 abstract class AbstractMailLogger
 {
