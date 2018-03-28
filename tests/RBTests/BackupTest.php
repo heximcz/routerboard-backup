@@ -43,5 +43,18 @@ class BackupTest extends RBCaseTest {
 		$this->assertRegExp ( '/../', $commandTester->getDisplay () );
 	
 	}
-	
+
+    public function testRunCommandsBackupOneFakeInput() {
+        $application = new Application ();
+        $application->add ( new CliRouterBoardBackup( self::$config ) );
+        $command = $application->find ( 'rb:backup' );
+        $commandTester = new CommandTester ( $command );
+        // backup one
+        $commandTester->execute ( array (
+            'action' => 'backup',
+            '-i'  => ['fake']
+        ) );
+        $this->assertContains( 'Input array is empty', $commandTester->getDisplay() );
+    }
+
 }

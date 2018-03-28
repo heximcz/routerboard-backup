@@ -11,8 +11,8 @@ class ComposerStaticInitf6d1b74598a5cf47c5b437717b0ef3c2
         'ddc0a4d7e61c0286f0f8593b1903e894' => __DIR__ . '/..' . '/clue/stream-filter/src/functions.php',
         '8cff32064859f4559445b89279f3199c' => __DIR__ . '/..' . '/php-http/message/src/filters.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
-        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '0097ca414fcb37c7130ac24b05f485f8' => __DIR__ . '/..' . '/dibi/dibi/src/loader.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
     );
@@ -58,6 +58,7 @@ class ComposerStaticInitf6d1b74598a5cf47c5b437717b0ef3c2
         ),
         'C' => 
         array (
+            'CodeClimate\\PhpTestReporter\\' => 28,
             'Clue\\StreamFilter\\' => 18,
         ),
         'A' => 
@@ -165,6 +166,10 @@ class ComposerStaticInitf6d1b74598a5cf47c5b437717b0ef3c2
         'Gitlab\\' => 
         array (
             0 => __DIR__ . '/..' . '/m4tthumphrey/php-gitlab-api/lib/Gitlab',
+        ),
+        'CodeClimate\\PhpTestReporter\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/codeclimate/php-test-reporter/src',
         ),
         'Clue\\StreamFilter\\' => 
         array (
