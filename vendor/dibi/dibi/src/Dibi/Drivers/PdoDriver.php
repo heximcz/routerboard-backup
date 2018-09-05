@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the "dibi" - smart database abstraction layer.
+ * This file is part of the Dibi, smart database abstraction layer (https://dibiphp.com)
  * Copyright (c) 2005 David Grudl (https://davidgrudl.com)
  */
 
@@ -12,7 +12,7 @@ use PDO;
 
 
 /**
- * The dibi driver for PDO.
+ * The driver for PDO.
  *
  * Driver options:
  *   - dsn => driver specific DSN
@@ -21,13 +21,12 @@ use PDO;
  *   - options (array) => driver specific options {@see PDO::__construct}
  *   - resource (PDO) => existing connection
  *   - version
- *   - lazy, profiler, result, substitutes, ... => see Dibi\Connection options
  */
 class PdoDriver implements Dibi\Driver, Dibi\ResultDriver
 {
 	use Dibi\Strict;
 
-	/** @var PDO  Connection resource */
+	/** @var PDO|null  Connection resource */
 	private $connection;
 
 	/** @var \PDOStatement|null  Resultset resource */
@@ -104,22 +103,13 @@ class PdoDriver implements Dibi\Driver, Dibi\ResultDriver
 	 */
 	public function query($sql)
 	{
-		// must detect if SQL returns result set or num of affected rows
-		$cmd = strtoupper(substr(ltrim($sql), 0, 6));
-		static $list = ['UPDATE' => 1, 'DELETE' => 1, 'INSERT' => 1, 'REPLAC' => 1];
-		$this->affectedRows = false;
-
-		if (isset($list[$cmd])) {
-			$this->affectedRows = $this->connection->exec($sql);
-			if ($this->affectedRows !== false) {
-				return null;
-			}
-		} else {
-			$res = $this->connection->query($sql);
-			if ($res) {
-				return $this->createResultDriver($res);
-			}
+		$res = $this->connection->query($sql);
+		if ($res) {
+			$this->affectedRows = $res->rowCount();
+			return $res->columnCount() ? $this->createResultDriver($res) : null;
 		}
+
+		$this->affectedRows = false;
 
 		list($sqlState, $code, $message) = $this->connection->errorInfo();
 		$message = "SQLSTATE[$sqlState]: $message";
@@ -209,7 +199,7 @@ class PdoDriver implements Dibi\Driver, Dibi\ResultDriver
 
 	/**
 	 * Returns the connection resource.
-	 * @return PDO
+	 * @return PDO|null
 	 */
 	public function getResource()
 	{

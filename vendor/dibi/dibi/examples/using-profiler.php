@@ -2,14 +2,16 @@
 
 <!DOCTYPE html><link rel="stylesheet" href="data/style.css">
 
-<h1>Using Profiler | dibi</h1>
+<h1>Using Profiler | Dibi</h1>
 
 <?php
 
-require __DIR__ . '/../vendor/autoload.php';
+if (@!include __DIR__ . '/../vendor/autoload.php') {
+	die('Install packages using `composer install`');
+}
 
 
-dibi::connect([
+$dibi = new Dibi\Connection([
 	'driver' => 'sqlite3',
 	'database' => 'data/sample.s3db',
 	'profiler' => [
@@ -20,7 +22,7 @@ dibi::connect([
 
 // execute some queries...
 for ($i = 0; $i < 20; $i++) {
-	$res = dibi::query('SELECT * FROM [customers] WHERE [customer_id] < ?', $i);
+	$res = $dibi->query('SELECT * FROM [customers] WHERE [customer_id] < ?', $i);
 }
 
 // display output

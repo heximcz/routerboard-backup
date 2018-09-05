@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the "dibi" - smart database abstraction layer.
+ * This file is part of the Dibi, smart database abstraction layer (https://dibiphp.com)
  * Copyright (c) 2005 David Grudl (https://davidgrudl.com)
  */
 
@@ -9,20 +9,7 @@ namespace Dibi;
 
 
 /**
- * dibi result set.
- *
- * <code>
- * $result = dibi::query('SELECT * FROM [table]');
- *
- * $row   = $result->fetch();
- * $value = $result->fetchSingle();
- * $table = $result->fetchAll();
- * $pairs = $result->fetchPairs();
- * $assoc = $result->fetchAssoc('col1');
- * $assoc = $result->fetchAssoc('col1[]col2->col3');
- *
- * unset($result);
- * </code>
+ * Query result.
  *
  * @property-read int $rowCount
  */
@@ -42,10 +29,10 @@ class Result implements IDataSource
 	/** @var bool  Already fetched? Used for allowance for first seek(0) */
 	private $fetched = false;
 
-	/** @var string  returned object class */
+	/** @var string|null  returned object class */
 	private $rowClass = 'Dibi\Row';
 
-	/** @var callable  returned object factory*/
+	/** @var callable|null  returned object factory */
 	private $rowFactory;
 
 	/** @var array  format */
@@ -147,6 +134,16 @@ class Result implements IDataSource
 	}
 
 
+	/**
+	 * Returns the number of columns in a result set.
+	 * @return int
+	 */
+	final public function getColumnCount()
+	{
+		return count($this->types);
+	}
+
+
 	/********************* fetching rows ****************d*g**/
 
 
@@ -225,7 +222,7 @@ class Result implements IDataSource
 	 * Fetches all records from table.
 	 * @param  int  offset
 	 * @param  int  limit
-	 * @return Row[]
+	 * @return Row[]|array[]
 	 */
 	final public function fetchAll($offset = null, $limit = null)
 	{

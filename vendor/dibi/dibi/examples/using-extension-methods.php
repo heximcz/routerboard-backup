@@ -9,11 +9,11 @@ Tracy\Debugger::enable();
 ?>
 <!DOCTYPE html><link rel="stylesheet" href="data/style.css">
 
-<h1>Using Extension Methods | dibi</h1>
+<h1>Using Extension Methods | Dibi</h1>
 
 <?php
 
-dibi::connect([
+$dibi = new Dibi\Connection([
 	'driver' => 'sqlite3',
 	'database' => 'data/sample.s3db',
 ]);
@@ -28,6 +28,6 @@ Dibi\Result::extensionMethod('fetchShuffle', function (Dibi\Result $obj) {
 
 
 // fetch complete result set shuffled
-$res = dibi::query('SELECT * FROM [customers]');
+$res = $dibi->query('SELECT * FROM [customers]');
 $all = $res->fetchShuffle();
 Tracy\Dumper::dump($all);

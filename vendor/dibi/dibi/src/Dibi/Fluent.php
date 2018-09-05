@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the "dibi" - smart database abstraction layer.
+ * This file is part of the Dibi, smart database abstraction layer (https://dibiphp.com)
  * Copyright (c) 2005 David Grudl (https://davidgrudl.com)
  */
 
@@ -9,11 +9,11 @@ namespace Dibi;
 
 
 /**
- * dibi SQL builder via fluent interfaces. EXPERIMENTAL!
+ * SQL builder via fluent interfaces.
  *
  * @method Fluent select(...$field)
  * @method Fluent distinct()
- * @method Fluent from($table)
+ * @method Fluent from($table, ...$args)
  * @method Fluent where(...$cond)
  * @method Fluent groupBy(...$field)
  * @method Fluent having(...$cond)
@@ -86,7 +86,7 @@ class Fluent implements IDataSource
 	/** @var array */
 	private $setups = [];
 
-	/** @var string */
+	/** @var string|null */
 	private $command;
 
 	/** @var array */
@@ -95,7 +95,7 @@ class Fluent implements IDataSource
 	/** @var array */
 	private $flags = [];
 
-	/** @var array */
+	/** @var array|null */
 	private $cursor;
 
 	/** @var HashMap  normalized clauses */
@@ -272,7 +272,6 @@ class Fluent implements IDataSource
 
 
 	/**
-	 * Returns the dibi connection.
 	 * @return Connection
 	 */
 	final public function getConnection()

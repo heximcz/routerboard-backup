@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the "dibi" - smart database abstraction layer.
+ * This file is part of the Dibi, smart database abstraction layer (https://dibiphp.com)
  * Copyright (c) 2005 David Grudl (https://davidgrudl.com)
  */
 
@@ -23,10 +23,10 @@ class Result
 	/** @var Dibi\ResultDriver */
 	private $driver;
 
-	/** @var array */
+	/** @var Column[]|null */
 	private $columns;
 
-	/** @var array */
+	/** @var string[]|null */
 	private $names;
 
 

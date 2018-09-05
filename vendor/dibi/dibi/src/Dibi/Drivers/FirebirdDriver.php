@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the "dibi" - smart database abstraction layer.
+ * This file is part of the Dibi, smart database abstraction layer (https://dibiphp.com)
  * Copyright (c) 2005 David Grudl (https://davidgrudl.com)
  */
 
@@ -11,7 +11,7 @@ use Dibi;
 
 
 /**
- * The dibi driver for Firebird/InterBase database.
+ * The driver for Firebird/InterBase database.
  *
  * Driver options:
  *   - database => the path to database file (server:/path/database.fdb)
@@ -20,7 +20,6 @@ use Dibi;
  *   - charset => character encoding to set
  *   - buffers (int) => buffers is the number of database buffers to allocate for the server-side cache. If 0 or omitted, server chooses its own default.
  *   - resource (resource) => existing connection resource
- *   - lazy, profiler, result, substitutes, ... => see Dibi\Connection options
  */
 class FirebirdDriver implements Dibi\Driver, Dibi\ResultDriver, Dibi\Reflector
 {
@@ -313,7 +312,7 @@ class FirebirdDriver implements Dibi\Driver, Dibi\ResultDriver, Dibi\Reflector
 		if (!$value instanceof \DateTime && !$value instanceof \DateTimeInterface) {
 			$value = new Dibi\DateTime($value);
 		}
-		return $value->format("'Y-m-d H:i:s.u'");
+		return "'" . substr($value->format('Y-m-d H:i:s.u'), 0, -2) . "'";
 	}
 
 
@@ -375,7 +374,9 @@ class FirebirdDriver implements Dibi\Driver, Dibi\ResultDriver, Dibi\Reflector
 	 */
 	public function __destruct()
 	{
-		$this->autoFree && $this->getResultResource() && $this->free();
+		if ($this->autoFree && $this->getResultResource()) {
+			$this->free();
+		}
 	}
 
 

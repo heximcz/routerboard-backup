@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the "dibi" - smart database abstraction layer.
+ * This file is part of the Dibi, smart database abstraction layer (https://dibiphp.com)
  * Copyright (c) 2005 David Grudl (https://davidgrudl.com)
  */
 
@@ -19,11 +19,10 @@ interface IDataSource extends \Countable, \IteratorAggregate
 
 
 /**
- * dibi driver interface.
+ * Driver interface.
  */
 interface Driver
 {
-
 	/**
 	 * Connects to a database.
 	 * @param  array
@@ -152,11 +151,10 @@ interface Driver
 
 
 /**
- * dibi result set driver interface.
+ * Result set driver interface.
  */
 interface ResultDriver
 {
-
 	/**
 	 * Returns the number of rows in a result set.
 	 * @return int
@@ -208,11 +206,10 @@ interface ResultDriver
 
 
 /**
- * dibi driver reflection.
+ * Reflection driver.
  */
 interface Reflector
 {
-
 	/**
 	 * Returns list of tables.
 	 * @return array of {name [, (bool) view ]}

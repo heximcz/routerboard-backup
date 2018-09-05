@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the "dibi" - smart database abstraction layer.
+ * This file is part of the Dibi, smart database abstraction layer (https://dibiphp.com)
  * Copyright (c) 2005 David Grudl (https://davidgrudl.com)
  */
 
@@ -11,7 +11,7 @@ use Dibi;
 
 
 /**
- * dibi FirePHP logger.
+ * FirePHP logger.
  */
 class FirePhpLogger
 {
@@ -29,7 +29,7 @@ class FirePhpLogger
 	/** @var int */
 	public $filter;
 
-	/** @var int  Elapsed time for all queries */
+	/** @var float  Elapsed time for all queries */
 	public $totalTime = 0;
 
 	/** @var int  Number of all queries */

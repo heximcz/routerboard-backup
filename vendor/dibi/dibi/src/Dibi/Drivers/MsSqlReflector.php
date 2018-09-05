@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the "dibi" - smart database abstraction layer.
+ * This file is part of the Dibi, smart database abstraction layer (https://dibiphp.com)
  * Copyright (c) 2005 David Grudl (https://davidgrudl.com)
  */
 
@@ -11,7 +11,7 @@ use Dibi;
 
 
 /**
- * The dibi reflector for MS SQL databases.
+ * The reflector for MS SQL databases.
  * @internal
  */
 class MsSqlReflector implements Dibi\Reflector
@@ -96,10 +96,7 @@ class MsSqlReflector implements Dibi\Reflector
 		");
 		$columns = [];
 		while ($row = $res->fetch(true)) {
-			$size = false;
-			$type = strtoupper($row['DATA_TYPE']);
-
-			$size_cols = [
+			static $size_cols = [
 				'DATETIME' => 'DATETIME_PRECISION',
 				'DECIMAL' => 'NUMERIC_PRECISION',
 				'CHAR' => 'CHARACTER_MAXIMUM_LENGTH',
@@ -108,17 +105,13 @@ class MsSqlReflector implements Dibi\Reflector
 				'VARCHAR' => 'CHARACTER_OCTET_LENGTH',
 			];
 
-			if (isset($size_cols[$type])) {
-				if ($size_cols[$type]) {
-					$size = $row[$size_cols[$type]];
-				}
-			}
+			$type = strtoupper($row['DATA_TYPE']);
 
 			$columns[] = [
 				'name' => $row['COLUMN_NAME'],
 				'table' => $table,
 				'nativetype' => $type,
-				'size' => $size,
+				'size' => isset($size_cols[$type], $row[$size_cols[$type]]) ? $row[$size_cols[$type]] : null,
 				'unsigned' => null,
 				'nullable' => $row['IS_NULLABLE'] === 'YES',
 				'default' => $row['COLUMN_DEFAULT'],

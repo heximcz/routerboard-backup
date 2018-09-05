@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the "dibi" - smart database abstraction layer.
+ * This file is part of the Dibi, smart database abstraction layer (https://dibiphp.com)
  * Copyright (c) 2005 David Grudl (https://davidgrudl.com)
  */
 
@@ -9,8 +9,7 @@ use Dibi\Type;
 
 
 /**
- * This class is static container class for creating DB objects and
- * store connections info.
+ * Static container class for Dibi connections.
  */
 class dibi
 {
@@ -22,8 +21,8 @@ class dibi
 
 	/** version */
 	const
-		VERSION = '3.2.0',
-		REVISION = 'released on 2018-03-09';
+		VERSION = '3.2.2',
+		REVISION = 'released on 2018-05-02';
 
 	/** sorting order */
 	const
@@ -49,13 +48,13 @@ class dibi
 		FIELD_DATETIME = Type::DATETIME,
 		FIELD_TIME = Type::TIME;
 
-	/** @var string  Last SQL command @see dibi::query() */
+	/** @var string|null  Last SQL command @see dibi::query() */
 	public static $sql;
 
-	/** @var int  Elapsed time for last query */
+	/** @var float|null  Elapsed time for last query */
 	public static $elapsedTime;
 
-	/** @var int  Elapsed time for all queries */
+	/** @var float  Elapsed time for all queries */
 	public static $totalTime;
 
 	/** @var int  Number or queries */
@@ -85,7 +84,7 @@ class dibi
 
 	/**
 	 * Creates a new Connection object and connects it to specified database.
-	 * @param  mixed   connection parameters
+	 * @param  array|string   connection parameters
 	 * @param  string  connection name
 	 * @return Dibi\Connection
 	 * @throws Dibi\Exception
@@ -441,10 +440,22 @@ class dibi
 	 * Prints out a syntax highlighted version of the SQL command or Result.
 	 * @param  string|Result
 	 * @param  bool  return output instead of printing it?
-	 * @return string
+	 * @return string|null
 	 */
 	public static function dump($sql = null, $return = false)
 	{
 		return Dibi\Helpers::dump($sql, $return);
+	}
+
+
+	/**
+	 * Strips microseconds part.
+	 * @param  \DateTime|\DateTimeInterface
+	 * @return \DateTime|\DateTimeInterface
+	 */
+	public static function stripMicroseconds($dt)
+	{
+		$class = get_class($dt);
+		return new $class($dt->format('Y-m-d H:i:s'), $dt->getTimezone());
 	}
 }
