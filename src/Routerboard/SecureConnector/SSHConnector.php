@@ -66,7 +66,7 @@ class SSHConnector extends AbstractRouterBoard
         if ($ssh = $this->sshConnect($addr, $port, true)) {
             $this->logger->log($msg . 'successfully.');
             // remove old backup files
-            $ssh->exec('file remove [/file find where name~"' . $user . '-"]');
+            $ssh->exec('file remove [/file find where name~"' . $user . '"]');
             // create new backups
             $ssh->exec('system backup save name=' . $filename);
             $ssh->exec('export compact file=' . $filename);
