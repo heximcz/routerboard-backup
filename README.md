@@ -26,8 +26,8 @@ Private Token support will be removed in GitLab 10.2, from this version please u
 
 ## Features
 
-* **(NEW) support for gitlab base64 file decode** (from 1.0.1)
-* (NEW) Full support Gitlab API V4 (from 1.0.0)
+* support for gitlab base64 file decode** (from 1.0.1)
+* Full support Gitlab API V4 (from 1.0.0)
 * Support for override default SSH port in the config file. (from v0.9.0)
 * Backup to GitLab repository. (from v0.8.0)
 * Auto generate RSA key if it does not exist.
@@ -144,15 +144,13 @@ add this line to your /etc/crontab: (backup of all in database one per week to G
 If this repo helped you set donating to the author of the program.
 ```
 Bitcoin: 17MPKzx9jxssa5z83FBPmpfLYTpAcEEfLV
-Zcash: t1QdttLnVc55G5LrJShcQb487KqpvdJuk25
-Zcash z-address: zcCq73kvVVRe9JpNLtX3TjJuRPJRSgxZzt1YTn7sSyXwoJw5e2rLsr3u6dYerfkm6pjQNx1QsQowh62NHcQkNepdntWTivw
 ```
 
 ## YouTube video: How to
 
 [![Routerboard Backup Video How To](http://img.youtube.com/vi/-bOup-f3Eeo/0.jpg)](https://www.youtube.com/watch?v=-bOup-f3Eeo)
 
-## Product microsite
+## Product site
 
 [https://routerboard-backup.best-hosting.cz/](https://routerboard-backup.best-hosting.cz/)
 
