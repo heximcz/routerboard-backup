@@ -1,4 +1,9 @@
 # Change Log
+## [1.0.4](https://github.com/heximcz/routerboard-backup/releases/tag/1.0.4)
+- update readme
+- remove unused files
+- fix composer.json for PHP 7.4
+
 ## [1.0.3](https://github.com/heximcz/routerboard-backup/releases/tag/1.0.3)
 - PHP minimum version 7.4.x
 - upgrade vendor - Symfony framework from v4 to v5.4 and other vendor
