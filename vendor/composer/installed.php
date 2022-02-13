@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '5f6ab5c0c0078c219393c76f7d693fc3ba80107b',
+        'reference' => 'ecf5f785db4427a9ab07ed33418daa44ed2c1bf8',
         'name' => 'routerboard-backup/routerboard-backup',
         'dev' => false,
     ),
@@ -265,7 +265,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '5f6ab5c0c0078c219393c76f7d693fc3ba80107b',
+            'reference' => 'ecf5f785db4427a9ab07ed33418daa44ed2c1bf8',
             'dev_requirement' => false,
         ),
         'symfony/console' => array(
