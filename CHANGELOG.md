@@ -1,4 +1,8 @@
 # Change Log
+## [1.0.3](https://github.com/heximcz/routerboard-backup/releases/tag/1.0.3)
+- PHP minimum version 7.4.x
+- upgrade vendor - Symfony framework from v4 to v5.4 and other vendor
+
 ## [1.0.2](https://github.com/heximcz/routerboard-backup/releases/tag/1.0.2)
 - PHP minimum version 7.1.3
 - update vendor - Symfony framework
