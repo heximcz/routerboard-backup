@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.5.0 (2020-10-02)
+
+*   Feature: Improve performance by using global imports.
+    (#38 by @clue)
+
+*   Improve API documentation and add support / sponsorship info.
+    (#30 by @clue and #35 by @SimonFrings)
+
+*   Improve test suite and add `.gitattributes` to exclude dev files from exports.
+    Prepare PHP 8 support, update to PHPUnit 9 and simplify test matrix.
+    (#32 and #37 by @clue and #34 and #36 by @SimonFrings)
+
+## 1.4.1 (2019-04-09)
+
+*   Fix: Check if the function is declared before declaring it.
+    (#23 by @Niko9911)
+
+*   Improve test suite to also test against PHP 7.2 and
+    add test for base64 encoding and decoding filters.
+    (#22 by @arubacao and #25 by @Nyholm and @clue)
+
 ## 1.4.0 (2017-08-18)
 
 *   Feature / Fix: The `fun()` function does not pass filter parameter `null`

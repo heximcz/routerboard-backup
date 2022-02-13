@@ -1,32 +1,34 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 /**
- * Class Commit
+ * @final
  *
- * @property-read Commit $commit
- * @property-read int $id
- * @property-read string $coverage
- * @property-read string $created_at
- * @property-read string $artifacts_file
- * @property-read string $finished_at
- * @property-read string $name
- * @property-read Pipeline $pipeline
- * @property-read string $ref
- * @property-read string $runner
- * @property-read string $stage
- * @property-read string $started_at
- * @property-read string $status
- * @property-read string|bool $tag
- * @property-read User $user
+ * @property Commit|null   $commit
+ * @property int           $id
+ * @property string        $coverage
+ * @property string        $created_at
+ * @property string        $artifacts_file
+ * @property string        $finished_at
+ * @property string        $name
+ * @property Pipeline|null $pipeline
+ * @property string        $ref
+ * @property string        $runner
+ * @property string        $stage
+ * @property string        $started_at
+ * @property string        $status
+ * @property string|bool   $tag
+ * @property User|null     $user
  */
 class Job extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'commit',
         'coverage',
@@ -41,13 +43,14 @@ class Job extends AbstractModel
         'started_at',
         'status',
         'tag',
-        'user'
-    );
+        'user',
+    ];
 
     /**
      * @param Client  $client
      * @param Project $project
      * @param array   $data
+     *
      * @return Job
      */
     public static function fromArray(Client $client, Project $project, array $data)
@@ -70,9 +73,11 @@ class Job extends AbstractModel
     }
 
     /**
-     * @param Project $project
-     * @param int $id
-     * @param Client  $client
+     * @param Project     $project
+     * @param int|null    $id
+     * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct(Project $project, $id = null, Client $client = null)
     {

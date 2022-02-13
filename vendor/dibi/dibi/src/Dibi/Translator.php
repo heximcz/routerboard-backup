@@ -5,6 +5,8 @@
  * Copyright (c) 2005 David Grudl (https://davidgrudl.com)
  */
 
+declare(strict_types=1);
+
 namespace Dibi;
 
 
@@ -59,16 +61,15 @@ final class Translator
 
 	/**
 	 * Generates SQL. Can be called only once.
-	 * @param  array
-	 * @return string
 	 * @throws Exception
 	 */
-	public function translate(array $args)
+	public function translate(array $args): string
 	{
 		$args = array_values($args);
 		while (count($args) === 1 && is_array($args[0])) { // implicit array expansion
 			$args = array_values($args[0]);
 		}
+
 		$this->args = $args;
 		$this->errors = [];
 
@@ -92,28 +93,31 @@ final class Translator
 					$sql[] = $arg;
 				} else {
 					$sql[] = substr($arg, 0, $toSkip)
-/*
-					. preg_replace_callback('/
-					(?=[`[\'":%?])                    ## speed-up
-					(?:
-						`(.+?)`|                     ## 1) `identifier`
-						\[(.+?)\]|                   ## 2) [identifier]
-						(\')((?:\'\'|[^\'])*)\'|     ## 3,4) 'string'
-						(")((?:""|[^"])*)"|          ## 5,6) "string"
-						(\'|")|                      ## 7) lone quote
-						:(\S*?:)([a-zA-Z0-9._]?)|    ## 8,9) :substitution:
-						%([a-zA-Z~][a-zA-Z0-9~]{0,5})|## 10) modifier
-						(\?)                         ## 11) placeholder
-					)/xs',
-*/                  // note: this can change $this->args & $this->cursor & ...
-					. preg_replace_callback('/(?=[`[\'":%?])(?:`(.+?)`|\[(.+?)\]|(\')((?:\'\'|[^\'])*)\'|(")((?:""|[^"])*)"|(\'|")|:(\S*?:)([a-zA-Z0-9._]?)|%([a-zA-Z~][a-zA-Z0-9~]{0,5})|(\?))/s',
+						// note: this can change $this->args & $this->cursor & ...
+						. preg_replace_callback(
+							<<<'XX'
+							/
+							(?=[`['":%?])                       ## speed-up
+							(?:
+								`(.+?)`|                        ## 1) `identifier`
+								\[(.+?)\]|                      ## 2) [identifier]
+								(')((?:''|[^'])*)'|             ## 3,4) string
+								(")((?:""|[^"])*)"|             ## 5,6) "string"
+								('|")|                          ## 7) lone quote
+								:(\S*?:)([a-zA-Z0-9._]?)|       ## 8,9) :substitution:
+								%([a-zA-Z~][a-zA-Z0-9~]{0,5})|  ## 10) modifier
+								(\?)                            ## 11) placeholder
+							)/xs
+XX
+,
 							[$this, 'cb'],
 							substr($arg, $toSkip)
-					);
+						);
 					if (preg_last_error()) {
 						throw new PcreException;
 					}
 				}
+
 				continue;
 			}
 
@@ -136,22 +140,23 @@ final class Translator
 					if ($lastArr === $cursor - 1) {
 						$sql[] = ',';
 					}
+
 					$sql[] = $this->formatValue($arg, $commandIns ? 'l' : 'a');
 				}
+
 				$lastArr = $cursor;
 				continue;
 			}
 
 			// default processing
-			$sql[] = $this->formatValue($arg, false);
+			$sql[] = $this->formatValue($arg, null);
 		} // while
-
 
 		if ($comment) {
 			$sql[] = '*/';
 		}
 
-		$sql = implode(' ', $sql);
+		$sql = trim(implode(' ', $sql), ' ');
 
 		if ($this->errors) {
 			throw new Exception('SQL translate error: ' . trim(reset($this->errors), '*'), 0, $sql);
@@ -168,11 +173,9 @@ final class Translator
 
 	/**
 	 * Apply modifier to single value.
-	 * @param  mixed
-	 * @param  string
-	 * @return string
+	 * @param  mixed  $value
 	 */
-	public function formatValue($value, $modifier)
+	public function formatValue($value, ?string $modifier): string
 	{
 		if ($this->comment) {
 			return '...';
@@ -197,7 +200,7 @@ final class Translator
 							$pair = explode('%', $k, 2); // split into identifier & modifier
 							$k = $this->identifiers->{$pair[0]} . ' ';
 							if (!isset($pair[1])) {
-								$v = $this->formatValue($v, false);
+								$v = $this->formatValue($v, null);
 								$vx[] = $k . ($v === 'NULL' ? 'IS ' : '= ') . $v;
 
 							} elseif ($pair[1] === 'ex') {
@@ -214,13 +217,14 @@ final class Translator
 								} else {
 									$op = '= ';
 								}
+
 								$vx[] = $k . $op . $v;
 							}
-
 						} else {
 							$vx[] = $this->formatValue($v, 'ex');
 						}
 					}
+
 					return '(' . implode(') ' . strtoupper($modifier) . ' (', $vx) . ')';
 
 				case 'n':  // key, key, ... identifier names
@@ -232,6 +236,7 @@ final class Translator
 							$vx[] = $this->identifiers->{$pair[0]};
 						}
 					}
+
 					return implode(', ', $vx);
 
 
@@ -239,8 +244,9 @@ final class Translator
 					foreach ($value as $k => $v) {
 						$pair = explode('%', $k, 2); // split into identifier & modifier
 						$vx[] = $this->identifiers->{$pair[0]} . '='
-							. $this->formatValue($v, isset($pair[1]) ? $pair[1] : (is_array($v) ? 'ex' : false));
+							. $this->formatValue($v, $pair[1] ?? (is_array($v) ? 'ex!' : null));
 					}
+
 					return implode(', ', $vx);
 
 
@@ -248,8 +254,9 @@ final class Translator
 				case 'l': // (val, val, ...)
 					foreach ($value as $k => $v) {
 						$pair = explode('%', (string) $k, 2); // split into identifier & modifier
-						$vx[] = $this->formatValue($v, isset($pair[1]) ? $pair[1] : (is_array($v) ? 'ex' : false));
+						$vx[] = $this->formatValue($v, $pair[1] ?? (is_array($v) ? 'ex!' : null));
 					}
+
 					return '(' . (($vx || $modifier === 'l') ? implode(', ', $vx) : 'NULL') . ')';
 
 
@@ -257,8 +264,9 @@ final class Translator
 					foreach ($value as $k => $v) {
 						$pair = explode('%', $k, 2); // split into identifier & modifier
 						$kx[] = $this->identifiers->{$pair[0]};
-						$vx[] = $this->formatValue($v, isset($pair[1]) ? $pair[1] : (is_array($v) ? 'ex' : false));
+						$vx[] = $this->formatValue($v, $pair[1] ?? (is_array($v) ? 'ex!' : null));
 					}
+
 					return '(' . implode(', ', $kx) . ') VALUES (' . implode(', ', $vx) . ')';
 
 				case 'm': // (key, key, ...) VALUES (val, val, ...), (val, val, ...), ...
@@ -278,12 +286,14 @@ final class Translator
 						$pair = explode('%', $k, 2); // split into identifier & modifier
 						$kx[] = $this->identifiers->{$pair[0]};
 						foreach ($v as $k2 => $v2) {
-							$vx[$k2][] = $this->formatValue($v2, isset($pair[1]) ? $pair[1] : (is_array($v2) ? 'ex' : false));
+							$vx[$k2][] = $this->formatValue($v2, $pair[1] ?? (is_array($v2) ? 'ex!' : null));
 						}
 					}
+
 					foreach ($vx as $k => $v) {
 						$vx[$k] = '(' . implode(', ', $v) . ')';
 					}
+
 					return '(' . implode(', ', $kx) . ') VALUES ' . implode(', ', $vx);
 
 				case 'by': // key ASC, key DESC
@@ -291,26 +301,35 @@ final class Translator
 						if (is_array($v)) {
 							$vx[] = $this->formatValue($v, 'ex');
 						} elseif (is_string($k)) {
-							$v = (is_string($v) && strncasecmp($v, 'd', 1)) || $v > 0 ? 'ASC' : 'DESC';
+							$v = (is_string($v) ? strncasecmp($v, 'd', 1) : $v > 0) ? 'ASC' : 'DESC';
 							$vx[] = $this->identifiers->$k . ' ' . $v;
 						} else {
 							$vx[] = $this->identifiers->$v;
 						}
 					}
+
 					return implode(', ', $vx);
 
+				case 'ex!':
+					trigger_error('Use Dibi\Expression instead of array: ' . implode(', ', array_filter($value, 'is_scalar')), E_USER_WARNING);
+					// break omitted
 				case 'ex':
 				case 'sql':
-					return call_user_func_array([$this->connection, 'translate'], $value);
+					return $this->connection->translate(...$value);
 
 				default:  // value, value, value - all with the same modifier
 					foreach ($value as $v) {
 						$vx[] = $this->formatValue($v, $modifier);
 					}
+
 					return implode(', ', $vx);
 			}
 		}
 
+		// object-to-scalar procession
+		if ($value instanceof \BackedEnum && is_scalar($value->value)) {
+			$value = $value->value;
+		}
 
 		// with modifier procession
 		if ($modifier) {
@@ -319,9 +338,15 @@ final class Translator
 					return (string) $value;
 
 				} elseif ($value instanceof Expression && $modifier === 'ex') {
-					return call_user_func_array([$this->connection, 'translate'], $value->getValues());
+					return $this->connection->translate(...$value->getValues());
 
-				} elseif (($value instanceof \DateTime || $value instanceof \DateTimeInterface) && ($modifier === 'd' || $modifier === 't' || $modifier === 'dt')) {
+				} elseif (
+					$value instanceof \DateTimeInterface
+					&& ($modifier === 'd'
+						|| $modifier === 't'
+						|| $modifier === 'dt'
+					)
+				) {
 					// continue
 				} else {
 					$type = is_object($value) ? get_class($value) : gettype($value);
@@ -331,24 +356,29 @@ final class Translator
 
 			switch ($modifier) {
 				case 's':  // string
-					return $value === null ? 'NULL' : $this->driver->escapeText((string) $value);
+					return $value === null
+						? 'NULL'
+						: $this->driver->escapeText((string) $value);
 
 				case 'bin':// binary
-					return $value === null ? 'NULL' : $this->driver->escapeBinary($value);
+					return $value === null
+						? 'NULL'
+						: $this->driver->escapeBinary($value);
 
 				case 'b':  // boolean
-					return $value === null ? 'NULL' : $this->driver->escapeBool($value);
+					return $value === null
+						? 'NULL'
+						: $this->driver->escapeBool((bool) $value);
 
 				case 'sN': // string or null
 				case 'sn':
-					return $value == '' ? 'NULL' : $this->driver->escapeText((string) $value); // notice two equal signs
+					return $value === '' || $value === 0 || $value === null
+						? 'NULL'
+						: $this->driver->escapeText((string) $value);
 
-				case 'in': // deprecated
-					trigger_error('Modifier %in is deprecated, use %iN.', E_USER_DEPRECATED);
-					// break omitted
 				case 'iN': // signed int or null
-					if ($value == '') {
-						$value = null;
+					if ($value === '' || $value === 0 || $value === null) {
+						return 'NULL';
 					}
 					// break omitted
 				case 'i':  // signed int
@@ -358,9 +388,6 @@ final class Translator
 					} elseif (is_string($value)) {
 						if (preg_match('#[+-]?\d++(?:e\d+)?\z#A', $value)) {
 							return $value; // support for long numbers - keep them unchanged
-						} elseif (substr($value, 1, 1) === 'x' && is_numeric($value)) {
-							trigger_error('Support for hex strings has been deprecated.', E_USER_DEPRECATED);
-							return (string) hexdec($value);
 						} else {
 							throw new Exception("Expected number, '$value' given.");
 						}
@@ -386,10 +413,14 @@ final class Translator
 				case 'dt': // datetime
 					if ($value === null) {
 						return 'NULL';
-					} else {
-						return $modifier === 'd' ? $this->driver->escapeDate($value) : $this->driver->escapeDateTime($value);
+					} elseif (!$value instanceof \DateTimeInterface) {
+						$value = new DateTime($value);
 					}
-					// break omitted
+
+					return $modifier === 'd'
+						? $this->driver->escapeDate($value)
+						: $this->driver->escapeDateTime($value);
+
 				case 'by':
 				case 'n':  // composed identifier name
 					return $this->identifiers->$value;
@@ -404,27 +435,43 @@ final class Translator
 					$toSkip = strcspn($value, '`[\'":');
 					if (strlen($value) !== $toSkip) {
 						$value = substr($value, 0, $toSkip)
-						. preg_replace_callback(
-							'/(?=[`[\'":])(?:`(.+?)`|\[(.+?)\]|(\')((?:\'\'|[^\'])*)\'|(")((?:""|[^"])*)"|(\'|")|:(\S*?:)([a-zA-Z0-9._]?))/s',
-							[$this, 'cb'],
-							substr($value, $toSkip)
-						);
+							. preg_replace_callback(
+								<<<'XX'
+								/
+								(?=[`['":])
+								(?:
+									`(.+?)`|
+									\[(.+?)\]|
+									(')((?:''|[^'])*)'|
+									(")((?:""|[^"])*)"|
+									('|")|
+									:(\S*?:)([a-zA-Z0-9._]?)
+								)/sx
+XX
+,
+								[$this, 'cb'],
+								substr($value, $toSkip)
+							);
 						if (preg_last_error()) {
 							throw new PcreException;
 						}
 					}
+
 					return $value;
 
 				case 'SQL': // preserve as real SQL (TODO: rename to %sql)
 					return (string) $value;
 
 				case 'like~':  // LIKE string%
-					return $this->driver->escapeLike($value, 1);
+					return $this->driver->escapeLike($value, 2);
 
 				case '~like':  // LIKE %string
-					return $this->driver->escapeLike($value, -1);
+					return $this->driver->escapeLike($value, 1);
 
 				case '~like~': // LIKE %string%
+					return $this->driver->escapeLike($value, 3);
+
+				case 'like': // LIKE string
 					return $this->driver->escapeLike($value, 0);
 
 				case 'and':
@@ -439,7 +486,6 @@ final class Translator
 					return $this->errors[] = "**Unknown or unexpected modifier %$modifier**";
 			}
 		}
-
 
 		// without modifier procession
 		if (is_string($value)) {
@@ -457,14 +503,17 @@ final class Translator
 		} elseif ($value === null) {
 			return 'NULL';
 
-		} elseif ($value instanceof \DateTime || $value instanceof \DateTimeInterface) {
+		} elseif ($value instanceof \DateTimeInterface) {
 			return $this->driver->escapeDateTime($value);
+
+		} elseif ($value instanceof \DateInterval) {
+			return $this->driver->escapeDateInterval($value);
 
 		} elseif ($value instanceof Literal) {
 			return (string) $value;
 
 		} elseif ($value instanceof Expression) {
-			return call_user_func_array([$this->connection, 'translate'], $value->getValues());
+			return $this->connection->translate(...$value->getValues());
 
 		} else {
 			$type = is_object($value) ? get_class($value) : gettype($value);
@@ -475,10 +524,8 @@ final class Translator
 
 	/**
 	 * PREG callback from translate() or formatValue().
-	 * @param  array
-	 * @return string
 	 */
-	private function cb($matches)
+	private function cb(array $matches): string
 	{
 		//    [1] => `ident`
 		//    [2] => [ident]
@@ -501,7 +548,7 @@ final class Translator
 			}
 
 			$cursor++;
-			return $this->formatValue($this->args[$cursor - 1], false);
+			return $this->formatValue($this->args[$cursor - 1], null);
 		}
 
 		if (!empty($matches[10])) { // modifier
@@ -521,6 +568,7 @@ final class Translator
 					$this->comment = true;
 					return '/*';
 				}
+
 				return '';
 
 			} elseif ($mod === 'else') {
@@ -533,7 +581,6 @@ final class Translator
 					$this->comment = true;
 					return '/*';
 				}
-
 			} elseif ($mod === 'end') {
 				$this->ifLevel--;
 				if ($this->ifLevelStart === $this->ifLevel + 1) {
@@ -542,6 +589,7 @@ final class Translator
 					$this->comment = false;
 					return '*/';
 				}
+
 				return '';
 
 			} elseif ($mod === 'ex') { // array expansion
@@ -556,6 +604,7 @@ final class Translator
 				} else {
 					$this->limit = Helpers::intVal($arg);
 				}
+
 				return '';
 
 			} elseif ($mod === 'ofs') { // apply offset
@@ -566,6 +615,7 @@ final class Translator
 				} else {
 					$this->offset = Helpers::intVal($arg);
 				}
+
 				return '';
 
 			} else { // default processing
@@ -597,7 +647,9 @@ final class Translator
 		if ($matches[8]) { // SQL identifier substitution
 			$m = substr($matches[8], 0, -1);
 			$m = $this->connection->getSubstitutes()->$m;
-			return $matches[9] == '' ? $this->formatValue($m, false) : $m . $matches[9]; // value or identifier
+			return $matches[9] === ''
+				? $this->formatValue($m, null)
+				: $m . $matches[9]; // value or identifier
 		}
 
 		throw new \Exception('this should be never executed');
@@ -605,12 +657,10 @@ final class Translator
 
 
 	/**
-	 * Apply substitutions to indentifier and delimites it.
-	 * @param  string indentifier
-	 * @return string
+	 * Apply substitutions to identifier and delimites it.
 	 * @internal
 	 */
-	public function delimite($value)
+	public function delimite(string $value): string
 	{
 		$value = $this->connection->substitute($value);
 		$parts = explode('.', $value);
@@ -619,6 +669,7 @@ final class Translator
 				$v = $this->driver->escapeIdentifier($v);
 			}
 		}
+
 		return implode('.', $parts);
 	}
 }

@@ -13,9 +13,11 @@ use Psr\Http\Message\StreamInterface;
  */
 abstract class FilteredStream implements StreamInterface
 {
+    use StreamDecorator {
+        rewind as private doRewind;
+        seek as private doSeek;
+    }
     const BUFFER_SIZE = 8192;
-
-    use StreamDecorator;
 
     /**
      * @var callable
@@ -51,9 +53,8 @@ abstract class FilteredStream implements StreamInterface
     protected $buffer = '';
 
     /**
-     * @param StreamInterface $stream
-     * @param mixed|null      $readFilterOptions
-     * @param mixed|null      $writeFilterOptions deprecated since 1.5, will be removed in 2.0
+     * @param mixed|null $readFilterOptions
+     * @param mixed|null $writeFilterOptions deprecated since 1.5, will be removed in 2.0
      */
     public function __construct(StreamInterface $stream, $readFilterOptions = null, $writeFilterOptions = null)
     {
@@ -146,11 +147,11 @@ abstract class FilteredStream implements StreamInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Always returns null because we can't tell the size of a stream when we filter.
      */
     public function getSize()
     {
-        return;
+        return null;
     }
 
     /**
@@ -159,6 +160,34 @@ abstract class FilteredStream implements StreamInterface
     public function __toString()
     {
         return $this->getContents();
+    }
+
+    /**
+     * Filtered streams are not seekable.
+     *
+     * We would need to buffer and process everything to allow seeking.
+     */
+    public function isSeekable()
+    {
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rewind()
+    {
+        @trigger_error('Filtered streams are not seekable. This method will start raising an exception in the next major version', E_USER_DEPRECATED);
+        $this->doRewind();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function seek($offset, $whence = SEEK_SET)
+    {
+        @trigger_error('Filtered streams are not seekable. This method will start raising an exception in the next major version', E_USER_DEPRECATED);
+        $this->doSeek($offset, $whence);
     }
 
     /**

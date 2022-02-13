@@ -1,32 +1,55 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 /**
- * Class Group
+ * @final
  *
- * @property-read int $id
- * @property-read string $name
- * @property-read string $path
- * @property-read string $description
- * @property-read Project[] $projects
+ * @property int            $id
+ * @property string         $name
+ * @property string         $path
+ * @property string         $description
+ * @property string         $visibility
+ * @property bool           $lfs_enabled
+ * @property string         $avatar_url
+ * @property string         $web_url
+ * @property bool           $request_access_enabled
+ * @property string         $full_name
+ * @property string         $full_path
+ * @property int|string     $file_template_project_id
+ * @property int|null       $parent_id
+ * @property Project[]|null $projects
+ * @property Project[]|null $shared_projects
  */
 class Group extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'name',
         'path',
         'description',
-        'projects'
-    );
+        'visibility',
+        'lfs_enabled',
+        'avatar_url',
+        'web_url',
+        'request_access_enabled',
+        'full_name',
+        'full_path',
+        'file_template_project_id',
+        'parent_id',
+        'projects',
+        'shared_projects',
+    ];
 
     /**
      * @param Client $client
      * @param array  $data
+     *
      * @return Group
      */
     public static function fromArray(Client $client, array $data)
@@ -34,11 +57,19 @@ class Group extends AbstractModel
         $group = new static($data['id'], $client);
 
         if (isset($data['projects'])) {
-            $projects = array();
+            $projects = [];
             foreach ($data['projects'] as $project) {
                 $projects[] = Project::fromArray($client, $project);
             }
             $data['projects'] = $projects;
+        }
+
+        if (isset($data['shared_projects'])) {
+            $projects = [];
+            foreach ($data['shared_projects'] as $project) {
+                $projects[] = Project::fromArray($client, $project);
+            }
+            $data['shared_projects'] = $projects;
         }
 
         return $group->hydrate($data);
@@ -48,6 +79,7 @@ class Group extends AbstractModel
      * @param Client $client
      * @param string $name
      * @param string $path
+     *
      * @return Group
      */
     public static function create(Client $client, $name, $path)
@@ -58,8 +90,10 @@ class Group extends AbstractModel
     }
 
     /**
-     * @param int $id
-     * @param Client $client
+     * @param int         $id
+     * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct($id, Client $client = null)
     {
@@ -74,28 +108,31 @@ class Group extends AbstractModel
     {
         $data = $this->client->groups()->show($this->id);
 
-        return Group::fromArray($this->getClient(), $data);
+        return self::fromArray($this->getClient(), $data);
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
+     *
      * @return Group
      */
     public function transfer($project_id)
     {
         $data = $this->client->groups()->transfer($this->id, $project_id);
 
-        return Group::fromArray($this->getClient(), $data);
+        return self::fromArray($this->getClient(), $data);
     }
 
     /**
+     * @param string|null $query
+     *
      * @return User[]
      */
-    public function members()
+    public function members($query = null)
     {
-        $data = $this->client->groups()->members($this->id);
+        $data = $this->client->groups()->members($this->id, null === $query ? [] : ['query' => $query]);
 
-        $members = array();
+        $members = [];
         foreach ($data as $member) {
             $members[] = User::fromArray($this->getClient(), $member);
         }
@@ -106,6 +143,7 @@ class Group extends AbstractModel
     /**
      * @param int $user_id
      * @param int $access_level
+     *
      * @return User
      */
     public function addMember($user_id, $access_level)
@@ -117,6 +155,7 @@ class Group extends AbstractModel
 
     /**
      * @param int $user_id
+     *
      * @return bool
      */
     public function removeMember($user_id)
@@ -127,12 +166,32 @@ class Group extends AbstractModel
     }
 
     /**
-     * @return Group
+     * @return Project[]
      */
     public function projects()
     {
         $data = $this->client->groups()->projects($this->id);
 
-        return Group::fromArray($this->getClient(), $data);
+        $projects = [];
+        foreach ($data as $project) {
+            $projects[] = Project::fromArray($this->getClient(), $project);
+        }
+
+        return $projects;
+    }
+
+    /**
+     * @return Group[]
+     */
+    public function subgroups()
+    {
+        $data = $this->client->groups()->subgroups($this->id);
+
+        $groups = [];
+        foreach ($data as $group) {
+            $groups[] = self::fromArray($this->getClient(), $group);
+        }
+
+        return $groups;
     }
 }

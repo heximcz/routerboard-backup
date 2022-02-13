@@ -1,29 +1,31 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 /**
- * Class Milestone
+ * @final
  *
- * @property-read int $id
- * @property-read int $iid
- * @property-read int $project_id
- * @property-read string $title
- * @property-read string $description
- * @property-read string $due_date
- * @property-read string $start_date
- * @property-read string $state
- * @property-read bool $closed
- * @property-read string $updated_at
- * @property-read string $created_at
- * @property-read Project $project
+ * @property int        $id
+ * @property int        $iid
+ * @property int|string $project_id
+ * @property string     $title
+ * @property string     $description
+ * @property string     $due_date
+ * @property string     $start_date
+ * @property string     $state
+ * @property bool       $closed
+ * @property string     $updated_at
+ * @property string     $created_at
+ * @property Project    $project
  */
 class Milestone extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'iid',
         'project',
@@ -35,13 +37,14 @@ class Milestone extends AbstractModel
         'state',
         'closed',
         'updated_at',
-        'created_at'
-    );
+        'created_at',
+    ];
 
     /**
      * @param Client  $client
      * @param Project $project
      * @param array   $data
+     *
      * @return Milestone
      */
     public static function fromArray(Client $client, Project $project, array $data)
@@ -52,9 +55,11 @@ class Milestone extends AbstractModel
     }
 
     /**
-     * @param Project $project
-     * @param int $id
-     * @param Client  $client
+     * @param Project     $project
+     * @param int         $id
+     * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct(Project $project, $id, Client $client = null)
     {
@@ -75,6 +80,7 @@ class Milestone extends AbstractModel
 
     /**
      * @param array $params
+     *
      * @return Milestone
      */
     public function update(array $params)
@@ -89,7 +95,7 @@ class Milestone extends AbstractModel
      */
     public function complete()
     {
-        return $this->update(array('closed' => true));
+        return $this->update(['closed' => true]);
     }
 
     /**
@@ -97,7 +103,7 @@ class Milestone extends AbstractModel
      */
     public function incomplete()
     {
-        return $this->update(array('closed' => false));
+        return $this->update(['closed' => false]);
     }
 
     /**
@@ -107,7 +113,7 @@ class Milestone extends AbstractModel
     {
         $data = $this->client->milestones()->issues($this->project->id, $this->id);
 
-        $issues = array();
+        $issues = [];
         foreach ($data as $issue) {
             $issues[] = Issue::fromArray($this->getClient(), $this->project, $issue);
         }

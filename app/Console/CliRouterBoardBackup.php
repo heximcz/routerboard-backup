@@ -68,6 +68,8 @@ class CliRouterBoardBackup extends Command
         } catch (\Exception $e) {
             $logger->log("Error: " . $e->getMessage() . " in " . $e->getFile() . " on line:" . $e->getLine(), $logger->setError());
         }
+        
+        return Command::SUCCESS;
 
     }
 

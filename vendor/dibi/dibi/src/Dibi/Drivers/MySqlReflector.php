@@ -5,6 +5,8 @@
  * Copyright (c) 2005 David Grudl (https://davidgrudl.com)
  */
 
+declare(strict_types=1);
+
 namespace Dibi\Drivers;
 
 use Dibi;
@@ -30,9 +32,8 @@ class MySqlReflector implements Dibi\Reflector
 
 	/**
 	 * Returns list of tables.
-	 * @return array
 	 */
-	public function getTables()
+	public function getTables(): array
 	{
 		$res = $this->driver->query('SHOW FULL TABLES');
 		$tables = [];
@@ -42,16 +43,15 @@ class MySqlReflector implements Dibi\Reflector
 				'view' => isset($row[1]) && $row[1] === 'VIEW',
 			];
 		}
+
 		return $tables;
 	}
 
 
 	/**
 	 * Returns metadata for all columns in a table.
-	 * @param  string
-	 * @return array
 	 */
-	public function getColumns($table)
+	public function getColumns(string $table): array
 	{
 		$res = $this->driver->query("SHOW FULL COLUMNS FROM {$this->driver->escapeIdentifier($table)}");
 		$columns = [];
@@ -62,23 +62,21 @@ class MySqlReflector implements Dibi\Reflector
 				'table' => $table,
 				'nativetype' => strtoupper($type[0]),
 				'size' => isset($type[1]) ? (int) $type[1] : null,
-				'unsigned' => (bool) strstr($row['Type'], 'unsigned'),
 				'nullable' => $row['Null'] === 'YES',
 				'default' => $row['Default'],
 				'autoincrement' => $row['Extra'] === 'auto_increment',
 				'vendor' => $row,
 			];
 		}
+
 		return $columns;
 	}
 
 
 	/**
 	 * Returns metadata for all indexes in a table.
-	 * @param  string
-	 * @return array
 	 */
-	public function getIndexes($table)
+	public function getIndexes(string $table): array
 	{
 		$res = $this->driver->query("SHOW INDEX FROM {$this->driver->escapeIdentifier($table)}");
 		$indexes = [];
@@ -88,17 +86,16 @@ class MySqlReflector implements Dibi\Reflector
 			$indexes[$row['Key_name']]['primary'] = $row['Key_name'] === 'PRIMARY';
 			$indexes[$row['Key_name']]['columns'][$row['Seq_in_index'] - 1] = $row['Column_name'];
 		}
+
 		return array_values($indexes);
 	}
 
 
 	/**
 	 * Returns metadata for all foreign keys in a table.
-	 * @param  string
-	 * @return array
 	 * @throws Dibi\NotSupportedException
 	 */
-	public function getForeignKeys($table)
+	public function getForeignKeys(string $table): array
 	{
 		$data = $this->driver->query("SELECT `ENGINE` FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = {$this->driver->escapeText($table)}")->fetch(true);
 		if ($data['ENGINE'] !== 'InnoDB') {
@@ -129,6 +126,7 @@ class MySqlReflector implements Dibi\Reflector
 			$foreignKeys[$keyName]['onDelete'] = $row['DELETE_RULE'];
 			$foreignKeys[$keyName]['onUpdate'] = $row['UPDATE_RULE'];
 		}
+
 		return array_values($foreignKeys);
 	}
 }

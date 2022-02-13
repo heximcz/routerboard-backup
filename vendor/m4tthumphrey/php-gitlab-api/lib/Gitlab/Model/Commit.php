@@ -1,31 +1,34 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 /**
- * Class Commit
+ * @final
  *
- * @property-read string $id
- * @property-read string $short_id
- * @property-read string $title
- * @property-read string $message
- * @property-read string $author_name
- * @property-read string $author_email
- * @property-read string $authored_date
- * @property-read string $committed_date
- * @property-read string $created_at
- * @property-read Commit[] $parents
- * @property-read Node[] $tree
- * @property-read User $committer
- * @property-read User $author
- * @property-read Project $project
+ * @property string        $id
+ * @property string        $short_id
+ * @property string        $title
+ * @property string        $message
+ * @property string        $author_name
+ * @property string        $author_email
+ * @property string        $authored_date
+ * @property string        $committed_date
+ * @property string        $created_at
+ * @property Commit[]|null $parents
+ * @property Node[]        $tree
+ * @property User|null     $committer
+ * @property User|null     $author
+ * @property Project       $project
+ * @property array|null    $stats
  */
 class Commit extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'short_id',
         'parents',
@@ -39,13 +42,15 @@ class Commit extends AbstractModel
         'authored_date',
         'committed_date',
         'created_at',
-        'project'
-    );
+        'project',
+        'stats',
+    ];
 
     /**
      * @param Client  $client
      * @param Project $project
      * @param array   $data
+     *
      * @return Commit
      */
     public static function fromArray(Client $client, Project $project, array $data)
@@ -53,7 +58,7 @@ class Commit extends AbstractModel
         $commit = new static($project, $data['id'], $client);
 
         if (isset($data['parents'])) {
-            $parents = array();
+            $parents = [];
             foreach ($data['parents'] as $parent) {
                 $parents[] = static::fromArray($client, $project, $parent);
             }
@@ -73,9 +78,11 @@ class Commit extends AbstractModel
     }
 
     /**
-     * @param Project $project
-     * @param int $id
-     * @param Client  $client
+     * @param Project     $project
+     * @param string|null $id
+     * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct(Project $project, $id = null, Client $client = null)
     {

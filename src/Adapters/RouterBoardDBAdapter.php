@@ -40,10 +40,10 @@ class RouterBoardDBAdapter extends AbstractDataAdapter
             'driver' => $this->config['database']['driver'],
             'host' => $this->config['database']['host'],
             'username' => $this->config['database']['user'],
-            'database' => $this->config['database']['database'],
             'password' => $this->config['database']['password'],
+            'database' => $this->config['database']['database'],
             'charset' => $this->config['database']['charset'],
-            'port' => $this->config['database']['port'],
+            'port' => (int)$this->config['database']['port'],
             'persistent' => $this->config['database']['persistent'],
             'dsn' => $this->config['database']['dsn']
         );

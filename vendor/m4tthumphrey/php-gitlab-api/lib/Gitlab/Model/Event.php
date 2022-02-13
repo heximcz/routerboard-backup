@@ -1,28 +1,30 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 /**
- * Class Event
+ * @final
  *
- * @property-read string $title
- * @property-read int $id
- * @property-read string $action_name
- * @property-read string $data
- * @property-read int $target_id
- * @property-read string $target_type
- * @property-read string $target_title
- * @property-read int $author_id
- * @property-read string $author_username
- * @property-read User $author
- * @property-read Project $project
+ * @property string    $title
+ * @property int       $id
+ * @property string    $action_name
+ * @property string    $data
+ * @property int       $target_id
+ * @property string    $target_type
+ * @property string    $target_title
+ * @property int       $author_id
+ * @property string    $author_username
+ * @property User|null $author
+ * @property Project   $project
  */
 class Event extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
-    protected static $properties = array(
+    protected static $properties = [
         'title',
         'project_id',
         'action_name',
@@ -33,13 +35,14 @@ class Event extends AbstractModel
         'data',
         'target_title',
         'author',
-        'project'
-    );
+        'project',
+    ];
 
     /**
      * @param Client  $client
      * @param Project $project
      * @param array   $data
+     *
      * @return Event
      */
     public static function fromArray(Client $client, Project $project, array $data)
@@ -54,8 +57,10 @@ class Event extends AbstractModel
     }
 
     /**
-     * @param Project $project
-     * @param Client  $client
+     * @param Project     $project
+     * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct(Project $project, Client $client = null)
     {

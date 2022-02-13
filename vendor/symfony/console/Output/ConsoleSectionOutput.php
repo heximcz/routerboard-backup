@@ -21,7 +21,7 @@ use Symfony\Component\Console\Terminal;
  */
 class ConsoleSectionOutput extends StreamOutput
 {
-    private $content = array();
+    private $content = [];
     private $lines = 0;
     private $sections;
     private $terminal;
@@ -50,10 +50,10 @@ class ConsoleSectionOutput extends StreamOutput
         }
 
         if ($lines) {
-            \array_splice($this->content, -($lines * 2)); // Multiply lines by 2 to cater for each new line added between content
+            array_splice($this->content, -($lines * 2)); // Multiply lines by 2 to cater for each new line added between content
         } else {
             $lines = $this->lines;
-            $this->content = array();
+            $this->content = [];
         }
 
         $this->lines -= $lines;
@@ -78,21 +78,31 @@ class ConsoleSectionOutput extends StreamOutput
     }
 
     /**
+     * @internal
+     */
+    public function addContent(string $input)
+    {
+        foreach (explode(\PHP_EOL, $input) as $lineContent) {
+            $this->lines += ceil($this->getDisplayLength($lineContent) / $this->terminal->getWidth()) ?: 1;
+            $this->content[] = $lineContent;
+            $this->content[] = \PHP_EOL;
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
-    protected function doWrite($message, $newline)
+    protected function doWrite(string $message, bool $newline)
     {
         if (!$this->isDecorated()) {
-            return parent::doWrite($message, $newline);
+            parent::doWrite($message, $newline);
+
+            return;
         }
 
         $erasedContent = $this->popStreamContentUntilCurrentSection();
 
-        foreach (explode(PHP_EOL, $message) as $lineContent) {
-            $this->lines += ceil($this->getDisplayLength($lineContent) / $this->terminal->getWidth()) ?: 1;
-            $this->content[] = $lineContent;
-            $this->content[] = PHP_EOL;
-        }
+        $this->addContent($message);
 
         parent::doWrite($message, true);
         parent::doWrite($erasedContent, false);
@@ -105,7 +115,7 @@ class ConsoleSectionOutput extends StreamOutput
     private function popStreamContentUntilCurrentSection(int $numberOfLinesToClearFromCurrentSection = 0): string
     {
         $numberOfLinesToClear = $numberOfLinesToClearFromCurrentSection;
-        $erasedContent = array();
+        $erasedContent = [];
 
         foreach ($this->sections as $section) {
             if ($section === $this) {
@@ -126,8 +136,8 @@ class ConsoleSectionOutput extends StreamOutput
         return implode('', array_reverse($erasedContent));
     }
 
-    private function getDisplayLength(string $text): string
+    private function getDisplayLength(string $text): int
     {
-        return Helper::strlenWithoutDecoration($this->getFormatter(), str_replace("\t", '        ', $text));
+        return Helper::width(Helper::removeDecoration($this->getFormatter(), str_replace("\t", '        ', $text)));
     }
 }

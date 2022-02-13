@@ -1,41 +1,44 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 /**
- * Class User
+ * @final
  *
- * @property-read int $id
- * @property-read string $email
- * @property-read string $password
- * @property-read string $username
- * @property-read string $name
- * @property-read string $bio
- * @property-read string $skype
- * @property-read string $linkedin
- * @property-read string $twitter
- * @property-read bool $dark_scheme
- * @property-read int $theme_id
- * @property-read int $color_scheme_id
- * @property-read bool $blocked
- * @property-read int $access_level
- * @property-read string $created_at
- * @property-read string $extern_uid
- * @property-read string $provider
- * @property-read string $state
- * @property-read bool $is_admin
- * @property-read bool $can_create_group
- * @property-read bool $can_create_project
- * @property-read string $avatar_url
- * @property-read string $current_sign_in_at
- * @property-read bool $two_factor_enabled
+ * @property int      $id
+ * @property string   $email
+ * @property string   $password
+ * @property string   $username
+ * @property string   $name
+ * @property string   $bio
+ * @property string   $skype
+ * @property string   $linkedin
+ * @property string   $twitter
+ * @property bool     $dark_scheme
+ * @property int      $theme_id
+ * @property int      $color_scheme_id
+ * @property bool     $blocked
+ * @property int|null $project_limit
+ * @property int      $access_level
+ * @property string   $created_at
+ * @property string   $extern_uid
+ * @property string   $provider
+ * @property string   $state
+ * @property bool     $is_admin
+ * @property bool     $can_create_group
+ * @property bool     $can_create_project
+ * @property string   $avatar_url
+ * @property string   $current_sign_in_at
+ * @property bool     $two_factor_enabled
  */
 class User extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'email',
         'password',
@@ -60,12 +63,13 @@ class User extends AbstractModel
         'can_create_project',
         'avatar_url',
         'current_sign_in_at',
-        'two_factor_enabled'
-    );
+        'two_factor_enabled',
+    ];
 
     /**
      * @param Client $client
      * @param array  $data
+     *
      * @return User
      */
     public static function fromArray(Client $client, array $data)
@@ -82,9 +86,10 @@ class User extends AbstractModel
      * @param string $email
      * @param string $password
      * @param array  $params
+     *
      * @return User
      */
-    public static function create(Client $client, $email, $password, array $params = array())
+    public static function create(Client $client, $email, $password, array $params = [])
     {
         $data = $client->users()->create($email, $password, $params);
 
@@ -92,8 +97,10 @@ class User extends AbstractModel
     }
 
     /**
-     * @param int $id
-     * @param Client $client
+     * @param int|null    $id
+     * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct($id = null, Client $client = null)
     {
@@ -113,6 +120,7 @@ class User extends AbstractModel
 
     /**
      * @param array $params
+     *
      * @return User
      */
     public function update(array $params)
@@ -159,7 +167,7 @@ class User extends AbstractModel
     {
         $data = $this->client->users()->keys();
 
-        $keys = array();
+        $keys = [];
         foreach ($data as $key) {
             $keys[] = Key::fromArray($this->getClient(), $key);
         }
@@ -170,6 +178,7 @@ class User extends AbstractModel
     /**
      * @param string $title
      * @param string $key
+     *
      * @return Key
      */
     public function createKey($title, $key)
@@ -180,8 +189,10 @@ class User extends AbstractModel
     }
 
     /**
+     * @param int    $user_id
      * @param string $title
      * @param string $key
+     *
      * @return Key
      */
     public function createKeyForUser($user_id, $title, $key)
@@ -193,6 +204,7 @@ class User extends AbstractModel
 
     /**
      * @param int $id
+     *
      * @return bool
      */
     public function removeKey($id)
@@ -205,6 +217,7 @@ class User extends AbstractModel
     /**
      * @param int $group_id
      * @param int $access_level
+     *
      * @return User
      */
     public function addToGroup($group_id, $access_level)
@@ -216,6 +229,7 @@ class User extends AbstractModel
 
     /**
      * @param int $group_id
+     *
      * @return bool
      */
     public function removeFromGroup($group_id)
