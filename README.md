@@ -1,11 +1,8 @@
 # Mikrotik Routerboard Backup
 
 [![Latest Stable Version](https://poser.pugx.org/routerboard-backup/routerboard-backup/v/stable)](https://github.com/heximcz/routerboard-backup/releases)
-[![Build Status](https://travis-ci.org/heximcz/routerboard-backup.svg?branch=master)](https://travis-ci.org/heximcz/routerboard-backup)
 [![Latest Unstable Version](https://poser.pugx.org/routerboard-backup/routerboard-backup/v/unstable)](https://github.com/heximcz/routerboard-backup)
 [![License](https://poser.pugx.org/routerboard-backup/routerboard-backup/license)](https://github.com/heximcz/routerboard-backup/blob/master/LICENSE.md)
-[![codecov.io](https://codecov.io/github/heximcz/routerboard-backup/coverage.svg?branch=master)](https://codecov.io/github/heximcz/routerboard-backup?branch=master)
-[![Code Climate](https://codeclimate.com/github/heximcz/routerboard-backup/badges/gpa.svg)](https://codeclimate.com/github/heximcz/routerboard-backup)
 
 ## Changelog
 
@@ -18,7 +15,7 @@ Backup to **local hard drive** or backup to **GitLab repository**.
 
 ## Prerequisites
 
-PHP >= 7.1.3 **( from v1.0.2 )**
+PHP >= 7.4 **( from v1.0.3 )**
 
 ## Warning
 
