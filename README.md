@@ -97,15 +97,15 @@ print help:
 
 ```php ./routerboard-backup.php```
 
-```php ./routerboard-backup rb:mod -h```
+```php ./routerboard-backup.php rb:mod -h```
 
-```php ./routerboard-backup rb:backup -h```
+```php ./routerboard-backup.php rb:backup -h```
 
-```php ./routerboard-backup rb:list -h```
+```php ./routerboard-backup.php rb:list -h```
 
-```php ./routerboard-backup rb:gitlab -h```
+```php ./routerboard-backup.php rb:gitlab -h```
 
-```php ./routerboard-backup rb:decode -h```
+```php ./routerboard-backup.php rb:decode -h```
 
 
 ## Using via crontab
