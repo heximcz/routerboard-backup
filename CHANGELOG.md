@@ -1,4 +1,8 @@
 # Change Log
+## [1.0.5](https://github.com/heximcz/routerboard-backup/releases/tag/1.0.5)
+- fix create user on ROS >= v7
+- update vendor
+
 ## [1.0.4](https://github.com/heximcz/routerboard-backup/releases/tag/1.0.4)
 - update readme
 - remove unused files
