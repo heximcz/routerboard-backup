@@ -28,7 +28,7 @@ class SSHConnector extends AbstractRouterBoard
                 $this->logger->log("The SSH-RSA file copy to the :'" . $addr . "' router fails!", $this->logger->setError());
                 return false;
             }
-            $ssh->exec('user add name=' . $bcpuser . ' group=full');
+            $ssh->exec('user add name=' . $bcpuser . ' group=full password="' . $this->config['routerboard']['backupuserpwd'] . '"');
             sleep(1);
             $ssh->exec('user ssh-keys import user=' . $bcpuser . ' public-key-file=' . $keyname);
             sleep(1);

@@ -35,6 +35,8 @@ routerboard:
     ssh-port: '22'
     # backup account user name - for backup
     backupuser: 'rbackup'
+    # password for backup user (fix ROS >= v7) - !!! generate any random 32 byte secure password string !!!
+    backupuserpwd: ''
 
 # Send errors to email
 mail:
