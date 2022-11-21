@@ -1,6 +1,6 @@
 # Change Log
 ## [1.0.5](https://github.com/heximcz/routerboard-backup/releases/tag/1.0.5)
-- fix create user on ROS >= v7 (check congig.default.yml and update your config.yml)
+- fix create user on ROS >= v7 (check config.default.yml and update your config.yml)
 - update vendor
 
 ## [1.0.4](https://github.com/heximcz/routerboard-backup/releases/tag/1.0.4)
