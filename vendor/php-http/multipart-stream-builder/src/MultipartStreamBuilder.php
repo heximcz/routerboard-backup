@@ -91,13 +91,13 @@ class MultipartStreamBuilder
     /**
      * Add a resource to the Multipart Stream.
      *
-     * @param string                          $name     the formpost name
-     * @param string|resource|StreamInterface $resource
-     * @param array                           $options  {
+     * @param string                                                    $name     the formpost name
+     * @param string|resource|StreamInterface                           $resource
+     * @param array{headers?: array<string, string>, filename?: string} $options
      *
-     *     @var array $headers additional headers ['header-name' => 'header-value']
-     *     @var string $filename
-     * }
+     * Options:
+     * - headers: additional headers as hashmap ['header-name' => 'header-value']
+     * - filename: used to determine the mime type
      *
      * @return MultipartStreamBuilder
      */
@@ -114,7 +114,7 @@ class MultipartStreamBuilder
         if (empty($options['filename'])) {
             $options['filename'] = null;
             $uri = $stream->getMetadata('uri');
-            if ('php://' !== substr($uri, 0, 6)) {
+            if ('php://' !== substr($uri, 0, 6) && 'data://' !== substr($uri, 0, 7)) {
                 $options['filename'] = $uri;
             }
         }
@@ -172,7 +172,6 @@ class MultipartStreamBuilder
      *
      * @param string $name
      * @param string $filename
-     * @param array  &$headers
      */
     private function prepareHeaders($name, StreamInterface $stream, $filename, array &$headers)
     {
@@ -183,13 +182,6 @@ class MultipartStreamBuilder
             $headers['Content-Disposition'] = sprintf('form-data; name="%s"', $name);
             if ($hasFilename) {
                 $headers['Content-Disposition'] .= sprintf('; filename="%s"', $this->basename($filename));
-            }
-        }
-
-        // Set a default content-length header if one was not provided
-        if (!$this->hasHeader($headers, 'content-length')) {
-            if ($length = $stream->getSize()) {
-                $headers['Content-Length'] = (string) $length;
             }
         }
 
